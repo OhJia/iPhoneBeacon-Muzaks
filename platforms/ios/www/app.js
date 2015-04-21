@@ -11,6 +11,7 @@ var app = (function()
 
 	// all the beacons!
 	var allTheBeacons = {};
+	var rssiObj = {};
 
 	// Timer that displays nearby beacons.
 	var mNearestBeaconDisplayTimer = null;
@@ -41,7 +42,7 @@ var app = (function()
 			minor: 2000
 		},
 		{
-			id: 'jaBeacon',
+			id: 'jajaBeacon',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5,
 			minor: 2001
@@ -53,7 +54,7 @@ var app = (function()
 			minor: 2002
 		},
 		{
-			id: 'jajaBeacon',
+			id: 'jaBeacon',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5,
 			minor: 2003
@@ -106,7 +107,7 @@ var app = (function()
 
 	function startNearestBeaconDisplayTimer()
 	{
-		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 1000);
+		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 100);
 	}
 
 	function stopNearestBeaconDisplayTimer()
@@ -268,8 +269,12 @@ function updateNearestBeacon(beacons)
 				+ '</li>'
 				);
 			$('#beacon').append(element);
-			changeBpm(allTheBeacons[minor].rssi);
-		}				
+			//changeBpm(allTheBeacons[minor].rssi);
+			rssiObj[minor] = 200 + allTheBeacons[minor].rssi * 3;
+		}	
+
+		changeSize(rssiObj[2000], rssiObj[2002], rssiObj[2001]);
+						
 	}
 
 	function displayRegionEvents()

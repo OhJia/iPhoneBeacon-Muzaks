@@ -1,7 +1,7 @@
-var uuid = 'DA5336AE-2042-453A-A57F-F80DD34DFCD9';
-var identifier = 'JaBeacon';
-var minor = 2001;
-var major = 5;
+var uuid = 'DA5336AE-2042-453A-A57F-F80DD34DFCD9'; // this will be the same for all beacons
+var identifier = 'jaBeacon'; // this will be a random default name
+var minor = 2003; // this will be randomly generated
+var major = 5; // this will be the same for all beacons
 
 var advertiser = (function() {
 

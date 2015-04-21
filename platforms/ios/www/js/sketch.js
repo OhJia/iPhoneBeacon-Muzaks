@@ -1,6 +1,10 @@
 var eSize = 10;
-var x = 10;
-var y = 10;
+var x_2000 = 10;
+var y_2000 = 10;
+var x_2002 = 10;
+var y_2002 = 10;
+var x_2003 = 10;
+var y_2003 = 10;
 var speed = 1;
 var distance;
 
@@ -35,22 +39,28 @@ function draw() {
 	//if (touchIsDown){
 		background(255);
 		var c = color(255, 0, 0, 200);
-		var c2 = color(0, 0, 255, 200)
+		var c2 = color(0, 0, 255, 200);
+		var c3 = color(0, 255, 0, 200);
+		
+		
+
 		fill(c2);
 		noStroke();
-		x += speed;
- 		y += speed;
-		ellipse(x, y, 10, 10);
+		ellipse(20, 20, x_2000, x_2000);
 		fill(c);
-		ellipse(windowWidth/2, windowHeight/2, eSize, eSize);
+		ellipse(100, 100, x_2002, x_2002);
+		fill(c3);
+		ellipse(50, 50, x_2003, x_2003);
+		// fill(c);
+		// ellipse(windowWidth/2, windowHeight/2, eSize, eSize);
 
-	 	if ((x > windowWidth) || (x < 0) || (y > windowHeight) || (y < 0)) {
-	 		speed = -speed;
-	 	}
-	 	distance = dist(windowWidth/2, windowHeight/2, x, y);
-	 	if (distance <= 10) {
-	 		speed = -speed;
-	 	}
+	 // 	if ((x > windowWidth) || (x < 0) || (y > windowHeight) || (y < 0)) {
+	 // 		speed = -speed;
+	 // 	}
+	 // 	distance = dist(windowWidth/2, windowHeight/2, x, y);
+	 // 	if (distance <= 10) {
+	 // 		speed = -speed;
+	 // 	}
 
 
 	//}
@@ -81,4 +91,11 @@ function changeBpm(rssi){
 	if (typeof (myLoop) !== 'undefined') {
 		myLoop.setBPM(bpm);
 	}
+}
+
+function changeSize(rssi_2000, rssi_2002, rssi_2003) {
+	x_2000 = rssi_2000;
+	x_2002 = rssi_2002;
+	x_2003 = rssi_2003;
+	console.log("size changed!");
 }
