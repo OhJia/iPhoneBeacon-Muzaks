@@ -9,6 +9,7 @@ var app = (function()
 	// Nearest ranged beacon.
 	var mNearestBeacon = null;
 
+	// all the beacons!
 	var allTheBeacons = {};
 
 	// Timer that displays nearby beacons.
@@ -34,10 +35,10 @@ var app = (function()
 	var mRegions =
 	[
 		{
-			id: 'JasonBeacon',
+			id: 'LukeBeacon',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5,
-			minor: 2002
+			minor: 2000
 		},
 		{
 			id: 'jaBeacon',
@@ -46,10 +47,16 @@ var app = (function()
 			minor: 2001
 		},
 		{
-			id: 'LukeBeacon',
+			id: 'jasonBeacon',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5,
-			minor: 2000
+			minor: 2002
+		},
+		{
+			id: 'jajaBeacon',
+			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+			major: 5,
+			minor: 2003
 		}
 	];
 
@@ -60,8 +67,8 @@ var app = (function()
 	var mRegionData =
 	{
 		'jaBeacon': 'Ja Phone!!!',
-		'JasonBeacon': 'Jason Phone!!!',
 		'LukeBeacon': 'Luke Phone!!!',
+		'someCoolID': 'what is up!'
 	};
 
 	app.initialize = function()
@@ -73,9 +80,15 @@ var app = (function()
 
 	function onDeviceReady()
 	{
+		advertiser.startAdvertising();
+
 		startMonitoringAndRanging();
+
 		startNearestBeaconDisplayTimer();
+
 		displayRegionEvents();
+
+		// start the advertiser
 	}
 
 	function onAppToBackground()
@@ -104,6 +117,7 @@ var app = (function()
 
 	function startMonitoringAndRanging()
 	{
+
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
@@ -183,6 +197,7 @@ var app = (function()
 
 	function getBeaconId(beacon)
 	{
+		console.log('get beacon id!');
 		return beacon.uuid + ':' + beacon.major + ':' + beacon.minor;
 	}
 
@@ -198,7 +213,7 @@ var app = (function()
 			&& beacon1.accuracy < beacon2.accuracy;
 	}
 
-	function updateNearestBeacon(beacons)
+function updateNearestBeacon(beacons)
 	{
 		console.log(beacons);
 		for (var i = 0; i < beacons.length; ++i)
@@ -237,9 +252,9 @@ var app = (function()
 		
 		// Clear element.
 		$('#beacon').empty();
-
+ 
 		for (var minor in allTheBeacons) {
-
+ 
 			// Update element.
 			var element = $(
 				'<li>'
@@ -255,26 +270,6 @@ var app = (function()
 			$('#beacon').append(element);
 			changeBpm(allTheBeacons[minor].rssi);
 		}				
-	}
-
-	function displayRecentRegionEvent()
-	{
-		if (mAppInBackground)
-		{
-			// Set notification title.
-			var event = mRegionEvents[mRegionEvents.length - 1];
-			if (!event) { return; }
-			var title = getEventDisplayString(event);
-
-			// Create notification.
-			cordova.plugins.notification.local.schedule({
-    			id: ++mNotificationId,
-    			title: title });
-		}
-		else
-		{
-			displayRegionEvents();
-		}
 	}
 
 	function displayRegionEvents()

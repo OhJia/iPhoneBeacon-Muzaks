@@ -9,6 +9,8 @@ var app = (function()
 	// Nearest ranged beacon.
 	var mNearestBeacon = null;
 
+	var allTheBeacons = {};
+
 	// Timer that displays nearby beacons.
 	var mNearestBeaconDisplayTimer = null;
 
@@ -32,16 +34,28 @@ var app = (function()
 	var mRegions =
 	[
 		{
-			id: 'advertisedBeacon',
+			id: 'JasonBeacon',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5,
-			minor: 2000
+			minor: 2002
 		},
 		{
 			id: 'jaBeacon',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5,
 			minor: 2001
+		},
+		{
+			id: 'LukeBeacon',
+			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+			major: 5,
+			minor: 2000
+		},
+		{
+			id: 'jajaBeacon',
+			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+			major: 5,
+			minor: 2003
 		}
 	];
 
@@ -52,7 +66,8 @@ var app = (function()
 	var mRegionData =
 	{
 		'jaBeacon': 'Ja Phone!!!',
-		'advertisedBeacon': 'other Phone!!!'
+		'JasonBeacon': 'Jason Phone!!!',
+		'LukeBeacon': 'Luke Phone!!!',
 	};
 
 	app.initialize = function()
@@ -191,9 +206,13 @@ var app = (function()
 
 	function updateNearestBeacon(beacons)
 	{
+		console.log(beacons);
 		for (var i = 0; i < beacons.length; ++i)
 		{
 			var beacon = beacons[i];
+			var minor = String(beacon.minor);
+			allTheBeacons[minor] = beacon;
+
 			if (!mNearestBeacon)
 			{
 				mNearestBeacon = beacon;
@@ -207,31 +226,41 @@ var app = (function()
 				}
 			}
 		}
+
+		console.log(allTheBeacons);
+
+		// access each beacon by its minor (key)
+		for (var minor in allTheBeacons) {
+			console.log(allTheBeacons[minor]);
+		}
+
 	}
 
 	function displayNearestBeacon()
 	{
-		if (!mNearestBeacon) { return; }
-
+		//if (!mNearestBeacon) { return; }
+		//if (Object.keys(allTheBeacons).length <= 0) {return;}
+		
 		// Clear element.
 		$('#beacon').empty();
 
-		// Update element.
-		var element = $(
-			'<li>'
-			+	'<strong>Nearest Beacon</strong><br />'
-			+	'UUID: ' + mNearestBeacon.uuid + '<br />'
-			+	'Major: ' + mNearestBeacon.major + '<br />'
-			+	'Minor: ' + mNearestBeacon.minor + '<br />'
-			+	'Proximity: ' + mNearestBeacon.proximity + '<br />'
-			+	'Distance: ' + mNearestBeacon.accuracy + '<br />'
-			+	'RSSI: ' + mNearestBeacon.rssi + '<br />'
-			+ '</li>'
-			);
-		$('#beacon').append(element);
+		for (var minor in allTheBeacons) {
 
-		
-		changeBpm(mNearestBeacon.rssi);
+			// Update element.
+			var element = $(
+				'<li>'
+				+	'<strong>Nearest Beacon</strong><br />'
+				+	'UUID: ' + allTheBeacons[minor].uuid + '<br />'
+				+	'Major: ' + allTheBeacons[minor].major + '<br />'
+				+	'Minor: ' + allTheBeacons[minor].minor + '<br />'
+				+	'Proximity: ' + allTheBeacons[minor].proximity + '<br />'
+				+	'Distance: ' + allTheBeacons[minor].accuracy + '<br />'
+				+	'RSSI: ' + allTheBeacons[minor].rssi + '<br />'
+				+ '</li>'
+				);
+			$('#beacon').append(element);
+			changeBpm(allTheBeacons[minor].rssi);
+		}				
 	}
 
 	function displayRecentRegionEvent()
