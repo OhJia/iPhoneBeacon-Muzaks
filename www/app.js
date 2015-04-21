@@ -241,7 +241,9 @@ function updateNearestBeacon(beacons)
 		// access each beacon by its minor (key)
 		for (var minor in allTheBeacons) {
 			console.log(allTheBeacons[minor]);
+			tweakBeaconSound(allTheBeacons[minor]);
 		}
+
 
 	}
 
@@ -268,8 +270,9 @@ function updateNearestBeacon(beacons)
 				+ '</li>'
 				);
 			$('#beacon').append(element);
-			changeBpm(allTheBeacons[minor].rssi);
-		}				
+
+			// changeBpm(allTheBeacons[minor].rssi);
+		}
 	}
 
 	function displayRegionEvents()

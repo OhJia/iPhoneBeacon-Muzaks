@@ -1,6 +1,6 @@
 var uuid = 'DA5336AE-2042-453A-A57F-F80DD34DFCD9';
-var identifier = 'JaBeacon';
-var minor = 2001;
+var identifier = 'JasonBeacon';
+var minor = 2002;
 var major = 5;
 
 var advertiser = (function() {
