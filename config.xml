@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.evothings.cordovaibeacon" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>iBeacon</name>
+    <description>
+        Example app that monitors and ranges for beacons.
+    </description>
+    <author email="mikael@evothings.com" href="http://evothings.com">
+        Mikael Kindborg
+    </author>
+    <content src="index.html" />
+    <xcontent src="http://192.168.43.131:4042" />
+    <access origin="*" />
+    <preference name="DisallowOverscroll" value="true" />
+</widget>
