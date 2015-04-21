@@ -3,6 +3,8 @@ var identifier = 'jaBeacon'; // this will be a random default name
 var minor = 2003; // this will be randomly generated
 var major = 5; // this will be the same for all beacons
 
+
+
 var advertiser = (function() {
 
     var advertiser = {};
