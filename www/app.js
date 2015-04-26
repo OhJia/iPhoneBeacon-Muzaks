@@ -81,6 +81,7 @@ var app = (function()
 
 	function onDeviceReady()
 	{
+		alert('device ready')
 		advertiser.startAdvertising();
 
 		startMonitoringAndRanging();

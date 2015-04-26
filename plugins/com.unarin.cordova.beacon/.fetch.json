@@ -1,1 +1,1 @@
-{"source":{"type":"git","url":"https://github.com/petermetz/cordova-plugin-ibeacon","subdir":".","ref":"3.3.0"}}
+{"source":{"type":"registry","id":"com.unarin.cordova.beacon"}}

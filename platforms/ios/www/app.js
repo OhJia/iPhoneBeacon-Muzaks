@@ -81,6 +81,7 @@ var app = (function()
 
 	function onDeviceReady()
 	{
+		alert('device ready')
 		advertiser.startAdvertising();
 
 		startMonitoringAndRanging();
@@ -242,7 +243,9 @@ function updateNearestBeacon(beacons)
 		// access each beacon by its minor (key)
 		for (var minor in allTheBeacons) {
 			console.log(allTheBeacons[minor]);
+			tweakBeaconSound(allTheBeacons[minor]);
 		}
+
 
 	}
 
@@ -269,13 +272,18 @@ function updateNearestBeacon(beacons)
 				+ '</li>'
 				);
 			$('#beacon').append(element);
+
 			//changeBpm(allTheBeacons[minor].rssi);
 			rssiObj[minor] = 200 + allTheBeacons[minor].rssi * 3;
 		}	
 
 		changeSize(rssiObj[2000], rssiObj[2002], rssiObj[2001]);
 						
-	}
+
+
+			// changeBpm(allTheBeacons[minor].rssi);
+		}
+	//}
 
 	function displayRegionEvents()
 	{

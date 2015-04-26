@@ -19,15 +19,15 @@
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
-    <feature name="LocationManager">
-        <param name="ios-package" value="CDVLocationManager" />
-    </feature>
     <feature name="Device">
         <param name="ios-package" value="CDVDevice" />
     </feature>
     <feature name="LocalNotification">
         <param name="ios-package" onload="true" value="APPLocalNotification" />
         <param name="onload" value="true" />
+    </feature>
+    <feature name="LocationManager">
+        <param name="ios-package" value="CDVLocationManager" />
     </feature>
     <name>iBeacon</name>
     <description>
