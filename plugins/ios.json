@@ -25,15 +25,15 @@
                 "parents": {
                     "/*": [
                         {
+                            "xml": "<feature name=\"LocationManager\"><param name=\"ios-package\" value=\"CDVLocationManager\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Device\"><param name=\"ios-package\" value=\"CDVDevice\" /></feature>",
                             "count": 1
                         },
                         {
                             "xml": "<feature name=\"LocalNotification\"><param name=\"ios-package\" onload=\"true\" value=\"APPLocalNotification\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"LocationManager\"><param name=\"ios-package\" value=\"CDVLocationManager\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -58,15 +58,16 @@
         }
     },
     "installed_plugins": {
-        "org.apache.cordova.device": {
+        "com.unarin.cordova.beacon": {
             "PACKAGE_NAME": "com.evothings.cordovaibeacon"
         },
         "de.appplant.cordova.plugin.local-notification": {
             "PACKAGE_NAME": "com.evothings.cordovaibeacon"
-        },
-        "com.unarin.cordova.beacon": {
-            "PACKAGE_NAME": "com.evothings.cordovaibeacon"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "org.apache.cordova.device": {
+            "PACKAGE_NAME": "com.evothings.cordovaibeacon"
+        }
+    }
 }
