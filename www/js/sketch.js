@@ -1,10 +1,9 @@
 var eSize = 10;
 var x_2000 = 10;
-var y_2000 = 10;
 var x_2002 = 10;
-var y_2002 = 10;
 var x_2003 = 10;
-var y_2003 = 10;
+var posX2000, posY2000, pos2002, pos2003;
+var creature2000, creature2002, creature2003;
 var speed = 1;
 var distance;
 
@@ -31,6 +30,10 @@ function setup() {
 	myCan.parent('p5Container');
 	x = windowWidth/2;
 	y = windowHeight/2;
+  posX2000 = random(50, 300);
+  posY2000 = random(50, 300);
+  pos2002 = random(50, 300);
+  pos2003 = random(50, 300);
 
 	initSound();
 }
@@ -44,28 +47,23 @@ function draw() {
 		var c3 = color(0, 255, 0, 200);
 		
 		
-
-		fill(c2);
+		fill(c2); 
 		noStroke();
-		ellipse(20, 20, x_2000, x_2000);
+		creature2000 = ellipse(posX2000, posY2000, x_2000, x_2000);
 		fill(c);
-		ellipse(100, 100, x_2002, x_2002);
+		creature2002 = ellipse(pos2002, pos2002, x_2002, x_2002);
 		fill(c3);
-		ellipse(50, 50, x_2003, x_2003);
-		// fill(c);
-		// ellipse(windowWidth/2, windowHeight/2, eSize, eSize);
+		creature2003 = ellipse(pos2003, pos2003, x_2003, x_2003);
 
-	 // 	if ((x > windowWidth) || (x < 0) || (y > windowHeight) || (y < 0)) {
-	 // 		speed = -speed;
-	 // 	}
-	 // 	distance = dist(windowWidth/2, windowHeight/2, x, y);
-	 // 	if (distance <= 10) {
-	 // 		speed = -speed;
-	 // 	}
-
-
-	//}
 }
+
+document.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    var touch = e.touches[0];
+    posX2000 = touch.pageX;
+    posY2000 = touch.pageY;
+    console.log(touch.pageX + " - " + touch.pageY);
+}, false);
 
 function initSound() {
 
@@ -130,7 +128,7 @@ function changeSize(rssi_2000, rssi_2002, rssi_2003) {
 	x_2000 = rssi_2000;
 	x_2002 = rssi_2002;
 	x_2003 = rssi_2003;
-	console.log("size changed!");
+	//console.log("size changed!");
 }
 
 // var tempos = [100/4, 100/8*3, 100/2, 100];
@@ -145,7 +143,7 @@ function tweakBeaconSound(beacon) {
     indexModulo = 10000000;
   }
 
-  console.log('tweakin beacon' + minor);
+  //console.log('tweakin beacon' + minor);
 
   switch(Number(minor)) {
     case 2000:
@@ -162,7 +160,7 @@ function tweakBeaconSound(beacon) {
       break;
   }
 
-  console.log(indexModulos);
+  //console.log(indexModulos);
 
 }
 
