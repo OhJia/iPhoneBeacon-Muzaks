@@ -108,7 +108,7 @@ var app = (function()
 
 	function startNearestBeaconDisplayTimer()
 	{
-		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 100);
+		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 10);
 	}
 
 	function stopNearestBeaconDisplayTimer()
@@ -199,7 +199,7 @@ var app = (function()
 
 	function getBeaconId(beacon)
 	{
-		console.log('get beacon id!');
+		//console.log('get beacon id!');
 		return beacon.uuid + ':' + beacon.major + ':' + beacon.minor;
 	}
 
@@ -217,10 +217,11 @@ var app = (function()
 
 function updateNearestBeacon(beacons)
 	{
-		console.log(beacons);
+		
 		for (var i = 0; i < beacons.length; ++i)
 		{
 			var beacon = beacons[i];
+			//console.log(beacon);
 			var minor = String(beacon.minor);
 			allTheBeacons[minor] = beacon;
 
@@ -238,11 +239,11 @@ function updateNearestBeacon(beacons)
 			}
 		}
 
-		console.log(allTheBeacons);
+		//console.log(allTheBeacons);
 
 		// access each beacon by its minor (key)
 		for (var minor in allTheBeacons) {
-			console.log(allTheBeacons[minor]);
+			//console.log(allTheBeacons[minor]);
 			tweakBeaconSound(allTheBeacons[minor]);
 		}
 
@@ -274,10 +275,14 @@ function updateNearestBeacon(beacons)
 			$('#beacon').append(element);
 
 			//changeBpm(allTheBeacons[minor].rssi);
-			rssiObj[minor] = 200 + allTheBeacons[minor].rssi * 3;
+			if (allTheBeacons[minor].rssi === 0) {
+				rssiObj[minor] = 0;
+			} else if (allTheBeacons[minor].rssi < 0) {
+				rssiObj[minor] = 200 + allTheBeacons[minor].rssi * 3;
+			} 
 		}	
 
-		changeSize(rssiObj[2000], rssiObj[2002], rssiObj[2001]);
+		changeSize(rssiObj[2003], rssiObj[2002], rssiObj[2001]);
 						
 
 
