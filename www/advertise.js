@@ -1,6 +1,6 @@
 var uuid = 'DA5336AE-2042-453A-A57F-F80DD34DFCD9'; // this will be the same for all beacons
-var identifier = 'jaBeacon'; // this will be a random default name
-var minor = 2003; // this will be randomly generated
+var identifier = 'jajaBeacon'; // this will be a random default name
+var minor = 2001; // this will be randomly generated
 var major = 5; // this will be the same for all beacons
 
 
