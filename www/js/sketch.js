@@ -24,8 +24,8 @@ var ampReader;
 var bgColor;
 
 function setup() {
-	createCanvas(windowWidth, windowHeight);
-	background(153);
+	//createCanvas(windowWidth, windowHeight);
+	//background(0,160,0);
 	var p5Container = document.getElementById(p5Container);
 	var myCan = createCanvas(windowWidth, windowHeight);
 	myCan.parent('p5Container');
@@ -37,7 +37,8 @@ function setup() {
 
 function draw() {
 	//if (touchIsDown){
-		background(255);
+    noStroke();
+		background(255,0,0);
 		var c = color(255, 0, 0, 200);
 		var c2 = color(0, 0, 255, 200);
 		var c3 = color(0, 255, 0, 200);
