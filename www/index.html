@@ -11,8 +11,9 @@
 
 	<!-- evothings stuff -->
 	<style>
-		@import 'ui/css/evothings-app.css';
+		
 		@import 'ui/css/jquery.mobile-1.4.5.min.css';
+		@import 'ui/css/evothings-app.css';
 		@import 'ui/css/style.css';
 	</style>
 	<script>
@@ -37,8 +38,8 @@
 	    <section data-role="page" id="main">	
 		    <div class="ui-content">	
 				<div id="p5Container">  
-					<div data-role="footer" data-position="fixed" id="pocket-bttn">
-						<a href="#pocket" class="ui-btn"><h1>P</h1></a>
+					<div data-role="footer" data-position="fixed" class ="bttn" id="pocket-bttn">
+						<a href="#pocket"><h1>P</h1></a>
 					</div>
 				</div>  
 			</div>
@@ -48,8 +49,8 @@
 	    <section data-role="page" id="pocket">
 	    	 <div class="ui-content">
 	    		<ul id="beacon" class="dynamic"></ul>
-	    		<div data-role="footer" data-position="fixed" id="pocket-bttn">
-					<a href="#main" class="ui-btn"><h1>B</h1></a>
+	    		<div data-role="footer" data-position="fixed" class ="bttn" id="main-bttn">
+	    			<a href="#main"><h1>M</h1></a>
 				</div>
 	    	</div>	          
 	    </section>

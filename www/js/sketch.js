@@ -78,14 +78,20 @@ document.addEventListener('touchmove', function(e) {
     console.log(touch.pageX + " - " + touch.pageY);
 }, false);
 
-function initSound() {
+// $(document).on('tap', '#pocket-bttn', function(){ 
+//         $.mobile.changePage( $('#pocket') );
+//         return false;
+//         //alert('change page!');
+// });
 
-  // synths
-  // for (var i = 0; i < synths.length; i++) {
-  //   synths[i] = new Tone.MonoSynth();
-  //   synths[i].oscillator.type = "sine";
-  //   synths[i].toMaster();
-  // }
+// $(document).on('tap', '#main-bttn', function(){ 
+//         $.mobile.changePage( $('#main') );
+//         draw();
+//         return false;
+//         //alert('change page!');
+// });
+
+function initSound() {
 
   // samplers
   for (var i = 0; i < samplers.length; i++) {
