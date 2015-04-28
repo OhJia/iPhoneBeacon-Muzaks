@@ -74,6 +74,7 @@ var app = (function()
 
 	app.initialize = function()
 	{
+
 		document.addEventListener('deviceready', onDeviceReady, false);
 		document.addEventListener('pause', onAppToBackground, false);
 		document.addEventListener('resume', onAppToForeground, false);
@@ -81,16 +82,17 @@ var app = (function()
 
 	function onDeviceReady()
 	{
-		alert('device ready')
-		advertiser.startAdvertising();
-
 		startMonitoringAndRanging();
 
 		startNearestBeaconDisplayTimer();
 
 		displayRegionEvents();
 
-		// start the advertiser
+		// wait to start advertising so that we know who else is advertising
+		setTimeout(function() {
+			// start the advertiser
+			advertiser.startAdvertising();
+		}, 1000);
 	}
 
 	function onAppToBackground()
@@ -224,6 +226,9 @@ function updateNearestBeacon(beacons)
 			var minor = String(beacon.minor);
 			allTheBeacons[minor] = beacon;
 
+			// update otherMinors
+			otherMinors = Object.keys(allTheBeacons);
+
 			if (!mNearestBeacon)
 			{
 				mNearestBeacon = beacon;
@@ -253,7 +258,7 @@ function updateNearestBeacon(beacons)
 	{
 		//if (!mNearestBeacon) { return; }
 		//if (Object.keys(allTheBeacons).length <= 0) {return;}
-		
+
 		// Clear element.
 		$('#beacon').empty();
  
