@@ -1,9 +1,11 @@
 var eSize = 10;
 var x_2000 = 10;
+var x_2001 = 10;
 var x_2002 = 10;
 var x_2003 = 10;
-var posX2000, posY2000, pos2002, pos2003;
-var creature2000, creature2002, creature2003;
+var x_2004 = 10;
+var posX2000, posY2000, pos2001, pos2002, pos2003, pos2004;
+var creature2000, creature2001, creature2002, creature2003, creature2004;
 var speed = 1;
 var distance;
 
@@ -35,8 +37,10 @@ function setup() {
 	y = windowHeight/2;
   posX2000 = random(50, 300);
   posY2000 = random(50, 300);
+  pos2001 = random(50, 300);
   pos2002 = random(50, 300);
   pos2003 = random(50, 300);
+  pos2004 = random(50, 300);
 
 	initSound();
 }
@@ -45,18 +49,24 @@ function draw() {
 	//if (touchIsDown){
     noStroke();
 		background(255,0,0);
-		var c = color(255, 0, 0, 200);
+		var c = color(255, 0, 200, 200);
+    var c1 = color(0, 255, 200, 200);
 		var c2 = color(0, 0, 255, 200);
 		var c3 = color(0, 255, 0, 200);
+    var c4 = color(255, 200, 0, 200);
 		
 		
-		fill(c2); 
+		fill(c); 
 		noStroke();
 		creature2000 = ellipse(posX2000, posY2000, x_2000, x_2000);
-		fill(c);
+		fill(c1);
+    creature2001 = ellipse(pos2001, pos2001, x_2001, x_2001);
+    fill(c2);
 		creature2002 = ellipse(pos2002, pos2002, x_2002, x_2002);
 		fill(c3);
 		creature2003 = ellipse(pos2003, pos2003, x_2003, x_2003);
+    fill(c4);
+    creature2004 = ellipse(pos2004, pos2004, x_2004, x_2004);
 
 }
 
@@ -163,11 +173,21 @@ function play2003(time) {
 }
 
 
-function changeSize(rssi_2000, rssi_2002, rssi_2003) {
-	x_2000 = rssi_2000;
-	x_2002 = rssi_2002;
-	x_2003 = rssi_2003;
-	//console.log("size changed!");
+// function changeSize(rssi_2000, rssi_2002, rssi_2003) {
+// 	x_2000 = rssi_2000;
+// 	x_2002 = rssi_2002;
+// 	x_2003 = rssi_2003;
+// 	//console.log("size changed!");
+// }
+
+function changeSize(rssi_2000, rssi_2001, rssi_2002, rssi_2003, rssi_2004) {
+  //console.log('size changed')
+  x_2000 = rssi_2000;
+  x_2001 = rssi_2001;
+  x_2002 = rssi_2002;
+  x_2003 = rssi_2003;
+  x_2004 = rssi_2004;
+  //console.log("size changed!");
 }
 
 // var tempos = [100/4, 100/8*3, 100/2, 100];

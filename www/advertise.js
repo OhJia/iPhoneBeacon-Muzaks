@@ -1,12 +1,7 @@
 var uuid = 'DA5336AE-2042-453A-A57F-F80DD34DFCD9'; // this will be the same for all beacons
-<<<<<<< HEAD
-var identifier = 'jajaBeacon'; // this will be a random default name
-var minor = 2001; // this will be randomly generated
-=======
 // var identifier = 'jaBeacon'; // this will be a random default name
 var identifier = 'randommm'; // this will be a random default name
 var minor = null; // this will be randomly generated
->>>>>>> 7c01d747ee2a8d1a2980709cf42a72bb0c2467a3
 var major = 5; // this will be the same for all beacons
 
 var otherMinors = []; // array of strings, updates when other beacons are found
@@ -22,6 +17,7 @@ var possibleMinors = [2000, 2001, 2002, 2003, 2004];
 function generateMinor() {
 
     minorToReturn = null;
+    console.log("other minors: "+ otherMinors);
 
     for (var i = 0; i < possibleMinors.length && !minorToReturn; i++) {
         if (otherMinors.indexOf( String(possibleMinors[i]) ) < 0) {
@@ -41,7 +37,7 @@ var advertiser = (function() {
         // generate minor
         minor = generateMinor();
 
-        alert('My minor: ' + minor);
+        console.log('My minor: ' + minor);
 
         var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);
 
