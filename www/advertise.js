@@ -3,6 +3,26 @@ var identifier = 'jaBeacon'; // this will be a random default name
 var minor = 2003; // this will be randomly generated
 var major = 5; // this will be the same for all beacons
 
+/**
+ *  generate a minor from the array of possible minors that does not exist in the existingMinors.
+ *
+ *  @method  generateMinor
+ *  @param  {Array} existingMinors an array of all the existing minors that have been found so far
+ *  @return {Number}                new minor number
+ */
+function generateMinor(existingMinors) {
+    var possibleMinors = [2000, 2001, 2002, 2003, 2004];
+
+    minorToReturn = null;
+
+    for (var i = 0; i < possibleMinors.length && !minorToReturn; i++) {
+        if (existingMinors.indexOf(possibleMinors[i]) < 0) {
+            minorToReturn = possibleMinors[i];
+        }
+    }
+
+    return minorToReturn;
+}
 
 
 var advertiser = (function() {
