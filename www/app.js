@@ -58,12 +58,6 @@ var app = (function()
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5,
 			minor: 2003
-		},
-		{
-			id: 'jaBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2004
 		}
 	];
 
@@ -80,7 +74,6 @@ var app = (function()
 
 	app.initialize = function()
 	{
-
 		document.addEventListener('deviceready', onDeviceReady, false);
 		document.addEventListener('pause', onAppToBackground, false);
 		document.addEventListener('resume', onAppToForeground, false);
@@ -88,19 +81,16 @@ var app = (function()
 
 	function onDeviceReady()
 	{
-		alert("device ready");
+		alert('device ready!!!')
+		advertiser.startAdvertising();
+
 		startMonitoringAndRanging();
 
-		//startMonitoringAndRanging().then(advertiser.startAdvertising);
+		startNearestBeaconDisplayTimer();
 
-		// wait to start advertising so that we know who else is advertising
-		setTimeout(function() {
-			// start the advertiser
-			advertiser.startAdvertising();
-			startMonitoringAndRanging();
-			startNearestBeaconDisplayTimer();
-			displayRegionEvents();
-		}, 5000); // wait till finish monitoring all other minors to advertise. better way?
+		displayRegionEvents();
+
+		// start the advertiser
 	}
 
 	function onAppToBackground()
@@ -133,7 +123,7 @@ var app = (function()
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
-			//displayRecentRegionEvent();
+			displayRecentRegionEvent();
 		}
 
 		function onDidRangeBeaconsInRegion(result)
@@ -158,7 +148,6 @@ var app = (function()
 		delegate.didRangeBeaconsInRegion = onDidRangeBeaconsInRegion;
 
 		// Start monitoring and ranging beacons.
-		console.log('start monitoring regions');
 		startMonitoringAndRangingRegions(mRegions, onError);
 	}
 
@@ -173,7 +162,6 @@ var app = (function()
 
 	function startMonitoringAndRangingRegion(region, errorCallback)
 	{
-		console.log('start monitoring regions2');
 		// Create a region object.
 		var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(
 			region.id,
@@ -190,7 +178,6 @@ var app = (function()
 		cordova.plugins.locationManager.startMonitoringForRegion(beaconRegion)
 			.fail(errorCallback)
 			.done();
-		console.log(beaconRegion);
 	}
 
 	function saveRegionEvent(eventType, regionId)
@@ -234,13 +221,9 @@ function updateNearestBeacon(beacons)
 		for (var i = 0; i < beacons.length; ++i)
 		{
 			var beacon = beacons[i];
-			console.log(beacon);
+			//console.log(beacon);
 			var minor = String(beacon.minor);
 			allTheBeacons[minor] = beacon;
-
-			// update otherMinors
-			otherMinors = Object.keys(allTheBeacons);
-			console.log(otherMinors);
 
 			if (!mNearestBeacon)
 			{
@@ -271,7 +254,7 @@ function updateNearestBeacon(beacons)
 	{
 		//if (!mNearestBeacon) { return; }
 		//if (Object.keys(allTheBeacons).length <= 0) {return;}
-
+		
 		// Clear element.
 		$('#beacon').empty();
  
@@ -295,14 +278,16 @@ function updateNearestBeacon(beacons)
 			if (allTheBeacons[minor].rssi === 0) {
 				rssiObj[minor] = 0;
 			} else if (allTheBeacons[minor].rssi < 0) {
-				rssiObj[minor] = 200 + allTheBeacons[minor].rssi * 3;
+				// rssiObj[minor] = 200 + allTheBeacons[minor].rssi * 3;
+				rssiObj[minor] = Math.abs(allTheBeacons[minor].rssi);
 			} 
 		}	
 
-		//changeSize(rssiObj[2003], rssiObj[2002], rssiObj[2001]);
-
-		changeSize(rssiObj[2000], rssiObj[2001], rssiObj[2002], rssiObj[2003], rssiObj[2004]);
+		// changeSize(rssiObj[2003], rssiObj[2002], rssiObj[2001]);
+		changeSize(rssiObj);
 						
+
+
 			// changeBpm(allTheBeacons[minor].rssi);
 		}
 	//}
