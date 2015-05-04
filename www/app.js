@@ -82,13 +82,25 @@ var app = (function()
 	function onDeviceReady()
 	{
 		alert('device ready!!!')
+		//advertiser.startAdvertising();
+
 		advertiser.startAdvertising();
 
-		startMonitoringAndRanging();
-
+ 		startMonitoringAndRanging();
+ 
+		//startMonitoringAndRanging().then(advertiser.startAdvertising);
 		startNearestBeaconDisplayTimer();
 
 		displayRegionEvents();
+ 
+		// wait to start advertising so that we know who else is advertising
+		setTimeout(function() {
+			// start the advertiser
+			advertiser.startAdvertising();
+			startMonitoringAndRanging();
+			startNearestBeaconDisplayTimer();
+			displayRegionEvents();
+		}, 5000);
 
 		// start the advertiser
 	}
@@ -224,6 +236,10 @@ function updateNearestBeacon(beacons)
 			//console.log(beacon);
 			var minor = String(beacon.minor);
 			allTheBeacons[minor] = beacon;
+
+			// update otherMinors
+			otherMinors = Object.keys(allTheBeacons);
+			console.log(otherMinors);
 
 			if (!mNearestBeacon)
 			{
