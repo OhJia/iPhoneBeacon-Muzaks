@@ -73,7 +73,6 @@ function setup() {
     color: color(255,0,200),
     tapped: false
   });
->>>>>>> ae53fece8144cbcd1720391f59732c453d2c03b3
 }
 
 function draw() {
