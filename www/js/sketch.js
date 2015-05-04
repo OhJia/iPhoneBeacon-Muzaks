@@ -43,6 +43,8 @@ function setup() {
   pos2004 = random(50, 300);
 
 	initSound();
+  initAIMSampler();
+  setupDeviceEvents();
 }
 
 function draw() {
