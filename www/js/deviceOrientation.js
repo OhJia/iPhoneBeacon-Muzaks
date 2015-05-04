@@ -31,10 +31,16 @@ var handleOrientationEvent = function(e) {
   // Tone.Transport.bpm.value = bpm;
 
   // map background color
+  // background_color = [
+  //   255 - map(alpha || 0, 0, 360, 0, 128),
+  //   128 - map(beta || 0, 0, 360, 0, 64),
+  //   255 - map(gamma || 0, 0, 360, 0, 128)
+  // ]
+
   background_color = [
-    255 - map(alpha || 0, 0, 360, 0, 128),
-    128 - map(beta || 0, 0, 360, 0, 64),
-    255 - map(gamma || 0, 0, 360, 0, 128)
+    map(alpha, -90, 90, 0, 250),
+    map(beta, -90, 90, 0, 200),
+    map(gamma, -90, 90, 0, 250)
   ]
 
   var p = Math.round( map(alpha, 0, 360, 0, 12) );

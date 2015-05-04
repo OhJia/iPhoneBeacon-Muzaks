@@ -239,7 +239,7 @@ function updateNearestBeacon(beacons)
 			if (typeof(creatures[minor]) == 'undefined') {
 				creatures[minor] = {
 				    minor: minor,
-				    id: beacon.id,
+				    id: 'creature x',
 				    sound: null,
 				    time: null,
 				    rssi: beacon.rssi,
@@ -249,6 +249,7 @@ function updateNearestBeacon(beacons)
 				    pos_x: null,
 				    pos_y: null
 				};
+				console.log(beacon);
 			
 			// Otherwise update the rssi
 			} else {
