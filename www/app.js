@@ -84,7 +84,7 @@ var app = (function()
 		alert('device ready!!!')
 		//advertiser.startAdvertising();
 
-		advertiser.startAdvertising();
+		//advertiser.startAdvertising();
 
  		startMonitoringAndRanging();
  
