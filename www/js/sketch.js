@@ -47,7 +47,9 @@ function setup() {
   pos2002 = random(50, 300);
   pos2003 = random(50, 300);
 
-	initSound();
+  initSound();
+  initAIMSampler();
+  setupDeviceEvents();
 
   creatures.push({
     rssi: null,
