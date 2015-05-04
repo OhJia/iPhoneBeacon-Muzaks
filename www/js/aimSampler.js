@@ -73,7 +73,7 @@ function initAIMSampler() {
 
   aimInDown.pitchScale = [-13, -6, -8, -25];
 
-  document.addEventListener('mousedown', playOtherSound);
+  //document.addEventListener('mousedown', playOtherSound);
 
   setupDrumPattern1();
 }

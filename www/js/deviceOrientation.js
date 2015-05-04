@@ -30,6 +30,13 @@ var handleOrientationEvent = function(e) {
   var bpm = map(beta, -90, 90, 1, 240);
   // Tone.Transport.bpm.value = bpm;
 
+  // map background color
+  background_color = [
+    255 - map(alpha || 0, 0, 360, 0, 128),
+    128 - map(beta || 0, 0, 360, 0, 64),
+    255 - map(gamma || 0, 0, 360, 0, 128)
+  ]
+
   var p = Math.round( map(alpha, 0, 360, 0, 12) );
   pitchOffset = pitchScale[p % pitchScale.length];
 
