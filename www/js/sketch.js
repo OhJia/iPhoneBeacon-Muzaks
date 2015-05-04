@@ -103,21 +103,15 @@ function draw() {
       //creatures[i].radians = creatures[i].radians+0.2;
     }
 
-
-    //touchStarted();
-
 }
 
-function touchStarted(){
-
-  //console.log('touched');
+$("#p5Container").click(touching);
+function touching(){
 
   for (var i = 0; i < creatures.length; i++){
     var cx = creatures[i].pos_x;
     var cy = creatures[i].pos_y;
-    //dist = dist(cx,cy,touchX,touchY);
-    //console.log(dist(cx,cy,touchX,touchY));
-    // if (touchX > cx && touchX < cx + 200 && touchY > cy && touchY < cy + 200) {
+
     if (dist(cx,cy,touchX,touchY) < 30) {
       creatures[i].tapped = true;
       //alert ('touched!');

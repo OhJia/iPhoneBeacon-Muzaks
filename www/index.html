@@ -20,15 +20,14 @@
 	if (window.hyper && window.hyper.log) { console.log = hyper.log }
 	</script>
 
+	<script src="cordova.js"></script>
 	<script src="libs/jquery/jquery.js"></script>
-	<script src="js/jquery.mobile-1.4.5.min.js"></script>
-	<script src="cordova.js"></script>	
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>	
 	<script src="libs/evothings/evothings.js"></script>
 	<script src="js/p5.min.js"></script>
 	<script src="js/Tone.js"></script>
-	<script src="advertise.js"></script>
-	<script src="app.js"></script>	
 	
+		
 </head>
 
 <body>
@@ -36,13 +35,13 @@
 		<!-- main page -->
 	    <section data-role="page" id="main">	
 		    <div class="ui-content">	
-				<div id="p5Container">  
-					
-				</div>  
+		    	<div data-role="content">
+					<div id="p5Container"></div>  
+				</div>
 				<div data-role="footer" data-position="fixed" class="footer">
 					<table>
 						<tr>
-							<td><a href="#pocket" class="ui-btn pocket-bttn"><h1>Pocket</h1></a></td>
+							<td><a href="#pocket" id="pocket-bttn-home" class="anchor-link ui-btn pocket-bttn"><h1>Pocket</h1></a></td>
 							<td><a href="#play" class="ui-btn play-bttn"><h1>Play</h1></a></td>
 							<td><a href="#info" class="ui-btn info-bttn"><h1>Info</h1></a></td>
 						</tr>
@@ -54,7 +53,7 @@
 	    <!-- pocket page -->
 	    <section data-role="page" id="pocket">
 	    	 <div class="ui-content">
-	    		<ul id="beacon" class="dynamic"></ul>
+	    		<ul id="beacon" class="dynamic">sadkfnasdjknfads;najd</ul>
 	    		<div data-role="footer" data-position="fixed" class="footer">
 					<a href="#main" class="ui-btn"><h1>B</h1></a>
 				</div>
@@ -62,6 +61,9 @@
 	    </section>
 	 </div>
 
+	 <script src="advertise.js"></script>
+	<script src="app.js"></script>
 	<script src="js/sketch.js"></script>
+
 </body>
 </html>
