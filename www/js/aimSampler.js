@@ -86,7 +86,7 @@ function playAIM() {
   aimSampler.pitch = pattern[iPat % pattern.length] + pitchOffset;
   iPat++;
 
-  // aimSampler.triggerAttack(0);
+  aimSampler.triggerAttack(0);
 }
 
 Tone.Transport.setInterval(playAIM, "4n");

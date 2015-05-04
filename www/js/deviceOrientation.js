@@ -28,7 +28,7 @@ var handleOrientationEvent = function(e) {
   // console.log(alpha, beta, gamma);
 
   var bpm = map(beta, -90, 90, 1, 240);
-  Tone.Transport.bpm.value = bpm;
+  // Tone.Transport.bpm.value = bpm;
 
   var p = Math.round( map(alpha, 0, 360, 0, 12) );
   pitchOffset = pitchScale[p % pitchScale.length];
