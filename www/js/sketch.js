@@ -181,8 +181,10 @@ function initSound() {
   Tone.Transport.setInterval(play2002, "32n");
   Tone.Transport.setInterval(play2003, "32n");
 
-  Tone.Transport.start();
+}
 
+Tone.Buffer.onload = function() {
+  Tone.Transport.start();
 }
 
 // function initLoop(playMinor) {

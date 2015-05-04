@@ -81,8 +81,8 @@ var app = (function()
 
 	function onDeviceReady()
 	{
-		alert('device ready!!!')
-		advertiser.startAdvertising();
+
+		alert("device ready");
 
 		startMonitoringAndRanging();
 
@@ -90,8 +90,14 @@ var app = (function()
 
 		displayRegionEvents();
 
-		// start the advertiser
+		//startMonitoringAndRanging().then(advertiser.startAdvertising);
+		// wait to start advertising so that we know who else is advertising
+		setTimeout(function() {
+			// start the advertiser
+			advertiser.startAdvertising();
+		}, 5000); // wait till finish monitoring all other minors to advertise. better way?
 	}
+
 
 	function onAppToBackground()
 	{
@@ -119,7 +125,7 @@ var app = (function()
 
 	function startMonitoringAndRanging()
 	{
-
+		console.log('start mon');
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
@@ -149,6 +155,7 @@ var app = (function()
 
 		// Start monitoring and ranging beacons.
 		startMonitoringAndRangingRegions(mRegions, onError);
+
 	}
 
 	function startMonitoringAndRangingRegions(regions, errorCallback)
