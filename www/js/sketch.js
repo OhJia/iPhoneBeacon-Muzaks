@@ -129,10 +129,12 @@ function draw() {
 
 }
 
-$("#p5Container").click(touching);
+// $("#p5Container").click(touchEnd);
+$('#p5Container').on('touchstart', touchStart);
+$('#p5Container').on('touchend', touchEnd);
 
-function touching(e){
-  console.log(e);
+function touchStart(e){
+  console.log('touch start');
   e.preventDefault();
 
   if (tapped === true) tapped = false;
@@ -146,8 +148,9 @@ function touching(e){
       creatures[minor].tapped = true;
       tapped = true; // to show creature info
       // alert('rssi: '+creatures[minor].rssi+'\n'+'minor: '+ minor+'\n'+'');
-      playOtherSound();
-      
+      // playOtherSound();
+
+      // play their sound
       return false;     
     }
   }
@@ -155,11 +158,16 @@ function touching(e){
   // detect if center is touched
   if (dist(center_x,center_y,touchX,touchY) < 50) {
     center_tapped = true;
-    playOtherSound();
+    attackMySound();
     return false;
   }
 
   return false;
+}
+
+function touchEnd(e) {
+  console.log('touch end');
+  releaseMySound();
 }
 
 function showTappedInfo(creature){
@@ -224,67 +232,6 @@ function polygon(x, y, radius) {
 //   }
 // }
 
-function initSound() {
-
-  for (var i = 0; i < synths.length; i++) {
-    synths[i] = new Tone.MonoSynth();
-    synths[i].oscillator.type = "sine";
-    synths[i].toMaster();
-  }
-
-  Tone.Transport.setInterval(play2000, "32n");
-  Tone.Transport.setInterval(play2001, "32n");
-  Tone.Transport.setInterval(play2002, "32n");
-  Tone.Transport.setInterval(play2003, "32n");
-
-}
-
-Tone.Buffer.onload = function() {
-  Tone.Transport.start();
-}
-
-// function initLoop(playMinor) {
-//   Tone.Transport.setInterval(playMinor, "32n");
-//   // Tone.Transport.setInterval(play2000, "32n");
-//   // Tone.Transport.setInterval(play2001, "32n");
-//   // Tone.Transport.setInterval(play2002, "32n");
-//   // Tone.Transport.setInterval(play2003, "32n");
-// }
-
-// function removeLoop(playMinor) {
-//   Tone.Transport.clearInterval(playMinor);
-// }
-
-
-function play2000(time) {
-  var i = indexes[0]++ % indexModulos[0];
-  if (counters[0][i] === 1 ) {
-    synths[0].triggerAttackRelease('C4', 0.12, Tone.Transport.now(), 0.1 );
-  }
-}
-
-function play2001(time) {
-  var i = indexes[1]++ % indexModulos[1];
-  if (counters[1][i] === 1 ) {
-    synths[1].triggerAttackRelease('E4', 0.1, Tone.Transport.now(), 0.1 );
-  }
-}
-
-function play2002(time) {
-  var i = indexes[2]++ % indexModulos[2];
-  if (counters[2][i] === 1 ) {
-    synths[2].triggerAttackRelease('G3', 0.1, Tone.Transport.now(), 0.1);
-  }
-}
-
-function play2003(time) {
-  var i = indexes[3]++ % indexModulos[3];
-  if (counters[3][i] === 1 ) {
-    synths[3].triggerAttackRelease('D4', 0.1, Tone.Transport.now(), 0.1 );
-  }
-}
-
-
 // function changeSize(rssi) {
 //   //console.log(rssi);
 //   // for (var i = 0; i < creatures.length; i++){
@@ -294,43 +241,13 @@ function play2003(time) {
 
 //   }
 
-// 	//console.log("size changed!");
+//  //console.log("size changed!");
 // }
 
-// var tempos = [100/4, 100/8*3, 100/2, 100];
-
-
-function tweakBeaconSound(beacon) {
-  var minor = beacon.minor;
-  var rssi = beacon.rssi;
-  var indexModulo = Math.round( map(rssi, -80, -20, 50, 2) );
-
-  if (rssi === 0) {
-    indexModulo = 10000000;
-  }
-
-  //console.log('tweakin beacon' + minor);
-
-  switch(Number(minor)) {
-    case 2000:
-      indexModulos[0] = indexModulo;
-      break;
-    case 2001:
-      indexModulos[1] = indexModulo;
-      break;
-    case 2002:
-      indexModulos[2] = indexModulo;
-      break;
-    case 2003:
-      indexModulos[3] = indexModulo;
-      break;
-  }
-  //console.log(indexModulos);
-}
 
 // toggle play mode when play button is clicked
 
-var playMode = true;
+var playMode = false;
 
 function playClicked(e) {
   playMode = !playMode;
