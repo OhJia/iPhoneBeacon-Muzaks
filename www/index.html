@@ -46,16 +46,16 @@
 						<tr>
 							<td>
 								<a href="#pocket" id="pocket-bttn-home" class="pocket-bttn">
-									<svg version="1.1" id="svg-nav-pocket" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><path fill="#F1F1F2" d="M500,41v241.6c0,97.1-79.4,176.5-176.5,176.5H176.5C79.4,459,0,379.6,0,282.6V41"/></svg>
+									<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><path fill="#F1F1F2" d="M420.7,86.6v189c0,76-62.1,138.1-138.1,138.1h-65c-76-0.1-138.1-62.2-138.1-138.1v-189"/></svg>
 								</a>
 							</td>
 							<td>
-								<a href="#play" onclick="playClicked()" class="play-bttn">
-									<svg version="1.1" id="svg-nav-play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><polygon fill="#808080" points="77,50.2 423,250 77,449.8 "/></svg>
+								<a href="#play" id="play-bttn-home" onclick="playClicked()" class="play-bttn">
+									<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><polygon fill="#F1F1F2" points="128,86.8 411,250.1 128,413.5 "/></svg>
 								</a>
 							</td>
 							<td>
-								<a href="#info" class="info-bttn">
+								<a href="#info" id="info-bttn-home" class="info-bttn">
 									<svg version="1.1" id="svg-nav-info" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><path fill="#808080" d="M250,414c-90.4,0-164-73.6-164-164S159.6,86,250,86s164,73.6,164,164S340.4,414,250,414z M250,114.1c-74.9,0-135.9,61-135.9,135.9s61,135.9,135.9,135.9s135.9-61,135.9-135.9S324.9,114.1,250,114.1z"/><path fill="#808080" d="M237.1,169.4h25.7v24.4h-25.7V169.4z M237.1,213.9h25.7v116.7h-25.7V213.9z"/></svg>
 								</a>
 							</td>
@@ -69,11 +69,27 @@
 	    <section data-role="page" id="pocket">
 	    	 <div class="ui-content">
 	    		<ul id="beacon" class="dynamic">sadkfnasdjknfads;najd</ul>
-	    		<div data-role="footer" data-position="fixed" class="footer">
-					<a href="#main" class="ui-btn"><h1>B</h1></a>
+	    		<!-- <div data-role="footer" data-position="fixed" class="footer"> -->
+	    		<div class="footer">
+					<a href="#main" id="back-to-main" class="main-bttn">
+						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><path fill="#333333" d="M114.5,92.3L412,92c6.6,0,12,5.4,12,12l0.3,297.5c0,6.6-5.4,12-12,12l-297.5,0.3c-6.6,0-12-5.4-12-12 l-0.3-297.5C102.5,97.7,107.9,92.3,114.5,92.3z"/><path fill="#C6C6C6" d="M172.9,110.4L395,148c6.5,1.1,10.9,7.3,9.8,13.8l-37.6,222.1c-1.1,6.5-7.3,10.9-13.8,9.8l-222.1-37.6 c-6.5-1.1-10.9-7.3-9.8-13.8l37.6-222.1C160.2,113.7,166.4,109.3,172.9,110.4z"/><path fill="#E2E2E2" d="M230.5,138.7l140.1,64.8c6,2.8,8.6,9.9,5.9,15.9l-64.8,140.1c-2.8,6-9.9,8.6-15.9,5.9l-140.1-64.8 c-6-2.8-8.6-9.9-5.9-15.9l64.8-140.1C217.4,138.5,224.5,135.9,230.5,138.7z"/></svg>
+					</a>
 				</div>
 	    	</div>	          
 	    </section>
+
+	    <!-- info page -->
+	    <section data-role="page" id="info">
+	    	 <div class="ui-content">
+	    		<ul id="beacon" class="dynamic">sadkfnasdjknfads;najd</ul>
+	    		<div class="footer">
+					<a href="#main" id="info-to-main" class="main-bttn">
+						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><path fill="#333333" d="M114.5,92.3L412,92c6.6,0,12,5.4,12,12l0.3,297.5c0,6.6-5.4,12-12,12l-297.5,0.3c-6.6,0-12-5.4-12-12 l-0.3-297.5C102.5,97.7,107.9,92.3,114.5,92.3z"/><path fill="#C6C6C6" d="M172.9,110.4L395,148c6.5,1.1,10.9,7.3,9.8,13.8l-37.6,222.1c-1.1,6.5-7.3,10.9-13.8,9.8l-222.1-37.6 c-6.5-1.1-10.9-7.3-9.8-13.8l37.6-222.1C160.2,113.7,166.4,109.3,172.9,110.4z"/><path fill="#E2E2E2" d="M230.5,138.7l140.1,64.8c6,2.8,8.6,9.9,5.9,15.9l-64.8,140.1c-2.8,6-9.9,8.6-15.9,5.9l-140.1-64.8 c-6-2.8-8.6-9.9-5.9-15.9l64.8-140.1C217.4,138.5,224.5,135.9,230.5,138.7z"/></svg>
+					</a>
+				</div>
+	    	</div>	          
+	    </section>
+
 	 </div>
 
 	<script src="advertise.js"></script>
