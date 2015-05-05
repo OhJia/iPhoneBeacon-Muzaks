@@ -73,9 +73,11 @@ var app = (function()
 
 	app.initialize = function()
 	{
+
 		document.addEventListener('deviceready', onDeviceReady, false);
 		document.addEventListener('pause', onAppToBackground, false);
 		document.addEventListener('resume', onAppToForeground, false);
+
 	};
 
 	function onDeviceReady()
@@ -256,7 +258,7 @@ function updateNearestBeacon(beacons)
 			}
 
 			// if creature rssi is zero, play creatureLeavesSound()
-			if (creatures[minor].rssi === 0 && creatures[minor].prevRSSI !== 0 {
+			if (creatures[minor].rssi === 0 && creatures[minor].prevRSSI !== 0) {
 				creatureLeaveSound();
 
 				// prevRSSI ensures we only play creatureLeaveSound once...hopefully!

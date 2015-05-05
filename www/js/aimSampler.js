@@ -63,7 +63,6 @@ masterConvolver.toMaster();
 // - lowpass filter everything
 
 function initAIMSampler(index) {
-
   var samplePath = aimSamplePaths[index];
 
   aimSampler = new Tone.Sampler(samplePath);
