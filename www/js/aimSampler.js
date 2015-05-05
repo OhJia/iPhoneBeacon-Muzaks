@@ -64,14 +64,6 @@ delay.connect(masterConvolver);
 // masterConvolver.toMaster();
 masterConvolver.connect(highPass);
 
-// TO DO:
-// 
-// - door open sound
-// - beat only happens when other people are around
-// - trigger sounds when you click on them
-// - use play button. when you press, it plays everything. Otherwise, it just plays the one dot sound.
-// - distance for both volume and Tempo
-// - playOtherSound()
 
 function initAIMSampler(index) {
   var samplePath = aimSamplePaths[index];
