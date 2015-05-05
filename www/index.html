@@ -26,8 +26,6 @@
 	<script src="libs/evothings/evothings.js"></script>
 	<script src="js/p5.min.js"></script>
 	<script src="js/Tone.js"></script>
-	<script src="advertise.js"></script>
-	<script src="app.js"></script>
 	<script src="js/deviceOrientation.js"></script>
 	<script src="js/aimSampler.js"></script>
 
@@ -42,12 +40,25 @@
 		    	<div data-role="content">
 					<div id="p5Container"></div>  
 				</div>
-				<div data-role="footer" data-position="fixed" class="footer">
+				<!-- <div data-role="footer" data-position="fixed" class="footer ui-fixed-hidden"> -->
+				<div class="footer">
 					<table>
 						<tr>
-							<td><a href="#pocket" id="pocket-bttn-home" class="anchor-link ui-btn pocket-bttn"><h1>Pocket</h1></a></td>
-							<td><a href="#play" class="ui-btn play-bttn"><h1>Play</h1></a></td>
-							<td><a href="#info" class="ui-btn info-bttn"><h1>Info</h1></a></td>
+							<td>
+								<a href="#pocket" id="pocket-bttn-home" class="pocket-bttn">
+									<svg version="1.1" id="svg-nav-pocket" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><path fill="#F1F1F2" d="M500,41v241.6c0,97.1-79.4,176.5-176.5,176.5H176.5C79.4,459,0,379.6,0,282.6V41"/></svg>
+								</a>
+							</td>
+							<td>
+								<a href="#play" class="play-bttn">
+									<svg version="1.1" id="svg-nav-play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><polygon fill="#808080" points="77,50.2 423,250 77,449.8 "/></svg>
+								</a>
+							</td>
+							<td>
+								<a href="#info" class="info-bttn">
+									<svg version="1.1" id="svg-nav-info" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><path fill="#808080" d="M250,414c-90.4,0-164-73.6-164-164S159.6,86,250,86s164,73.6,164,164S340.4,414,250,414z M250,114.1c-74.9,0-135.9,61-135.9,135.9s61,135.9,135.9,135.9s135.9-61,135.9-135.9S324.9,114.1,250,114.1z"/><path fill="#808080" d="M237.1,169.4h25.7v24.4h-25.7V169.4z M237.1,213.9h25.7v116.7h-25.7V213.9z"/></svg>
+								</a>
+							</td>
 						</tr>
 					</table>
 					</div>
@@ -65,7 +76,7 @@
 	    </section>
 	 </div>
 
-	 <script src="advertise.js"></script>
+	<script src="advertise.js"></script>
 	<script src="app.js"></script>
 	<script src="js/sketch.js"></script>
 

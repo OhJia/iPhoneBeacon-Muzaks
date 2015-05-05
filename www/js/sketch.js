@@ -39,8 +39,8 @@ var bgColor;
 function setup() {
 	//createCanvas(windowWidth, windowHeight);
 	//background(0,160,0);
-	var p5Container = document.getElementById(p5Container);
-	var myCan = createCanvas(windowWidth, windowHeight-100);
+  // var p5Container = document.getElementById('p5Container');
+  var myCan = createCanvas(windowWidth, windowHeight);
 	myCan.parent('p5Container');
 	center_x = windowWidth/2;
 	center_y = windowHeight/2 - 50;
@@ -163,12 +163,11 @@ function touching(e){
 }
 
 function showTappedInfo(creature){
-  if (tappedC){
-  fill(0);
-  rect(creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
-  fill(255);
-  text(creature.id, creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
-  
+  if (tapped){
+    fill(0, 200);
+    rect(creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
+    fill(255);
+    text(creature.id, creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
   }
 }
 
