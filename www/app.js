@@ -81,9 +81,6 @@ var app = (function()
 	function onDeviceReady()
 	{
 		alert('device ready!!!')
-		//advertiser.startAdvertising();
-
-		//advertiser.startAdvertising();
 
  		startMonitoringAndRanging();
  
@@ -96,13 +93,12 @@ var app = (function()
 		setTimeout(function() {
 			// start the advertiser
 			advertiser.startAdvertising();
-			startMonitoringAndRanging();
-			startNearestBeaconDisplayTimer();
-			displayRegionEvents();
-		}, 5000);
-
-		// start the advertiser
+			// startMonitoringAndRanging();
+			// startNearestBeaconDisplayTimer();
+			// displayRegionEvents();
+		}, 1000);
 	}
+
 
 	function onAppToBackground()
 	{
@@ -130,7 +126,7 @@ var app = (function()
 
 	function startMonitoringAndRanging()
 	{
-
+		console.log('start mon');
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
@@ -160,6 +156,7 @@ var app = (function()
 
 		// Start monitoring and ranging beacons.
 		startMonitoringAndRangingRegions(mRegions, onError);
+
 	}
 
 	function startMonitoringAndRangingRegions(regions, errorCallback)
@@ -249,11 +246,21 @@ function updateNearestBeacon(beacons)
 				    pos_x: null,
 				    pos_y: null
 				};
-				console.log(beacon);
-			
+
+				creatureEnterSound();
+
 			// Otherwise update the rssi
 			} else {
 				creatures[minor].rssi = beacon.rssi;
+				creatures[minor].prevRSSI = beacon.rssi;
+			}
+
+			// if creature rssi is zero, play creatureLeavesSound()
+			if (creatures[minor].rssi === 0 && creatures[minor].prevRSSI !== 0 {
+				creatureLeaveSound();
+
+				// prevRSSI ensures we only play creatureLeaveSound once...hopefully!
+				creatures[minor].prevRSSI = 0;
 			}
 
 			// update otherMinors

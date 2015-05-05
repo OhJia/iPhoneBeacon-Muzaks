@@ -1,24 +1,14 @@
 // INSTRUMENTS
 var aimSampler, aimInDown, drumSampler;
 
+var aimSamplePaths = ['audio/windows/messenger.mp3', 'audio/apple/apple.wav', 'audio/aim/im.wav', 'audio/whatsapp/whatsappmsg.mp3', 'audio/fb/fb2.mp3', 'audio/skype/skypeContinueCall.mp3'];
+
 // either choose from a scale
-var pitchScale = [-12, -9, -7, -5, 0, 2];
+var pitchScale = [-12, -9, -7, -5, 0, 2, 7];
 var pitchOffset = 0;
 
 // or play a pattern
 var iPat = 0;
-// var pattern = [ -12, -12, -12, -12,
-//                 -12, -12, -12, -12,
-//                 -12, -12,
-//                 -7, -9, -11, -11
-//                 ];
-
-// var pattern = [ -12, 0, 12, 0,
-//                 12, -12, -7, -5,
-//                 -2, -3,
-//                 -7, -9, -5, -5
-//                 ];
-
 var pattern = [-12];
 
 
@@ -27,33 +17,56 @@ var pattern = [-12];
 // everything connects to the MasterMix, then to WetDry to control convolution and filter
 var masterMix = Tone.context.createGain();
 
-// MasterMix connects to MasterWetDry. 0 is dry, 1 is wet (convolver)
-var masterWetDry = new Tone.CrossFade(0.5);
-
-// convolver goes to 1 (wet)
-var masterConvolver = Tone.context.createConvolver();
-// masterMix.connect(masterConvolver);
-// masterConvolver.connect(masterWetDry, 0, 1);
-
-var convolverBuffer = new Tone.Buffer('./audio/IR/small-plate.mp3', function() {
-    masterConvolver.buffer = convolverBuffer._buffer;
-});
+// MasterMix connects to MasterWetDry. 1 is the only channel we are currently using...
+var masterWetDry = new Tone.CrossFade(1);
 
 // filter goes to both 0 (dry) and 1 (wet)
 var masterFilter = new Tone.Filter();
 masterMix.connect(masterFilter);
-masterFilter.connect(masterConvolver, 0, 0);
+// masterFilter.connect(masterConvolver, 0, 0);
 masterFilter.connect(masterWetDry, 0, 1);
 masterFilter.Q.value = 10;
 masterFilter.frequency.value = 0;
-masterFilter.type = 'highpass';
+masterFilter.type = 'lowpass';
 // wetDry goes to master
-masterWetDry.toMaster();
+var finalEQ = new Tone.EQ(-4, -12, -3);
+finalEQ.lowFrequency.value = 105;
+finalEQ.highFrequency.value = 4700;
+masterWetDry.connect(finalEQ);
+finalEQ.toMaster();
 
+var delay = new Tone.FeedbackDelay('8n', 0.12);
 
+var delayFilter = new Tone.Filter();
+delayFilter.output.gain.value = 0.02;
+delay.output.gain.value = 0.02;
+delayFilter.connect(delay);
+delay.connect(delayFilter);
+masterWetDry.connect(delay);
+delayFilter.toMaster();
+delay.toMaster();
 
-function initAIMSampler() {
-  aimSampler = new Tone.Sampler('audio/aim/im.wav');
+var masterConvolver = Tone.context.createConvolver();
+var convolverBuffer = new Tone.Buffer('./audio/IR/small-plate.mp3', function() {
+    masterConvolver.buffer = convolverBuffer._buffer;
+});
+delay.connect(masterConvolver);
+masterConvolver.toMaster();
+
+// TO DO:
+// - door open sound
+// - beat only happens when other people are around
+// - trigger sounds when you click on them
+// - use play button. when you press, it plays everything. Otherwise, it just plays the one dot sound.
+// - distance for both volume and Tempo
+// - playOtherSound()
+// - lowpass filter everything
+
+function initAIMSampler(index) {
+
+  var samplePath = aimSamplePaths[index];
+
+  aimSampler = new Tone.Sampler(samplePath);
 
   aimInDown = new Tone.Sampler('audio/aim/imIn.mp3');
 
@@ -166,5 +179,31 @@ function setupDrumPattern2() {
   }, "4m");
 
   drumIntervals.push(x);
+}
 
+function toggleLoops(playMode) {
+  if (!playMode) {
+    for (var i = 0; i < drumIntervals.length; i++) {
+      Tone.Transport.clearInterval(drumIntervals[i]);
+    }
+  } else {
+    // pick a random drum loop
+    var x = Math.random();
+    x > 0.5 ? setupDrumPattern1() : setupDrumPattern2();
+  }
+}
+
+////// person enter / leaving: play AOL door open/close
+
+var doorOpen = new Tone.Player('audio/skype/skype_signInHIFI.mp3');
+var doorClose = new Tone.Player('audio/skype/skype_callFailedNICE.mp3');
+doorOpen.toMaster();
+doorClose.toMaster();
+
+function creatureEnterSound() {
+  doorOpen.start();
+}
+
+function creatureLeaveSound() {
+  doorClose.start();
 }

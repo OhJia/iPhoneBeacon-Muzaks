@@ -51,7 +51,6 @@ function setup() {
   center_tapped = false;
 
   initSound();
-  initAIMSampler();
   setupDeviceEvents();
 
   center_tapped = true;
@@ -133,6 +132,7 @@ function draw() {
 $("#p5Container").click(touching);
 
 function touching(e){
+  console.log(e);
   e.preventDefault();
 
   if (tapped === true) tapped = false;
@@ -237,8 +237,10 @@ function initSound() {
   Tone.Transport.setInterval(play2002, "32n");
   Tone.Transport.setInterval(play2003, "32n");
 
-  Tone.Transport.start();
+}
 
+Tone.Buffer.onload = function() {
+  Tone.Transport.start();
 }
 
 // function initLoop(playMinor) {
@@ -323,8 +325,18 @@ function tweakBeaconSound(beacon) {
       indexModulos[3] = indexModulo;
       break;
   }
-
   //console.log(indexModulos);
+}
 
+// toggle play mode when play button is clicked
+
+var playMode = true;
+
+function playClicked(e) {
+  playMode = !playMode;
+
+  // change SVG
+
+  toggleLoops(playMode);
 }
 
