@@ -95,10 +95,10 @@ var app = (function()
 		setTimeout(function() {
 			// start the advertiser
 			advertiser.startAdvertising();
-			// startMonitoringAndRanging();
-			// startNearestBeaconDisplayTimer();
-			// displayRegionEvents();
-		}, 1000);
+			startMonitoringAndRanging();
+			startNearestBeaconDisplayTimer();
+			displayRegionEvents();
+		}, 5000);
 	}
 
 
