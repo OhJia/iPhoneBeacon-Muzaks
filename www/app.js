@@ -304,15 +304,23 @@ function updateNearestBeacon(beacons)
  
 		for (var minor in creatures) {
 			// Update element.
+			// var element = $(
+			// 	'<li>'
+			// 	+	'<strong>Nearest Beacon</strong><br />'
+			// 	+	'UUID: ' + creatures[minor].uuid + '<br />'
+			// 	+	'Major: ' + creatures[minor].major + '<br />'
+			// 	+	'Minor: ' + creatures[minor].minor + '<br />'
+			// 	+	'Proximity: ' + creatures[minor].proximity + '<br />'
+			// 	+	'Distance: ' + creatures[minor].accuracy + '<br />'
+			// 	+	'RSSI: ' + creatures[minor].rssi + '<br />'
+			// 	+ '</li>'
+			// 	);
+
 			var element = $(
 				'<li>'
-				+	'<strong>Nearest Beacon</strong><br />'
-				+	'UUID: ' + creatures[minor].uuid + '<br />'
-				+	'Major: ' + creatures[minor].major + '<br />'
-				+	'Minor: ' + creatures[minor].minor + '<br />'
-				+	'Proximity: ' + creatures[minor].proximity + '<br />'
-				+	'Distance: ' + creatures[minor].accuracy + '<br />'
-				+	'RSSI: ' + creatures[minor].rssi + '<br />'
+				+	'<div class="profile-img"></div>'
+				+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
+				+	'<div class="mo-info"><p>'+creatures[minor].minor+'</p><p>'+creatures[minor].rssi+'</p></div>'
 				+ '</li>'
 				);
 			$('#beacon').append(element);
