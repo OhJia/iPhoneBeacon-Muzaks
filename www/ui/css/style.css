@@ -25,22 +25,42 @@ a.pocket-bttn.ui-btn {
 	float: left;
 }
 
-#p5Container {
-	padding: 0;
+#p5Container, #p5Container canvas {
+	display: block;
 	margin: 0;
-	background-color: red;
+	padding: 0;
+	text-shadow: none;
+	width: 100% !important;
+	height: 100% !important;
 }
 
 .footer {
-	/*position: fixed;*/
-	background-color: white;
+	position: fixed;
+	display: block;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: transparent !important;
 	width: 100%;
-	height: 100px;
+	height: 60px;
 	z-index: 10;
 	border-top: none;
-	/*padding-left: 20px;*/
-	/*padding-right: 20px;*/
+	padding-bottom: 0;
 }
+.footer td a {
+	display: inline-block;
+}
+.footer td a svg {
+	width: 40px;
+	height: 40px;
+}
+.footer td a svg path, .footer td a svg polygon {
+	/* TO CHANGE SVG COLOR, ** USE "fill" **, NOT "background-color", NOT "color" */
+	fill: #ffffff;
+}
+/*.footer td a:hover svg path, .footer td a:hover svg polygon {
+	fill: #ff00ff;
+}*/
 
 .info-bttn {
 	text-align: right;
@@ -50,4 +70,9 @@ a.pocket-bttn.ui-btn {
 .play-bttn {
 	text-align: center;
 	margin: auto 0px;
+}
+
+a.anchor-link.ui-btn{
+	background: none;
+	border: none;
 }
