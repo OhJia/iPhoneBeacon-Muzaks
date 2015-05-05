@@ -1,6 +1,9 @@
 // INSTRUMENTS
 var aimSampler, aimInDown, drumSampler;
 
+var aimSamplePaths = ['audio/apple/apple.wav', 'audio/aim/im.wav'];
+
+
 // either choose from a scale
 var pitchScale = [-12, -9, -7, -5, 0, 2];
 var pitchOffset = 0;
@@ -46,14 +49,20 @@ masterFilter.connect(masterConvolver, 0, 0);
 masterFilter.connect(masterWetDry, 0, 1);
 masterFilter.Q.value = 10;
 masterFilter.frequency.value = 0;
-masterFilter.type = 'highpass';
+masterFilter.type = 'lowpass';
 // wetDry goes to master
 masterWetDry.toMaster();
 
+// TO DO:
+// - only trigger output on mousedown
+// - door open sound
+// - beat only happens when other people are around
 
+function initAIMSampler(index) {
 
-function initAIMSampler() {
-  aimSampler = new Tone.Sampler('audio/aim/im.wav');
+  var samplePath = aimSamplePaths[index];
+
+  aimSampler = new Tone.Sampler(samplePath);
 
   aimInDown = new Tone.Sampler('audio/aim/imIn.mp3');
 

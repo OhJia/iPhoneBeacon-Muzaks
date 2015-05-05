@@ -66,20 +66,31 @@ var handleDeviceMotionEvent = function(e) {
 
   if (maxAcc > 2 && triggered < 0.2) {
     triggered = 1;
-    // masterFilter.Q.exponentialRampToValueAtTime(10, masterFilter.now() + 3 );
+    masterMix.gain.cancelScheduledValues(Tone.context.currentTime);
+    masterMix.gain.exponentialRampToValueAtTime(1, Tone.context.currentTime + 0.02);
+    masterMix.gain.setTargetAtTime(0.002, Tone.context.currentTime + 8, 0.2);
     // var freq = constrain( map(maxAcc, 10, 70, 3000, 1050), 220, 20000);
     // masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 0.01 );
-  // } else {
+    // else {
     // triggered *= 0.95;
     // masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 3 );
     // masterFilter.Q.exponentialRampToValueAtTime(1, masterFilter.now() + 3 );
   }
 
-  var freq = constrain( map(triggered, 0, 1, 700, 220), 220, 20000);
-  masterFilter.frequency.cancelScheduledValues(masterFilter.now());
-  masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 0.0001 );
+  var freq = constrain( map(triggered, 0, 1, 80, 18000), 80, 20000);
 
-  triggered *= 0.98;
+  var q = constrain( map(triggered, 0, 1, 0.01, 10), 20, 0.01);
+
+  masterFilter.frequency.cancelScheduledValues(masterFilter.now());
+  // masterFilter.frequency.setValue
+  masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 0.01 );
+
+  masterFilter.Q.setTargetAtTime(q, masterFilter.now() + .03, 0.8 );
+
+  // only decay if there are no touches
+  if (touches.length === 0) {
+    triggered *= 0.95;
+  }
 
 }
 

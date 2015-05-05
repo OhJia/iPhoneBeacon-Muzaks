@@ -13,6 +13,10 @@ function generateMinor() {
     for (var i = 0; i < possibleMinors.length && !minorToReturn; i++) {
         if (otherMinors.indexOf( String(possibleMinors[i]) ) < 0) {
             minorToReturn = possibleMinors[i];
+
+            // also init sound based on this index
+            initAIMSampler(i);
+
         }
     }
 

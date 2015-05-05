@@ -51,7 +51,6 @@ function setup() {
   center_tapped = false;
 
   initSound();
-  initAIMSampler();
   setupDeviceEvents();
 
   center_tapped = true;
@@ -133,6 +132,7 @@ function draw() {
 $("#p5Container").click(touching);
 
 function touching(e){
+  console.log(e);
   e.preventDefault();
 
   if (tapped === true) tapped = false;
