@@ -17,17 +17,8 @@ var pattern = [-12];
 // everything connects to the MasterMix, then to WetDry to control convolution and filter
 var masterMix = Tone.context.createGain();
 
-// MasterMix connects to MasterWetDry. 0 is dry, 1 is wet (convolver)
+// MasterMix connects to MasterWetDry. 1 is the only channel we are currently using...
 var masterWetDry = new Tone.CrossFade(1);
-
-// convolver goes to 1 (wet)
-var masterConvolver = Tone.context.createConvolver();
-// masterMix.connect(masterConvolver);
-// masterConvolver.connect(masterWetDry, 0, 1);
-
-var convolverBuffer = new Tone.Buffer('./audio/IR/small-plate.mp3', function() {
-    masterConvolver.buffer = convolverBuffer._buffer;
-});
 
 // filter goes to both 0 (dry) and 1 (wet)
 var masterFilter = new Tone.Filter();
@@ -55,11 +46,12 @@ masterWetDry.connect(delay);
 delayFilter.toMaster();
 delay.toMaster();
 
+var masterConvolver = Tone.context.createConvolver();
+var convolverBuffer = new Tone.Buffer('./audio/IR/small-plate.mp3', function() {
+    masterConvolver.buffer = convolverBuffer._buffer;
+});
 delay.connect(masterConvolver);
 masterConvolver.toMaster();
-
-// finalFilter.frequency.value = 80;
-// finalFilter.Q.value = 0.01;
 
 // TO DO:
 // - only trigger output on mousedown
@@ -204,4 +196,3 @@ function personEnters() {
 function personLeaves() {
   doorClose.start();
 }
-

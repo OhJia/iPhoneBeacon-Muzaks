@@ -325,8 +325,16 @@ function tweakBeaconSound(beacon) {
       indexModulos[3] = indexModulo;
       break;
   }
-
   //console.log(indexModulos);
+}
 
+// toggle play mode when play button is clicked
+
+var playMode = true;
+
+function playClicked(e) {
+  playMode = !playMode;
+
+  // change SVG
 }
 
