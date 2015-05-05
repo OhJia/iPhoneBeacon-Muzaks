@@ -246,11 +246,18 @@ function updateNearestBeacon(beacons)
 				    pos_x: null,
 				    pos_y: null
 				};
-				console.log(beacon);
-			
+
+				creatureEnterSound();
+
 			// Otherwise update the rssi
 			} else {
 				creatures[minor].rssi = beacon.rssi;
+			}
+
+			// if creature rssi is zero, play creatureLeavesSound()
+			if (creatures[minor].rssi === 0) {
+				creatureLeaveSound();
+				// TO DO: remove beacon until its RSSI is not 0
 			}
 
 			// update otherMinors

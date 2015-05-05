@@ -66,17 +66,6 @@ var handleDeviceMotionEvent = function(e) {
 
   if (maxAcc > 2 && triggered < 0.2) {
     triggered = 1;
-    // masterMix.gain.cancelScheduledValues(Tone.context.currentTime);
-    // masterMix.gain.exponentialRampToValueAtTime(1, Tone.context.currentTime + 0.02);
-    // if (!playMode) {
-    //   masterMix.gain.setTargetAtTime(0.002, Tone.context.currentTime + 8, 0.2);
-    // }
-    // var freq = constrain( map(maxAcc, 10, 70, 3000, 1050), 220, 20000);
-    // masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 0.01 );
-    // else {
-    // triggered *= 0.95;
-    // masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 3 );
-    // masterFilter.Q.exponentialRampToValueAtTime(1, masterFilter.now() + 3 );
   }
 
   var freq = constrain( map(triggered, 0, 1, 20, 18000), 20, 20000);
@@ -97,12 +86,3 @@ var handleDeviceMotionEvent = function(e) {
   }
 
 }
-
-
-// NOTES
-// 
-// aol
-// - door open / closed when somebody enters
-// - 
-// 
-// delay sounds

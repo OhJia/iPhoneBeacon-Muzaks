@@ -200,10 +200,10 @@ var doorClose = new Tone.Player('audio/skype/skype_callFailedNICE.mp3');
 doorOpen.toMaster();
 doorClose.toMaster();
 
-function personEnters() {
+function creatureEnterSound() {
   doorOpen.start();
 }
 
-function personLeaves() {
+function creatureLeaveSound() {
   doorClose.start();
 }
