@@ -336,6 +336,13 @@ function playClicked(e) {
   playMode = !playMode;
 
   // change SVG
+  if (playMode){
+    $('#play-on').hide();
+    $('#pause-off').show();
+  } else {
+    $('#play-on').show();
+    $('#pause-off').hide();
+  }
 
   toggleLoops(playMode);
 }
