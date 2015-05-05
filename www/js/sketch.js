@@ -161,7 +161,7 @@ function touchEnd(e) {
 function showTappedInfo(creature){
   if (tapped){
     fill(0, 200);
-    rect(creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
+    rect(creature.pos_x-2, creature.pos_y+30, textWidth(creature.id)+10, 30);
     fill(255);
     text(creature.id, creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
   }

@@ -127,29 +127,59 @@ a.anchor-link.ui-btn{
 	background-color:#e4e4e4;
 }
 
+#pocket li {
+	padding: 4%;
+}
+
 #pocket .profile-img{
 	width: 40px;
 	height: 40px;
 	background-color: blue;
 	border-radius: 50%;
 	display: inline-block;
+	margin: 0 8px 0 0;
+	vertical-align: top;
+	float: left;
 }
 
 #pocket .profile-id {
-	width: 70%;
-	display: inline-block;
+	min-height: 40px;
+}
+#pocket .profile-id h1 {
+	margin-top: 5px;
+	line-height: 1.5em;
+	text-overflow: ellipsis;
+}
+#pocket .mo-info {
+	float: right;
+	text-align: right;
+}
+#pocket .mo-info p {
+	font-size: 14px;
 }
 
 #back-to-main {
-
 	float:right;
 	margin-right:10px;
 	margin-bottom: 30px;
+}
+#back-to-main svg path:first-child {
+	-webkit-filter: drop-shadow( 0 2px 3px rgba(0,0,0,.2) );
+    		filter: drop-shadow( 0 2px 3px rgba(0,0,0,.2) );
 }
 
 #info-to-main {
 
 	margin-left:10px;
 	margin-bottom: 30px;
+}
+
+#info h1 {
+	color: white;
+	text-shadow: none;
+	display: block;
+	text-align: center;
+	top: 100px;
+	margin-top:200px;
 }
 

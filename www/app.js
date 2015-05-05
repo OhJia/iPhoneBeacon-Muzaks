@@ -82,7 +82,7 @@ var app = (function()
 
 	function onDeviceReady()
 	{
-		alert('device ready!!!')
+		//alert('device ready!!!')
 
  		startMonitoringAndRanging();
  
@@ -117,7 +117,7 @@ var app = (function()
 
 	function startNearestBeaconDisplayTimer()
 	{
-		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 10);
+		mNearestBeaconDisplayTimer = setInterval(displayNearestBeacon, 1000);
 	}
 
 	function stopNearestBeaconDisplayTimer()
@@ -238,7 +238,7 @@ function updateNearestBeacon(beacons)
 			if (typeof(creatures[minor]) == 'undefined') {
 				creatures[minor] = {
 				    minor: minor,
-				    id: 'creature x',
+				    id: 'someone',
 				    sound: null,
 				    time: null,
 				    rssi: beacon.rssi,
@@ -299,8 +299,14 @@ function updateNearestBeacon(beacons)
 		//if (!mNearestBeacon) { return; }
 		//if (Object.keys(creatures).length <= 0) {return;}
 		
-		// Clear element.
-		$('#beacon').empty();
+		// Clear old beacons.
+		var creatureKeys = Object.keys(creatures);
+		$('#beacon li').each(function() {
+			var id = $(this).data('minor');
+			if (creatureKeys.indexOf(id) == -1) {
+				$(this).remove();
+			}
+		})
  
 		for (var minor in creatures) {
 			// Update element.
@@ -316,14 +322,22 @@ function updateNearestBeacon(beacons)
 			// 	+ '</li>'
 			// 	);
 
-			var element = $(
-				'<li>'
-				+	'<div class="profile-img"></div>'
-				+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
-				+	'<div class="mo-info"><p>'+creatures[minor].minor+'</p><p>'+creatures[minor].rssi+'</p></div>'
-				+ '</li>'
-				);
-			$('#beacon').append(element);
+			// Update existing beacon
+			if ($('#beacon-' + minor).size() > 0) {
+				$('#beacon-' + minor +' .rssi').text(creatures[minor].rssi);
+			
+			// Add new beacon if not exist
+			} else {
+				var element = $(
+					'<li id="beacon-' + minor + '">'
+					+	'<div class="profile-img"></div>'
+					+	'<div class="mo-info"><p>'+creatures[minor].minor+'</p><p class="rssi">'+creatures[minor].rssi+'</p></div>'
+					+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
+					+ '</li>'
+					);
+				element.data('minor', minor);
+				$('#beacon').append(element);
+			}
 
 			//changeBpm(creatures[minor].rssi);
 			if (creatures[minor].rssi === 0) {

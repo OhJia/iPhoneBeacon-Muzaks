@@ -98,7 +98,6 @@ function playAIM() {
   // var pitchIndex = Math.floor( Math.random() * pitchScale.length);
   // var pitch = pitchScale[pitchIndex];
   // aimSampler.pitch = pitch;
-
   aimSampler.pitch = pattern[iPat % pattern.length] + pitchOffset;
   iPat++;
 
