@@ -54,7 +54,6 @@ delay.connect(masterConvolver);
 masterConvolver.toMaster();
 
 // TO DO:
-// - only trigger output on mousedown
 // - door open sound
 // - beat only happens when other people are around
 // - trigger sounds when you click on them
@@ -180,6 +179,18 @@ function setupDrumPattern2() {
   }, "4m");
 
   drumIntervals.push(x);
+}
+
+function toggleLoops(playMode) {
+  if (!playMode) {
+    for (var i = 0; i < drumIntervals.length; i++) {
+      Tone.Transport.clearInterval(drumIntervals[i]);
+    }
+  } else {
+    // pick a random drum loop
+    var x = Math.random();
+    x > 0.5 ? setupDrumPattern1() : setupDrumPattern2();
+  }
 }
 
 ////// person enter / leaving: play AOL door open/close

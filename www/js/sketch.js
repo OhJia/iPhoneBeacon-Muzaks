@@ -336,5 +336,7 @@ function playClicked(e) {
   playMode = !playMode;
 
   // change SVG
+
+  toggleLoops(playMode);
 }
 

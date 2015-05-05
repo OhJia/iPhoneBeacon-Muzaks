@@ -66,9 +66,11 @@ var handleDeviceMotionEvent = function(e) {
 
   if (maxAcc > 2 && triggered < 0.2) {
     triggered = 1;
-    masterMix.gain.cancelScheduledValues(Tone.context.currentTime);
-    masterMix.gain.exponentialRampToValueAtTime(1, Tone.context.currentTime + 0.02);
-    masterMix.gain.setTargetAtTime(0.002, Tone.context.currentTime + 8, 0.2);
+    // masterMix.gain.cancelScheduledValues(Tone.context.currentTime);
+    // masterMix.gain.exponentialRampToValueAtTime(1, Tone.context.currentTime + 0.02);
+    // if (!playMode) {
+    //   masterMix.gain.setTargetAtTime(0.002, Tone.context.currentTime + 8, 0.2);
+    // }
     // var freq = constrain( map(maxAcc, 10, 70, 3000, 1050), 220, 20000);
     // masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 0.01 );
     // else {
@@ -88,7 +90,11 @@ var handleDeviceMotionEvent = function(e) {
   masterFilter.Q.setTargetAtTime(q, masterFilter.now() + .03, 0.8 );
 
   // decay - TO DO only decay if there are no touches OR if Play is false
-  triggered *= 0.95;
+  if (!playMode) {
+    triggered *= 0.95;
+  } else {
+    triggered = 1;
+  }
 
 }
 
