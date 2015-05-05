@@ -25,6 +25,22 @@ a.pocket-bttn.ui-btn {
 	float: left;
 }
 
+
+#pocket-bttn-home {
+	text-align: center;
+	display:block;
+}
+
+#play-bttn-home {
+	text-align: center;
+	display:block;
+}
+
+#info-bttn-home {
+	text-align: center;
+	display:block;
+}
+
 #p5Container, #p5Container canvas {
 	display: block;
 	margin: 0;
@@ -35,6 +51,7 @@ a.pocket-bttn.ui-btn {
 }
 
 .footer {
+	padding-bottom: 30px;
 	position: fixed;
 	display: block;
 	bottom: 0;
@@ -45,15 +62,35 @@ a.pocket-bttn.ui-btn {
 	height: 60px;
 	z-index: 10;
 	border-top: none;
-	padding-bottom: 0;
 }
+
+#pocket .footer {
+	padding-bottom: 60px;
+}
+
+#info .footer {
+	padding-bottom: 60px;
+}
+
+#info {
+	background-color: black;
+}
+
 .footer td a {
 	display: inline-block;
 }
+
 .footer td a svg {
-	width: 40px;
-	height: 40px;
+	width: 45px;
+	height: 45px;
 }
+
+.footer a svg {
+	width: 105px;
+	height: 105px;
+}
+
+
 .footer td a svg path, .footer td a svg polygon {
 	/* TO CHANGE SVG COLOR, ** USE "fill" **, NOT "background-color", NOT "color" */
 	fill: #ffffff;
@@ -62,10 +99,10 @@ a.pocket-bttn.ui-btn {
 	fill: #ff00ff;
 }*/
 
-.info-bttn {
+/*.info-bttn {
 	text-align: right;
 	float: right;
-}
+}*/
 
 .play-bttn {
 	text-align: center;
@@ -76,3 +113,21 @@ a.anchor-link.ui-btn{
 	background: none;
 	border: none;
 }
+
+#pocket {
+	background-color:#e4e4e4;
+}
+
+#back-to-main {
+
+	float:right;
+	margin-right:10px;
+	margin-bottom: 30px;
+}
+
+#info-to-main {
+
+	margin-left:10px;
+	margin-bottom: 30px;
+}
+
