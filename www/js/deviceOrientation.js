@@ -77,7 +77,7 @@ var handleDeviceMotionEvent = function(e) {
     // masterFilter.Q.exponentialRampToValueAtTime(1, masterFilter.now() + 3 );
   }
 
-  var freq = constrain( map(triggered, 0, 1, 80, 18000), 80, 20000);
+  var freq = constrain( map(triggered, 0, 1, 20, 18000), 20, 20000);
 
   var q = constrain( map(triggered, 0, 1, 0.01, 10), 20, 0.01);
 
