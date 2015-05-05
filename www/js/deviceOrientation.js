@@ -64,7 +64,7 @@ var handleDeviceMotionEvent = function(e) {
       maxAccGravity = Math.max(accGravity.x, accGravity.y, accGravity.z);
 
 
-  if (maxAcc > 2 && triggered < 0.2) {
+  if (maxAcc > 2 && triggered < 0.2 && playMode) {
     triggered = 1;
   }
 

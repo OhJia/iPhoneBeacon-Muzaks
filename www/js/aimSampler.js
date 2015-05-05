@@ -14,6 +14,12 @@ var pattern = [-12];
 
 ///////////// MASTER OUTPUT MIX
 
+var highPass = new Tone.Filter();
+highPass.type = 'highpass';
+highPass.frequency.value = 70;
+highPass.Q.value = 0.2;
+highPass.toMaster();
+
 // everything connects to the MasterMix, then to WetDry to control convolution and filter
 var masterMix = Tone.context.createGain();
 
@@ -33,34 +39,31 @@ var finalEQ = new Tone.EQ(-4, -12, -3);
 finalEQ.lowFrequency.value = 105;
 finalEQ.highFrequency.value = 4700;
 masterWetDry.connect(finalEQ);
-finalEQ.toMaster();
+// finalEQ.toMaster();
+finalEQ.connect(highPass);
 
 var delay = new Tone.FeedbackDelay('8n', 0.12);
 
 var delayFilter = new Tone.Filter();
+
 delayFilter.output.gain.value = 0.02;
 delay.output.gain.value = 0.02;
 delayFilter.connect(delay);
 delay.connect(delayFilter);
 masterWetDry.connect(delay);
-delayFilter.toMaster();
-delay.toMaster();
+// delayFilter.toMaster();
+// delay.toMaster();
+delayFilter.connect(highPass);
+delay.connect(highPass);
 
 var masterConvolver = Tone.context.createConvolver();
 var convolverBuffer = new Tone.Buffer('./audio/IR/small-plate.mp3', function() {
     masterConvolver.buffer = convolverBuffer._buffer;
 });
 delay.connect(masterConvolver);
-masterConvolver.toMaster();
+// masterConvolver.toMaster();
+masterConvolver.connect(highPass);
 
-// TO DO:
-// - door open sound
-// - beat only happens when other people are around
-// - trigger sounds when you click on them
-// - use play button. when you press, it plays everything. Otherwise, it just plays the one dot sound.
-// - distance for both volume and Tempo
-// - playOtherSound()
-// - lowpass filter everything
 
 function initAIMSampler(index) {
   var samplePath = aimSamplePaths[index];
@@ -76,7 +79,8 @@ function initAIMSampler(index) {
     '4' : 'audio/aim/rmblock.wav',
     '5' : 'audio/bongo_02.mp3',
     '6' : 'audio/triangle_01.mp3',
-    '7' : 'audio/triangle_03.mp3'
+    '7' : 'audio/triangle_03.mp3',
+    'me' : samplePath
   });
 
   aimSampler.connect(masterMix);
@@ -87,7 +91,7 @@ function initAIMSampler(index) {
 
   //document.addEventListener('mousedown', playOtherSound);
 
-  setupDrumPattern1();
+  // setupDrumPattern1();
 }
 
 function playAIM() {
@@ -111,6 +115,9 @@ Tone.Transport.setInterval(function(time){
 
 Tone.Transport.bpm.value = 132;
 
+Tone.Buffer.onload = function() {
+  Tone.Transport.start();
+}
 
 function playOtherSound() {
   var pitchIndex = Math.floor( Math.random() * aimInDown.pitchScale.length);
@@ -180,15 +187,24 @@ function setupDrumPattern2() {
   drumIntervals.push(x);
 }
 
+
 function toggleLoops(playMode) {
   if (!playMode) {
     for (var i = 0; i < drumIntervals.length; i++) {
       Tone.Transport.clearInterval(drumIntervals[i]);
     }
-  } else {
+  }
+
+  // if there are no other beacons, use the default loop
+  else if (otherMinors.length === 0) {
     // pick a random drum loop
     var x = Math.random();
     x > 0.5 ? setupDrumPattern1() : setupDrumPattern2();
+  }
+
+  // if there are beacons and playMode is true, start loop based on RSSI's
+  else {
+    startDrumRssiLoop();
   }
 }
 
@@ -199,10 +215,106 @@ var doorClose = new Tone.Player('audio/skype/skype_callFailedNICE.mp3');
 doorOpen.toMaster();
 doorClose.toMaster();
 
-function creatureEnterSound() {
+function creatureEnterSound(minor) {
   doorOpen.start();
+
+  addDrumForCreature(minor);
 }
 
 function creatureLeaveSound() {
   doorClose.start();
+}
+
+
+// trigger my sound
+function attackMySound() {
+  var time = Tone.Transport.now();
+
+  // change pith
+  drumSampler.pitch = pitchOffset;
+
+  drumSampler.triggerAttack('me', time);
+  triggered = 1;
+  masterFilter.frequency.cancelScheduledValues(masterFilter.now());
+  masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 0.1 );
+}
+
+// release my sound
+function releaseMySound() {
+  var time = Tone.Transport.now();
+  drumSampler.triggerRelease('me', time);
+  var freq = constrain( map(triggered, 0, 1, 20, 18000), 20, 20000);
+  masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 3 );
+}
+
+
+//////////// Drum playback & Loops based on RSSI
+
+function startDrumRSSILoop() {
+
+  var x = Tone.Transport.setInterval(playAllTheDrums32, "32n");
+  drumIntervals.push(x);
+
+  x =  Tone.Transport.setInterval(playAllTheDrums16, "16n");
+  drumIntervals.push(x);
+
+  x = Tone.Transport.setInterval(playAllTheDrums4, "4n");
+  drumIntervals.push(x);
+}
+
+
+// every 32nd note, decide whether to play each drum based on its creature's RSSI and some randomness...
+function playAllTheDrums32(time) {
+  var rScale = 0.5;
+
+  for (var i = 0; i < otherMinors.length; i++) {
+    var _minor = otherMinors[i];
+    var _rssi = creatures[_minor].rssi;
+    var randomness = Math.random() * rScale;
+    var rssiMap = map(_rssi, -80, -20, 0, 1);
+    if (randomness + rssiMap > 1.45) {
+      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+      playDrumBasedOnMinor(_minor, time, velocity);
+    }
+  }
+}
+
+// every 16th note, decide whether to play each drum based on its creature's RSSI and some randomness...
+function playAllTheDrums16(time) {
+  var rScale = 0.62;
+
+  for (var i = 0; i < otherMinors.length; i++) {
+    var _minor = otherMinors[i];
+    var _rssi = creatures[_minor].rssi;
+    var randomness = Math.random() * rScale;
+    var rssiMap = map(_rssi, -80, -20, 0, 1);
+    if (randomness + rssiMap > 1.45) {
+      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+      playDrumBasedOnMinor(_minor, time, velocity);
+    }
+  }
+}
+
+// every 1/4 note
+function playAllTheDrums4(time) {
+  var rScale = 0.9;
+
+  for (var i = 0; i < otherMinors.length; i++) {
+    var _minor = otherMinors[i];
+    var _rssi = creatures[_minor].rssi;
+    var randomness = Math.random() * rScale;
+    var rssiMap = map(_rssi, -80, -20, 0, 1);
+    if (randomness + rssiMap > 1.5) {
+      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+      playDrumBasedOnMinor(_minor, time, velocity);
+    }
+  }
+}
+
+// play the drum samples
+function playDrumBasedOnMinor(_minor, time, velocity) {
+  var t = time || Tone.Transport.now();
+  var v = velocity || 1;
+  var whichDrum = otherMinors.indexOf(Number(_minor)) + 1;
+  drumSampler.triggerAttack(whichDrum, time, v);
 }
