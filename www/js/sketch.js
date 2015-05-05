@@ -21,19 +21,6 @@ var tappedC, tapped;
 //   pos_y: null
 // }
 
-var synths = new Array(4);
-var counters = [new Array(100), new Array(100), new Array(100), new Array(100)];
-var indexes = [0, 0, 0, 0];
-// var indexModulos = [20, 33, 10, 66]; // good for tests
-
-var indexModulos = [10000, 10000, 10000, 10000]; // good for tests
-
-for (var i = 0; i < counters.length; i++) {
-  counters[i][0] = 1; 
-}
-
-var ampReader;
-
 var bgColor;
 
 function setup() {
@@ -50,7 +37,6 @@ function setup() {
   // pos2003 = random(50, 300);
   center_tapped = false;
 
-  initSound();
   setupDeviceEvents();
 
   center_tapped = true;
@@ -148,7 +134,9 @@ function touchStart(e){
       creatures[minor].tapped = true;
       tapped = true; // to show creature info
       // alert('rssi: '+creatures[minor].rssi+'\n'+'minor: '+ minor+'\n'+'');
-      // playOtherSound();
+
+      var velocity = map(creatures[minor].rssi, -80, -20, 0.1, 0.9);
+      playDrumBasedOnMinor(minor, Tone.Transport.now(), velocity);
 
       // play their sound
       return false;     

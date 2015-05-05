@@ -99,7 +99,7 @@ function initAIMSampler(index) {
 
   //document.addEventListener('mousedown', playOtherSound);
 
-  setupDrumPattern1();
+  // setupDrumPattern1();
 }
 
 function playAIM() {
@@ -201,10 +201,18 @@ function toggleLoops(playMode) {
     for (var i = 0; i < drumIntervals.length; i++) {
       Tone.Transport.clearInterval(drumIntervals[i]);
     }
-  } else {
+  }
+
+  // if there are no other beacons, use the default loop
+  else if (otherMinors.length === 0) {
     // pick a random drum loop
     var x = Math.random();
     x > 0.5 ? setupDrumPattern1() : setupDrumPattern2();
+  }
+
+  // if there are beacons and playMode is true, start loop based on RSSI's
+  else {
+    startDrumRssiLoop();
   }
 }
 
@@ -247,93 +255,74 @@ function releaseMySound() {
   masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 3 );
 }
 
-/**
- *  set up drum to represent each possible minor, to play back at a variable interval tied to RSSI
- *  @return {[type]} [description]
- */
-// function setupPatternForCreatures() {
-//   drumIntervals.push(x);
-// }
 
-// play drums to represent each creature
-function addDrumForCreature(minor) {
+//////////// Drum playback & Loops based on RSSI
 
+function startDrumRSSILoop() {
+
+  var x = Tone.Transport.setInterval(playAllTheDrums32, "32n");
+  drumIntervals.push(x);
+
+  x =  Tone.Transport.setInterval(playAllTheDrums16, "16n");
+  drumIntervals.push(x);
+
+  x = Tone.Transport.setInterval(playAllTheDrums4, "4n");
+  drumIntervals.push(x);
 }
 
 
-function initSound() {
+// every 32nd note, decide whether to play each drum based on its creature's RSSI and some randomness...
+function playAllTheDrums32(time) {
+  var rScale = 0.5;
 
-  // for (var i = 0; i < synths.length; i++) {
-  //   synths[i] = new Tone.MonoSynth();
-  //   synths[i].oscillator.type = "sine";
-  //   synths[i].toMaster();
-  // }
-
-  // Tone.Transport.setInterval(play2000, "32n");
-  // Tone.Transport.setInterval(play2001, "32n");
-  // Tone.Transport.setInterval(play2002, "32n");
-  // Tone.Transport.setInterval(play2003, "32n");
-
+  for (var i = 0; i < otherMinors.length; i++) {
+    var _minor = otherMinors[i];
+    var _rssi = creatures[_minor].rssi;
+    var randomness = Math.random() * rScale;
+    var rssiMap = map(_rssi, -80, -20, 0, 1);
+    if (randomness + rssiMap > 1.45) {
+      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+      playDrumBasedOnMinor(_minor, time, velocity);
+    }
+  }
 }
 
+// every 16th note, decide whether to play each drum based on its creature's RSSI and some randomness...
+function playAllTheDrums16(time) {
+  var rScale = 0.62;
 
-// function play2000(time) {
-//   var i = indexes[0]++ % indexModulos[0];
-//   if (counters[0][i] === 1 ) {
-//     synths[0].triggerAttackRelease('C4', 0.12, Tone.Transport.now(), 0.1 );
-//   }
-// }
-
-// function play2001(time) {
-//   var i = indexes[1]++ % indexModulos[1];
-//   if (counters[1][i] === 1 ) {
-//     synths[1].triggerAttackRelease('E4', 0.1, Tone.Transport.now(), 0.1 );
-//   }
-// }
-
-// function play2002(time) {
-//   var i = indexes[2]++ % indexModulos[2];
-//   if (counters[2][i] === 1 ) {
-//     synths[2].triggerAttackRelease('G3', 0.1, Tone.Transport.now(), 0.1);
-//   }
-// }
-
-// function play2003(time) {
-//   var i = indexes[3]++ % indexModulos[3];
-//   if (counters[3][i] === 1 ) {
-//     synths[3].triggerAttackRelease('D4', 0.1, Tone.Transport.now(), 0.1 );
-//   }
-// }
-
-// var tempos = [100/4, 100/8*3, 100/2, 100];
-
-
-function tweakBeaconSound(beacon) {
-  // var intervals[beacon.minor]
-
-  var minor = beacon.minor;
-  var rssi = beacon.rssi;
-  var indexModulo = Math.round( map(rssi, -80, -20, 50, 2) );
-
-  if (rssi === 0) {
-    indexModulo = 10000000;
+  for (var i = 0; i < otherMinors.length; i++) {
+    var _minor = otherMinors[i];
+    var _rssi = creatures[_minor].rssi;
+    var randomness = Math.random() * rScale;
+    var rssiMap = map(_rssi, -80, -20, 0, 1);
+    if (randomness + rssiMap > 1.45) {
+      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+      playDrumBasedOnMinor(_minor, time, velocity);
+    }
   }
+}
 
-  //console.log('tweakin beacon' + minor);
+// every 1/4 note
+function playAllTheDrums4(time) {
+  var rScale = 0.9;
 
-  switch(Number(minor)) {
-    case 2000:
-      indexModulos[0] = indexModulo;
-      break;
-    case 2001:
-      indexModulos[1] = indexModulo;
-      break;
-    case 2002:
-      indexModulos[2] = indexModulo;
-      break;
-    case 2003:
-      indexModulos[3] = indexModulo;
-      break;
+  for (var i = 0; i < otherMinors.length; i++) {
+    var _minor = otherMinors[i];
+    var _rssi = creatures[_minor].rssi;
+    var randomness = Math.random() * rScale;
+    var rssiMap = map(_rssi, -80, -20, 0, 1);
+    if (randomness + rssiMap > 1.5) {
+      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+      playDrumBasedOnMinor(_minor, time, velocity);
+    }
   }
-  //console.log(indexModulos);
+}
+
+// play the drum samples
+function playDrumBasedOnMinor(_minor, time, velocity) {
+  var t = time || Tone.Transport.now();
+  var v = velocity || 1;
+  var whichDrum = otherMinors.indexOf(Number(_minor)) + 1;
+  drumSampler.triggerAttack(whichDrum, time, v);
 }
