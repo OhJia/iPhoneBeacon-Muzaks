@@ -87,10 +87,8 @@ var handleDeviceMotionEvent = function(e) {
 
   masterFilter.Q.setTargetAtTime(q, masterFilter.now() + .03, 0.8 );
 
-  // only decay if there are no touches
-  if (touches.length === 0) {
-    triggered *= 0.95;
-  }
+  // decay - TO DO only decay if there are no touches OR if Play is false
+  triggered *= 0.95;
 
 }
 

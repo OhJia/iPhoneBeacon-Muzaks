@@ -1,9 +1,9 @@
 // INSTRUMENTS
 var aimSampler, aimInDown, drumSampler;
 
-var aimSamplePaths = ['audio/fb/fb2.mp3', 'audio/apple/apple.wav', 'audio/aim/im.wav'];
+var aimSamplePaths = ['audio/fb/fb2.mp3', 'audio/whatsapp/whatsappmsg.mp3', 'audio/windows/messenger.mp3', 'audio/apple/apple.wav', 'audio/aim/im.wav'];
 
-var doorOpen = new Tone.Player() doorClose;
+var doorOpen = new Tone.Player('') doorClose;
 
 // either choose from a scale
 var pitchScale = [-12, -9, -7, -5, 0, 2];
