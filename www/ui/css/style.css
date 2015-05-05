@@ -31,6 +31,15 @@ a.pocket-bttn.ui-btn {
 	display:block;
 }
 
+#pocket .ui-header {
+	height:40px;
+	color: #a3a3a3;
+	background-color: transparent !important;
+	padding-top: 40px;
+	padding-left: 15px;
+	border-bottom: none;
+}
+
 #play-bttn-home {
 	text-align: center;
 	display:block;
@@ -116,6 +125,19 @@ a.anchor-link.ui-btn{
 
 #pocket {
 	background-color:#e4e4e4;
+}
+
+#pocket .profile-img{
+	width: 40px;
+	height: 40px;
+	background-color: blue;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+#pocket .profile-id {
+	width: 70%;
+	display: inline-block;
 }
 
 #back-to-main {
