@@ -1,6 +1,10 @@
 // INSTRUMENTS
 var aimSampler, aimInDown, drumSampler;
 
+var aimSamplePaths = ['audio/fb/fb2.mp3', 'audio/apple/apple.wav', 'audio/aim/im.wav'];
+
+var doorOpen = new Tone.Player() doorClose;
+
 // either choose from a scale
 var pitchScale = [-12, -9, -7, -5, 0, 2];
 var pitchOffset = 0;
@@ -46,14 +50,24 @@ masterFilter.connect(masterConvolver, 0, 0);
 masterFilter.connect(masterWetDry, 0, 1);
 masterFilter.Q.value = 10;
 masterFilter.frequency.value = 0;
-masterFilter.type = 'highpass';
+masterFilter.type = 'lowpass';
 // wetDry goes to master
 masterWetDry.toMaster();
 
+// TO DO:
+// - only trigger output on mousedown
+// - door open sound
+// - beat only happens when other people are around
+// - trigger sounds when you click on them
+// - use play button. when you press, it plays everything. Otherwise, it just plays the one dot sound.
+// - distance for both volume and Tempo
+// - playOtherSound()
 
+function initAIMSampler(index) {
 
-function initAIMSampler() {
-  aimSampler = new Tone.Sampler('audio/aim/im.wav');
+  var samplePath = aimSamplePaths[index];
+
+  aimSampler = new Tone.Sampler(samplePath);
 
   aimInDown = new Tone.Sampler('audio/aim/imIn.mp3');
 
@@ -73,7 +87,7 @@ function initAIMSampler() {
 
   aimInDown.pitchScale = [-13, -6, -8, -25];
 
-  document.addEventListener('mousedown', playOtherSound);
+  //document.addEventListener('mousedown', playOtherSound);
 
   setupDrumPattern1();
 }
@@ -166,5 +180,16 @@ function setupDrumPattern2() {
   }, "4m");
 
   drumIntervals.push(x);
-
 }
+
+////// person enter / leaving: play AOL door open/close
+
+
+function personEnters() {
+  doorOpen.start();
+}
+
+function personLeaves() {
+  doorClose.start();
+}
+

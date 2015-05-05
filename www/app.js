@@ -9,8 +9,7 @@ var app = (function()
 	// Nearest ranged beacon.
 	var mNearestBeacon = null;
 
-	// all the beacons!
-	var allTheBeacons = {};
+	
 	var rssiObj = {};
 
 	// Timer that displays nearby beacons.
@@ -81,21 +80,23 @@ var app = (function()
 
 	function onDeviceReady()
 	{
+		alert('device ready!!!')
 
-		alert("device ready");
-
-		startMonitoringAndRanging();
-
+ 		startMonitoringAndRanging();
+ 
+		//startMonitoringAndRanging().then(advertiser.startAdvertising);
 		startNearestBeaconDisplayTimer();
 
 		displayRegionEvents();
-
-		//startMonitoringAndRanging().then(advertiser.startAdvertising);
+ 
 		// wait to start advertising so that we know who else is advertising
 		setTimeout(function() {
 			// start the advertiser
 			advertiser.startAdvertising();
-		}, 5000); // wait till finish monitoring all other minors to advertise. better way?
+			// startMonitoringAndRanging();
+			// startNearestBeaconDisplayTimer();
+			// displayRegionEvents();
+		}, 1000);
 	}
 
 
@@ -230,7 +231,31 @@ function updateNearestBeacon(beacons)
 			var beacon = beacons[i];
 			//console.log(beacon);
 			var minor = String(beacon.minor);
-			allTheBeacons[minor] = beacon;
+			
+			// Add new
+			if (typeof(creatures[minor]) == 'undefined') {
+				creatures[minor] = {
+				    minor: minor,
+				    id: 'creature x',
+				    sound: null,
+				    time: null,
+				    rssi: beacon.rssi,
+				    radians: -120,
+				    color: [0,0,255],
+				    tapped: true, // do ripple
+				    pos_x: null,
+				    pos_y: null
+				};
+				console.log(beacon);
+			
+			// Otherwise update the rssi
+			} else {
+				creatures[minor].rssi = beacon.rssi;
+			}
+
+			// update otherMinors
+			otherMinors = Object.keys(creatures);
+			console.log(otherMinors);
 
 			if (!mNearestBeacon)
 			{
@@ -246,12 +271,12 @@ function updateNearestBeacon(beacons)
 			}
 		}
 
-		//console.log(allTheBeacons);
+		//console.log(creatures);
 
 		// access each beacon by its minor (key)
-		for (var minor in allTheBeacons) {
-			//console.log(allTheBeacons[minor]);
-			tweakBeaconSound(allTheBeacons[minor]);
+		for (var minor in creatures) {
+			//console.log(creatures[minor]);
+			tweakBeaconSound(creatures[minor]);
 		}
 
 
@@ -260,42 +285,41 @@ function updateNearestBeacon(beacons)
 	function displayNearestBeacon()
 	{
 		//if (!mNearestBeacon) { return; }
-		//if (Object.keys(allTheBeacons).length <= 0) {return;}
+		//if (Object.keys(creatures).length <= 0) {return;}
 		
 		// Clear element.
 		$('#beacon').empty();
  
-		for (var minor in allTheBeacons) {
- 
+		for (var minor in creatures) {
 			// Update element.
 			var element = $(
 				'<li>'
 				+	'<strong>Nearest Beacon</strong><br />'
-				+	'UUID: ' + allTheBeacons[minor].uuid + '<br />'
-				+	'Major: ' + allTheBeacons[minor].major + '<br />'
-				+	'Minor: ' + allTheBeacons[minor].minor + '<br />'
-				+	'Proximity: ' + allTheBeacons[minor].proximity + '<br />'
-				+	'Distance: ' + allTheBeacons[minor].accuracy + '<br />'
-				+	'RSSI: ' + allTheBeacons[minor].rssi + '<br />'
+				+	'UUID: ' + creatures[minor].uuid + '<br />'
+				+	'Major: ' + creatures[minor].major + '<br />'
+				+	'Minor: ' + creatures[minor].minor + '<br />'
+				+	'Proximity: ' + creatures[minor].proximity + '<br />'
+				+	'Distance: ' + creatures[minor].accuracy + '<br />'
+				+	'RSSI: ' + creatures[minor].rssi + '<br />'
 				+ '</li>'
 				);
 			$('#beacon').append(element);
 
-			//changeBpm(allTheBeacons[minor].rssi);
-			if (allTheBeacons[minor].rssi === 0) {
+			//changeBpm(creatures[minor].rssi);
+			if (creatures[minor].rssi === 0) {
 				rssiObj[minor] = 0;
-			} else if (allTheBeacons[minor].rssi < 0) {
-				// rssiObj[minor] = 200 + allTheBeacons[minor].rssi * 3;
-				rssiObj[minor] = Math.abs(allTheBeacons[minor].rssi);
+			} else if (creatures[minor].rssi < 0) {
+				// rssiObj[minor] = 200 + creatures[minor].rssi * 3;
+				rssiObj[minor] = Math.abs(creatures[minor].rssi);
 			} 
 		}	
 
 		// changeSize(rssiObj[2003], rssiObj[2002], rssiObj[2001]);
-		changeSize(rssiObj);
+		//changeSize(rssiObj);
 						
 
 
-			// changeBpm(allTheBeacons[minor].rssi);
+			// changeBpm(creatures[minor].rssi);
 		}
 	//}
 

@@ -1,5 +1,4 @@
 var uuid = 'DA5336AE-2042-453A-A57F-F80DD34DFCD9'; // this will be the same for all beacons
-// var identifier = 'jaBeacon'; // this will be a random default name
 var identifier = 'randommm'; // this will be a random default name
 var minor = null; // this will be randomly generated
 var major = 5; // this will be the same for all beacons
@@ -15,26 +14,28 @@ var possibleMinors = [2000, 2001, 2002, 2003, 2004];
  *  @return {Number}                new minor number
  */
 function generateMinor() {
-
     minorToReturn = null;
     console.log("other minors: "+ otherMinors);
 
     for (var i = 0; i < possibleMinors.length && !minorToReturn; i++) {
         if (otherMinors.indexOf( String(possibleMinors[i]) ) < 0) {
             minorToReturn = possibleMinors[i];
+
+            // also init sound based on this index
+            initAIMSampler(i);
+
         }
     }
 
     return minorToReturn;
 }
 
-
 var advertiser = (function() {
 
     var advertiser = {};
 
     advertiser.startAdvertising = function() {
-        // generate minor
+        alert('the advertisement begins');
         minor = generateMinor();
 
         console.log('My minor: ' + minor);
