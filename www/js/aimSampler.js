@@ -87,6 +87,11 @@ function initAIMSampler(index) {
   aimInDown.connect(masterMix);
   drumSampler.connect(masterMix);
 
+  var drumGain = Tone.context.createGain();
+  drumGain.gain.value = 0.4;
+  drumSampler.connect(drumGain);
+  drumGain.connect(masterConvolver);
+
   aimInDown.pitchScale = [-13, -6, -8, -25];
 
   //document.addEventListener('mousedown', playOtherSound);
@@ -204,7 +209,7 @@ function toggleLoops(playMode) {
 
   // if there are beacons and playMode is true, start loop based on RSSI's
   else {
-    startDrumRssiLoop();
+    startDrumRSSILoop();
   }
 }
 
@@ -265,7 +270,7 @@ function startDrumRSSILoop() {
 
 // every 32nd note, decide whether to play each drum based on its creature's RSSI and some randomness...
 function playAllTheDrums32(time) {
-  var rScale = 0.5;
+  var rScale = 0.6;
 
   for (var i = 0; i < otherMinors.length; i++) {
     var _minor = otherMinors[i];
@@ -281,7 +286,7 @@ function playAllTheDrums32(time) {
 
 // every 16th note, decide whether to play each drum based on its creature's RSSI and some randomness...
 function playAllTheDrums16(time) {
-  var rScale = 0.62;
+  var rScale = 0.72;
 
   for (var i = 0; i < otherMinors.length; i++) {
     var _minor = otherMinors[i];
@@ -317,4 +322,5 @@ function playDrumBasedOnMinor(_minor, time, velocity) {
   var v = velocity || 1;
   var whichDrum = otherMinors.indexOf(Number(_minor)) + 1;
   drumSampler.triggerAttack(whichDrum, time, v);
+  console.log('playing drum ' + _minor);
 }

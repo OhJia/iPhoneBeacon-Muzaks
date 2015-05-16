@@ -98,7 +98,7 @@ var app = (function()
 			startMonitoringAndRanging();
 			startNearestBeaconDisplayTimer();
 			displayRegionEvents();
-		}, 5000);
+		}, 2000);
 	}
 
 
@@ -132,7 +132,7 @@ var app = (function()
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
-			displayRecentRegionEvent();
+			// displayRecentRegionEvent();
 		}
 
 		function onDidRangeBeaconsInRegion(result)
