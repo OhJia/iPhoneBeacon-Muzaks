@@ -132,7 +132,7 @@ var app = (function()
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
-			// displayRecentRegionEvent();
+			displayRecentRegionEvent();
 		}
 
 		function onDidRangeBeaconsInRegion(result)
