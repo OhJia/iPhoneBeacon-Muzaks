@@ -1,11 +1,16 @@
 // INSTRUMENTS
 var aimSampler, aimInDown, drumSampler;
 
-var aimSamplePaths = ['audio/windows/messenger.mp3', 'audio/apple/apple.wav', 'audio/aim/im.wav', 'audio/whatsapp/whatsappmsg.mp3', 'audio/fb/fb2.mp3', 'audio/skype/skypeContinueCall.mp3'];
+
+var aimSamplePaths = ['a0.mp3', 'a1.wav', 'a2.mp3', 'a3.mp3', 'a4.wav'];
 
 // either choose from a scale
+
 var pitchScale = [-12, -9, -7, -5, 0, 2, 7];
 var pitchOffset = 0;
+var pitcher = 22;
+
+var drumPitchOffset = 0;
 
 // or play a pattern
 var iPat = 0;
@@ -31,8 +36,8 @@ var masterFilter = new Tone.Filter();
 masterMix.connect(masterFilter);
 // masterFilter.connect(masterConvolver, 0, 0);
 masterFilter.connect(masterWetDry, 0, 1);
-masterFilter.Q.value = 10;
-masterFilter.frequency.value = 0;
+masterFilter.Q.value = 3;
+masterFilter.frequency.value = 20;
 masterFilter.type = 'lowpass';
 // wetDry goes to master
 var finalEQ = new Tone.EQ(-4, -12, -3);
@@ -70,18 +75,23 @@ function initAIMSampler(index) {
 
   aimSampler = new Tone.Sampler(samplePath);
 
-  aimInDown = new Tone.Sampler('audio/aim/imIn.mp3');
+  aimInDown = new Tone.Sampler('b1.mp3');
 
   drumSampler = new Tone.Sampler( {
     '1' : 'audio/bongo_01.mp3',
-    '2' : 'audio/aim/thwap.mp3',
-    '3' : 'audio/fb/fbPercussion1.mp3',
+    // '2' : 'audio/aim/thwap.mp3',
+    // '3' : 'audio/fb/fbPercussion1.mp3',
+    '2' : 'audio/tom_01.wav',
+    '3' : 'audio/dink_04.mp3',
     '4' : 'audio/aim/rmblock.wav',
     '5' : 'audio/bongo_02.mp3',
     '6' : 'audio/triangle_01.mp3',
     '7' : 'audio/triangle_03.mp3',
     'me' : samplePath
   });
+
+  drumSampler.envelope.attack = 0.02;
+  drumSampler.envelope.release = 0.50;
 
   aimSampler.connect(masterMix);
   aimInDown.connect(masterMix);
@@ -103,24 +113,33 @@ function playAIM() {
   // var pitchIndex = Math.floor( Math.random() * pitchScale.length);
   // var pitch = pitchScale[pitchIndex];
   // aimSampler.pitch = pitch;
-  aimSampler.pitch = pattern[iPat % pattern.length] + pitchOffset;
-  iPat++;
+  if (typeof(aimSampler) !== 'undefined' && aimSampler._buffers[0].loaded) {
+    aimSampler.pitch = pattern[iPat % pattern.length] + pitchOffset;
 
-  aimSampler.triggerAttack(0);
+    iPat++;
+
+    aimSampler.triggerAttack(0);
+
+  }
+  
 }
 
-Tone.Transport.setInterval(playAIM, "4n");
-Tone.Transport.setInterval(function(time){
-    aimInDown.pitch = 12;
-
-    aimInDown.triggerAttack(0, time);
-
-  }, "14 * 1n");
 
 Tone.Transport.bpm.value = 132;
 
 Tone.Buffer.onload = function() {
   Tone.Transport.start();
+
+  Tone.Transport.setInterval(playAIM, "4n");
+
+  Tone.Transport.setInterval(function(time){
+    if (typeof(aimInDown) !== 'undefined' && aimInDown._buffers[0].loaded) {
+
+      aimInDown.pitch = 12;
+
+      aimInDown.triggerAttack(0, time);
+    }
+  }, "14 * 1n");
 }
 
 function playOtherSound() {
@@ -214,8 +233,8 @@ function toggleLoops(playMode) {
 
 ////// person enter / leaving: play AOL door open/close
 
-var doorOpen = new Tone.Player('audio/skype/skype_signInHIFI.mp3');
-var doorClose = new Tone.Player('audio/skype/skype_callFailedNICE.mp3');
+var doorOpen = new Tone.Player('audio/s0.mp3');
+var doorClose = new Tone.Player('audio/s1.mp3');
 doorOpen.toMaster();
 doorClose.toMaster();
 
@@ -234,11 +253,16 @@ function creatureLeaveSound() {
 function attackMySound() {
   var time = Tone.Transport.now();
 
-  // change pith
+  // change pitch
   drumSampler.pitch = pitchOffset;
 
   drumSampler.triggerAttack('me', time);
   triggered = 1;
+
+  var oldFreq = masterFilter.frequency.value;
+  masterFilter.frequency.setValueAtTime(oldFreq, masterFilter.now() );
+
+
   masterFilter.frequency.cancelScheduledValues(masterFilter.now());
   masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 0.5 );
 }
@@ -246,7 +270,7 @@ function attackMySound() {
 // release my sound
 function releaseMySound() {
   var time = Tone.Transport.now();
-  drumSampler.triggerRelease('me', time);
+  drumSampler.triggerRelease(time);
   var freq = constrain( map(triggered, 0, 1, 20, 18000), 20, 20000);
   masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 3 );
 }
@@ -279,10 +303,9 @@ function playAllTheDrums32(time) {
 
     var tapped = creatures[String(_minor)].tapped;
 
-    if (randomness * rssiMap > 80 && tapped < 5) {
+    if (randomness * rssiMap > 80 && tapped < 15) {
       var velocity = map(_rssi, -120, -20, 0.1, 0.7);
       playDrumBasedOnMinor(_minor, time, velocity);
-      console.log('32');
 
       tapCreature(_minor);
     }
@@ -296,7 +319,6 @@ function playAllTheDrums16(time) {
     var _minor = otherMinors[i];
     var _rssi = creatures[_minor].rssi;
     var randomness = Math.random();
-    // var rssiMap = map(_rssi, -80, -10, 0.5, 1);
     var rssiMap = logScale(_rssi);
 
     var tapped = creatures[String(_minor)].tapped;
@@ -326,8 +348,6 @@ function playAllTheDrums4(time) {
     if (randomness * rssiMap > 50 && tapped < 10) {
       var velocity = map(_rssi, -120, -20, 0.1, 0.9);
       playDrumBasedOnMinor(_minor, time, velocity);
-      console.log('4');
-
       tapCreature(_minor);
     }
   }
@@ -338,7 +358,9 @@ function playDrumBasedOnMinor(_minor, time, velocity) {
   var t = time || Tone.Transport.now();
   var v = velocity || 1;
   var whichDrum = possibleMinors.indexOf(Number(_minor)) + 1;
-  drumSampler.triggerAttack(whichDrum, time, v);
+  drumSampler.pitch = drumPitchOffset;
+  // drumSampler.triggerRelease(time);
+  drumSampler.triggerAttack(whichDrum, time + 0.02, v);
 }
 
 // thank you http://stackoverflow.com/a/846249/2994108

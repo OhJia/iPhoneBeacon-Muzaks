@@ -44,12 +44,16 @@ var handleOrientationEvent = function(e) {
   ]
 
   var p = Math.round( map(alpha, 0, 360, 0, 12) );
-  pitchOffset = pitchScale[p % pitchScale.length];
+  pitchOffset = pitchScale[p % pitchScale.length] + pitcher;
+
+  p = Math.round( map(beta, -90, 90, 0, 12) );
+  drumPitchOffset = pitchScale[p % pitchScale.length];
+
 
 }
 
 
-var triggered = 0;
+var triggered = 0, prevTriggered = 0;
 
 var handleDeviceMotionEvent = function(e) {
 
@@ -66,17 +70,8 @@ var handleDeviceMotionEvent = function(e) {
 
   if (maxAcc > 2 && triggered < 0.2 && playMode) {
     triggered = 1;
+
   }
-
-  var freq = constrain( map(triggered, 0, 1, 20, 18000), 20, 20000);
-
-  var q = constrain( map(triggered, 0, 1, 0.01, 10), 20, 0.01);
-
-  masterFilter.frequency.cancelScheduledValues(masterFilter.now());
-  // masterFilter.frequency.setValue
-  masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 0.01 );
-
-  masterFilter.Q.setTargetAtTime(q, masterFilter.now() + .03, 0.8 );
 
   // decay - TO DO only decay if there are no touches OR if Play is false
   if (!playMode) {
@@ -84,5 +79,34 @@ var handleDeviceMotionEvent = function(e) {
   } else {
     triggered = 1;
   }
+
+  // trigger masterFilter --> On
+  if (triggered >= 0.95 && prevTriggered < 0.95) {
+
+    var oldFreq = masterFilter.frequency.value;
+    var oldQ = masterFilter.Q.value;
+
+    masterFilter.frequency.cancelScheduledValues(masterFilter.now());
+    masterFilter.frequency.setValueAtTime(oldFreq, masterFilter.now() );
+   
+    masterFilter.Q.cancelScheduledValues(masterFilter.now());
+    masterFilter.Q.setValueAtTime(oldQ, masterFilter.now() );
+
+    masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 0.02);
+    masterFilter.Q.exponentialRampToValueAtTime(20, masterFilter.now() + 0.02 );
+    masterFilter.output.gain.cancelScheduledValues(masterFilter.now());
+    masterFilter.output.gain.linearRampToValueAtTime(1, masterFilter.now() + 0.002 );
+
+  }
+
+  // fade out
+  else if (triggered < 0.8) {
+    var rampTime = 1;
+    masterFilter.Q.setTargetAtTime(1, masterFilter.now() + rampTime, 0.9 );
+    masterFilter.frequency.setTargetAtTime(40, masterFilter.now() + rampTime, 0.9);
+    masterFilter.output.gain.setTargetAtTime(0, masterFilter.now() + rampTime*2, 0.999 );
+  }
+
+  prevTriggered = triggered;
 
 }
