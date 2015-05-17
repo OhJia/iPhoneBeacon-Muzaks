@@ -5,7 +5,7 @@
         dist/dans generates music based on proximity to the people around you.
     </description>
     <author email="hello@distdans.com" href="http://distdans.com">
-        Jia Wu / Jason Sigal
+        Jiashan Wu / Jason Sigal
     </author>
     <icon src="www/icons/icon.png" />
     <content src="index.html" />
