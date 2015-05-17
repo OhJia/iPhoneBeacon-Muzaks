@@ -131,8 +131,8 @@ function draw() {
       if (creatures[minor].tapped && creatures[minor].tapped >= 0) {
         //console.log(creatures[minor]);
         fill(color(creatures[minor].color[0], creatures[minor].color[1], creatures[minor].color[2],creatures[minor].tapped * 10.2)); // (25 steps, need to be based on 255 for opacity)
-        creatures[minor].pos_x = center_x + creatures[minor].rssi * cos(radians(creatures[minor].radians));
-        creatures[minor].pos_y = center_y + creatures[minor].rssi * sin(radians(creatures[minor].radians));
+        creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
+        creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
         creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (40 - creatures[minor].rssi/10) + (25 - creatures[minor].tapped), 40 - creatures[minor].rssi/10 + (25 - creatures[minor].tapped) ); // increase size of ellipse as fade out
         
         --creatures[minor].tapped; // decrement to 0
@@ -140,8 +140,8 @@ function draw() {
 
 
       fill(creatures[minor].color);
-      creatures[minor].pos_x = center_x + creatures[minor].rssi * cos(radians(creatures[minor].radians));
-      creatures[minor].pos_y = center_y + creatures[minor].rssi * sin(radians(creatures[minor].radians));
+      creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
+      creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
       creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, 40 - creatures[minor].rssi/10, 40 - creatures[minor].rssi/10);
       //creatures[minor].radians = creatures[minor].radians+0.2;
     }
@@ -168,27 +168,31 @@ function touchStart(e){
   e.preventDefault();
 
   if (tapped === true) tapped = false;
-  
+
+  var tX = e.originalEvent.touches[0].pageX;
+  var tY = e.originalEvent.touches[0].pageY;
+
   // detect if creature is touched
   for (var minor in creatures){
     var cx = creatures[minor].pos_x;
     var cy = creatures[minor].pos_y;
     
-    if (dist(cx,cy,touchX,touchY) < 30) {
+    if (dist(cx,cy,tX,tY) < 30) {
       creatures[minor].tapped = true;
+      tappedC = creatures[String(minor)];
       tapped = true; // to show creature info
-      // alert('rssi: '+creatures[minor].rssi+'\n'+'minor: '+ minor+'\n'+'');
 
       var velocity = map(creatures[minor].rssi, -120, -20, 0.7, 0.9);
-      playDrumBasedOnMinor(minor, Tone.Transport.now(), velocity);
-      console.log('play from tap');
+
       // play their sound
+      playDrumBasedOnMinor(minor, Tone.Transport.now(), velocity);
+
       return false;     
     }
   }
 
   // detect if center is touched
-  if (dist(center_x,center_y,touchX,touchY) < 50) {
+  if (dist(center_x,center_y,tX,tY) < 50) {
     center_tapped = true;
     attackMySound();
     return false;
