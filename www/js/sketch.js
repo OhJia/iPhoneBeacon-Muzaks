@@ -10,16 +10,55 @@ var distance;
 var background_color = [255,128,255]
 var center_tapped = false;
 
-var creatures = {};
+/** uncomment this when not testing **/
+// var creatures = {};
+
+/** TESTING ONLY --> **/
+var creatures = {
+  '2000' : {
+    'minor' : 2000,
+    'rssi' : -20,
+    'pos_x' : 1,
+    'pos_y' : 3,
+    'color' : [250, 0, 0],
+    'radians' : 45,
+    'tapped' : true
+  },
+  '2001' : {
+    'minor' : 2000,
+    'rssi' : -50,
+    'pos_x' : 1,
+    'pos_y' : 3,
+    'color' : [0, 250, 0],
+    'radians' : 180,
+    'tapped' : true
+  },
+  '2002' : {
+    'minor' : 2000,
+    'rssi' : -70,
+    'pos_x' : 1,
+    'pos_y' : 3,
+    'color' : [0, 0, 250],
+    'radians' : 90,
+    'tapped' : true
+  },
+  '2003' : {
+    'minor' : 2000,
+    'rssi' : -50,
+    'pos_x' : 1,
+    'pos_y' : 3,
+    'color' : [0, 250, 250],
+    'radians' : 270,
+    'tapped' : true
+  }
+}
+otherMinors = Object.keys(creatures);
+/** <-- end testing **/
+
+
 var dist;
 var tappedC, tapped;
 
-// var Creatures = {
-//   rssi: null,
-//   minor: null,
-//   pos_x: null,
-//   pos_y: null
-// }
 
 var bgColor;
 
@@ -115,6 +154,11 @@ function draw() {
 
 }
 
+// called when a sound is played to inflate the creature size
+function tapCreature(minorNumber) {
+  creatures[String(minorNumber)].tapped = 25; // set increment value
+}
+
 // $("#p5Container").click(touchEnd);
 $('#p5Container').on('touchstart', touchStart);
 $('#p5Container').on('touchend', touchEnd);
@@ -135,9 +179,9 @@ function touchStart(e){
       tapped = true; // to show creature info
       // alert('rssi: '+creatures[minor].rssi+'\n'+'minor: '+ minor+'\n'+'');
 
-      var velocity = map(creatures[minor].rssi, -80, -20, 0.1, 0.9);
+      var velocity = map(creatures[minor].rssi, -120, -20, 0.7, 0.9);
       playDrumBasedOnMinor(minor, Tone.Transport.now(), velocity);
-
+      console.log('play from tap');
       // play their sound
       return false;     
     }

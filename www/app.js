@@ -267,7 +267,6 @@ function updateNearestBeacon(beacons)
 
 			// update otherMinors
 			otherMinors = Object.keys(creatures);
-			console.log(otherMinors);
 
 			if (!mNearestBeacon)
 			{
@@ -288,7 +287,7 @@ function updateNearestBeacon(beacons)
 		// access each beacon by its minor (key)
 		for (var minor in creatures) {
 			//console.log(creatures[minor]);
-			tweakBeaconSound(creatures[minor]);
+			// tweakBeaconSound(creatures[minor]);
 		}
 
 
