@@ -2,7 +2,7 @@
 var aimSampler, aimInDown, drumSampler;
 
 
-var aimSamplePaths = ['audio/windows/messenger_.mp3', 'audio/apple/apple_.wav', 'audio/skype/skypeContinueCall_.mp3', 'audio/fb/fb2_.mp3', 'audio/aim/im_.wav'];
+var aimSamplePaths = ['a0.mp3', 'a1.wav', 'a2.mp3', 'a3.mp3', 'a4.wav'];
 
 // either choose from a scale
 
@@ -75,7 +75,7 @@ function initAIMSampler(index) {
 
   aimSampler = new Tone.Sampler(samplePath);
 
-  aimInDown = new Tone.Sampler('audio/aim/imIn.mp3');
+  aimInDown = new Tone.Sampler('b1.mp3');
 
   drumSampler = new Tone.Sampler( {
     '1' : 'audio/bongo_01.mp3',
@@ -233,8 +233,8 @@ function toggleLoops(playMode) {
 
 ////// person enter / leaving: play AOL door open/close
 
-var doorOpen = new Tone.Player('audio/skype/skype_signInHIFI.mp3');
-var doorClose = new Tone.Player('audio/skype/skype_callFailedNICE.mp3');
+var doorOpen = new Tone.Player('audio/s0.mp3');
+var doorClose = new Tone.Player('audio/s1.mp3');
 doorOpen.toMaster();
 doorClose.toMaster();
 
