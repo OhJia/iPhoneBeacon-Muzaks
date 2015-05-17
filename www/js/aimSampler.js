@@ -2,7 +2,7 @@
 var aimSampler, aimInDown, drumSampler;
 
 
-var aimSamplePaths = ['a0.mp3', 'a1.wav', 'a2.mp3', 'a3.mp3', 'a4.wav'];
+var aimSamplePaths = ['audio/a0.mp3', 'audio/a1.wav', 'audio/a2.mp3', 'audio/a3.mp3', 'audio/a4.wav'];
 
 // either choose from a scale
 
@@ -75,7 +75,7 @@ function initAIMSampler(index) {
 
   aimSampler = new Tone.Sampler(samplePath);
 
-  aimInDown = new Tone.Sampler('b1.mp3');
+  aimInDown = new Tone.Sampler('audio/b1.mp3');
 
   drumSampler = new Tone.Sampler( {
     '1' : 'audio/bongo_01.mp3',
@@ -83,7 +83,7 @@ function initAIMSampler(index) {
     // '3' : 'audio/fb/fbPercussion1.mp3',
     '2' : 'audio/tom_01.wav',
     '3' : 'audio/dink_04.mp3',
-    '4' : 'audio/aim/rmblock.wav',
+    '4' : 'audio/rmblock.wav',
     '5' : 'audio/bongo_02.mp3',
     '6' : 'audio/triangle_01.mp3',
     '7' : 'audio/triangle_03.mp3',
