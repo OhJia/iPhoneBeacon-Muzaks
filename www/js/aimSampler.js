@@ -87,6 +87,11 @@ function initAIMSampler(index) {
   aimInDown.connect(masterMix);
   drumSampler.connect(masterMix);
 
+  var drumGain = Tone.context.createGain();
+  drumGain.gain.value = 0.4;
+  drumSampler.connect(drumGain);
+  drumGain.connect(masterConvolver);
+
   aimInDown.pitchScale = [-13, -6, -8, -25];
 
   //document.addEventListener('mousedown', playOtherSound);
@@ -195,7 +200,7 @@ function toggleLoops(playMode) {
   }
 
   // if there are no other beacons, use the default loop
-  else if (otherMinors.length === 0) {
+  else if (otherMinors.length === 0 && Object.keys(creatures).length === 0) {
     // pick a random drum loop
     var x = Math.random();
     x > 0.5 ? setupDrumPattern1() : setupDrumPattern2();
@@ -203,7 +208,7 @@ function toggleLoops(playMode) {
 
   // if there are beacons and playMode is true, start loop based on RSSI's
   else {
-    startDrumRssiLoop();
+    startDrumRSSILoop();
   }
 }
 
@@ -235,7 +240,7 @@ function attackMySound() {
   drumSampler.triggerAttack('me', time);
   triggered = 1;
   masterFilter.frequency.cancelScheduledValues(masterFilter.now());
-  masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 0.1 );
+  masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 0.5 );
 }
 
 // release my sound
@@ -264,48 +269,66 @@ function startDrumRSSILoop() {
 
 // every 32nd note, decide whether to play each drum based on its creature's RSSI and some randomness...
 function playAllTheDrums32(time) {
-  var rScale = 0.5;
 
   for (var i = 0; i < otherMinors.length; i++) {
     var _minor = otherMinors[i];
     var _rssi = creatures[_minor].rssi;
-    var randomness = Math.random() * rScale;
-    var rssiMap = map(_rssi, -80, -20, 0, 1);
-    if (randomness + rssiMap > 1.45) {
-      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+    var randomness = Math.random();
+    var rssiMap = logScale(_rssi);
+    // var rssiMap = map(logRSSI, 1, 100, 0.5, 1);
+
+    var tapped = creatures[String(_minor)].tapped;
+
+    if (randomness * rssiMap > 80 && tapped < 5) {
+      var velocity = map(_rssi, -120, -20, 0.1, 0.7);
       playDrumBasedOnMinor(_minor, time, velocity);
+      console.log('32');
+
+      tapCreature(_minor);
     }
   }
 }
 
 // every 16th note, decide whether to play each drum based on its creature's RSSI and some randomness...
 function playAllTheDrums16(time) {
-  var rScale = 0.62;
 
   for (var i = 0; i < otherMinors.length; i++) {
     var _minor = otherMinors[i];
     var _rssi = creatures[_minor].rssi;
-    var randomness = Math.random() * rScale;
-    var rssiMap = map(_rssi, -80, -20, 0, 1);
-    if (randomness + rssiMap > 1.45) {
-      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+    var randomness = Math.random();
+    // var rssiMap = map(_rssi, -80, -10, 0.5, 1);
+    var rssiMap = logScale(_rssi);
+
+    var tapped = creatures[String(_minor)].tapped;
+
+    if (randomness * rssiMap > 75 && tapped < 10) {
+      var velocity = map(_rssi, -120, -20, 0.1, 0.8);
       playDrumBasedOnMinor(_minor, time, velocity);
+
+      tapCreature(_minor);
     }
+
   }
 }
 
 // every 1/4 note
 function playAllTheDrums4(time) {
-  var rScale = 0.9;
 
   for (var i = 0; i < otherMinors.length; i++) {
     var _minor = otherMinors[i];
     var _rssi = creatures[_minor].rssi;
-    var randomness = Math.random() * rScale;
-    var rssiMap = map(_rssi, -80, -20, 0, 1);
-    if (randomness + rssiMap > 1.5) {
-      var velocity = map(_rssi, -80, -20, 0.1, 0.9);
+    var randomness = Math.random();
+
+    var rssiMap = logScale(_rssi);
+
+    var tapped = creatures[String(_minor)].tapped;
+
+    if (randomness * rssiMap > 50 && tapped < 10) {
+      var velocity = map(_rssi, -120, -20, 0.1, 0.9);
       playDrumBasedOnMinor(_minor, time, velocity);
+      console.log('4');
+
+      tapCreature(_minor);
     }
   }
 }
@@ -314,6 +337,22 @@ function playAllTheDrums4(time) {
 function playDrumBasedOnMinor(_minor, time, velocity) {
   var t = time || Tone.Transport.now();
   var v = velocity || 1;
-  var whichDrum = otherMinors.indexOf(Number(_minor)) + 1;
+  var whichDrum = possibleMinors.indexOf(Number(_minor)) + 1;
   drumSampler.triggerAttack(whichDrum, time, v);
+}
+
+// thank you http://stackoverflow.com/a/846249/2994108
+function logScale(num) {
+  // rssi will be between -120 and -10
+  var minp = -120;
+  var maxp = -10;
+
+  // The result should be between 50 an 100
+  var minv = Math.log(20);
+  var maxv = Math.log(100);
+
+  // calculate adjustment factor
+  var scale = (maxv-minv) / (maxp-minp);
+
+  return Math.exp(minv + scale*(num-minp));
 }
