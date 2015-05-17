@@ -21,6 +21,12 @@ var app = (function()
 	// Background notification id counter.
 	var mNotificationId = 0;
 
+	// parse
+	// Parse.initialize("nFP8dKA5DuspZfsi0uIWDHMLicCMO8ZjaxvDjug2", "U55ZOoqJBF1GfAWvbZJEhEF34Z3i9Hv45ZtI5FPX");
+	// var TestObject = Parse.Object.extend("TestObject");
+	// var testObject = new TestObject();
+	// console.log(TestObject);
+
 	// Mapping of region event state names.
 	// These are used in the event display string.
 	var mRegionStateNames =
@@ -73,7 +79,7 @@ var app = (function()
 
 	app.initialize = function()
 	{
-
+		alert('init')
 		document.addEventListener('deviceready', onDeviceReady, false);
 		document.addEventListener('pause', onAppToBackground, false);
 		document.addEventListener('resume', onAppToForeground, false);
@@ -82,7 +88,7 @@ var app = (function()
 
 	function onDeviceReady()
 	{
-		//alert('device ready!!!')
+		alert('device ready!!!')
 
  		startMonitoringAndRanging();
  
@@ -99,6 +105,11 @@ var app = (function()
 			startNearestBeaconDisplayTimer();
 			displayRegionEvents();
 		}, 2000);
+
+		// testObject.save({foo: "bar"}).then(function(object) {
+		//   alert("yay! it worked");
+		// });
+
 	}
 
 
