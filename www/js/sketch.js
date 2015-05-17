@@ -11,7 +11,8 @@ var background_color = [255,128,255]
 var center_tapped = false;
 
 /** uncomment this when not testing **/
-// var creatures = {};
+//var creatures = {};
+var cCount;
 
 /** TESTING ONLY --> **/
 var creatures = {
@@ -22,7 +23,9 @@ var creatures = {
     'pos_y' : 3,
     'color' : [250, 0, 0],
     'radians' : 45,
-    'tapped' : true
+    'tapped' : true,
+    'id' : 'Sleepy Taiga',
+    'info' : 'I\'m sleepy. Stay happy.'
   },
   '2001' : {
     'minor' : 2000,
@@ -31,7 +34,9 @@ var creatures = {
     'pos_y' : 3,
     'color' : [0, 250, 0],
     'radians' : 180,
-    'tapped' : true
+    'tapped' : true,
+    'id' : 'Sleepy Taiga',
+    'info' : 'I\'m sleepy. Stay happy.'
   },
   '2002' : {
     'minor' : 2000,
@@ -40,7 +45,9 @@ var creatures = {
     'pos_y' : 3,
     'color' : [0, 0, 250],
     'radians' : 90,
-    'tapped' : true
+    'tapped' : true,
+    'id' : 'Sleepy Taiga',
+    'info' : 'I\'m sleepy. Stay happy.'
   },
   '2003' : {
     'minor' : 2000,
@@ -49,7 +56,9 @@ var creatures = {
     'pos_y' : 3,
     'color' : [0, 250, 250],
     'radians' : 270,
-    'tapped' : true
+    'tapped' : true,
+    'id' : 'Sleepy Taiga',
+    'info' : 'I\'m sleepy. Stay happy.'
   }
 }
 otherMinors = Object.keys(creatures);
@@ -79,6 +88,7 @@ function setup() {
   setupDeviceEvents();
 
   center_tapped = true;
+  cCount = 0;
 }
 
 function draw() {
@@ -118,6 +128,11 @@ function draw() {
     // draw center
     fill(color(255,255,255));
     ellipse(center_x, center_y, 50, 50);
+
+    // update count
+    cCount = Object.keys(creatures).length;
+    console.log(cCount);
+    $('#left-count').html(cCount);
 		
     // draw each creature
     //var pos_x, pos_y;
@@ -208,6 +223,10 @@ function showTappedInfo(creature){
     rect(creature.pos_x-2, creature.pos_y+30, textWidth(creature.id)+10, 30);
     fill(255);
     text(creature.id, creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
+    fill(0, 200);
+    rect(creature.pos_x-2, creature.pos_y+70, textWidth(creature.info)+10, 30);
+    fill(255);
+    text(creature.info, creature.pos_x, creature.pos_y+70, textWidth(creature.info)+10, 30);
   }
 }
 

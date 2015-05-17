@@ -238,7 +238,8 @@ function updateNearestBeacon(beacons)
 			if (typeof(creatures[minor]) == 'undefined') {
 				creatures[minor] = {
 				    minor: minor,
-				    id: 'someone',
+				    id: 'sleepy taiga',
+				    info: 'I\'m sleepy. Be Happy.',
 				    sound: null,
 				    time: null,
 				    rssi: beacon.rssi,
@@ -327,15 +328,42 @@ function updateNearestBeacon(beacons)
 			
 			// Add new beacon if not exist
 			} else {
+				// var element = $(
+				// 	'<li id="beacon-' + minor + '">'
+				// 	+	'<div class="profile-img"></div>'
+				// 	+	'<div class="mo-info"><p>'+creatures[minor].minor+'</p><p class="rssi">'+creatures[minor].rssi+'</p></div>'
+				// 	+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
+				// 	+ '</li>'
+				// 	);
+				// element.data('minor', minor);
+
 				var element = $(
 					'<li id="beacon-' + minor + '">'
 					+	'<div class="profile-img"></div>'
-					+	'<div class="mo-info"><p>'+creatures[minor].minor+'</p><p class="rssi">'+creatures[minor].rssi+'</p></div>'
-					+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
+					+	'<div class="profile-middle">'
+						+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
+						+	'<div class="profile-info"><p>'+ creatures[minor].minor + creatures[minor].info+'</p></div>'
+						+	'<div class="profile-dist-time"><p>'+creatures[minor].rssi + 'for x min</p></div>'
+					+	'</div>'
+					+	'<div class="profile-play">'
+					+ 		'<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 39.8 39.5" enable-background="new 0 0 39.8 39.5" xml:space="preserve"><circle fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" cx="19.6" cy="19.6" r="18.4"/><polygon fill="#CCCCCC" points="15,11.4 29.5,19.7 15,28.1 "/></svg>'
+					+	'</div>'
 					+ '</li>'
 					);
 				element.data('minor', minor);
+				
 				$('#beacon').append(element);
+
+				// <li id="beacon-x">
+				// 	<div class="profile-img"></div>
+				// 	<div class ="profile-id"><h1>creatures[minor].id</h1></div>
+				// 	<div class="profile-info">creatures[minor].minor + creatures[minor].info</div>
+				// 	<div class="profile-dist-time">creatures[minor].rssi + 'for x min'</div>
+				// 	<div class="profile-play">
+				// 		<svg version="1.1" id="play-on" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve"><polygon fill="#F1F1F2" points="128,86.8 411,250.1 128,413.5 "/></svg>
+				// 	</div>
+
+				// </li>
 			}
 
 			//changeBpm(creatures[minor].rssi);
