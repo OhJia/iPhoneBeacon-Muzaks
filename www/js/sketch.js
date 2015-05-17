@@ -22,7 +22,8 @@ var creatures = {
     'pos_y' : 3,
     'color' : [250, 0, 0],
     'radians' : 45,
-    'tapped' : true
+    'tapped' : true,
+    'id' : '2000'
   },
   '2001' : {
     'minor' : 2000,
@@ -31,7 +32,8 @@ var creatures = {
     'pos_y' : 3,
     'color' : [0, 250, 0],
     'radians' : 180,
-    'tapped' : true
+    'tapped' : true,
+    'id' : '2001'
   },
   '2002' : {
     'minor' : 2000,
@@ -40,7 +42,8 @@ var creatures = {
     'pos_y' : 3,
     'color' : [0, 0, 250],
     'radians' : 90,
-    'tapped' : true
+    'tapped' : true,
+    'id' : '2002'
   },
   '2003' : {
     'minor' : 2000,
@@ -49,7 +52,8 @@ var creatures = {
     'pos_y' : 3,
     'color' : [0, 250, 250],
     'radians' : 270,
-    'tapped' : true
+    'tapped' : true,
+    'id' : '2003'
   }
 }
 otherMinors = Object.keys(creatures);
@@ -150,8 +154,16 @@ function draw() {
       showTappedInfo(tappedC);
     }
 
-    
+  updateCreatures();
 
+}
+
+// rotate creatures
+function updateCreatures() {
+  var creatureList = Object.keys(creatures);
+  for (var i = 0; i < creatureList.length; i++) {
+    creatures[creatureList[i]].radians += sin(creatures[creatureList[i]].rssi);
+  }
 }
 
 // called when a sound is played to inflate the creature size
