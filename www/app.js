@@ -79,7 +79,7 @@ var app = (function()
 
 	app.initialize = function()
 	{
-		alert('init')
+		//alert('init')
 		document.addEventListener('deviceready', onDeviceReady, false);
 		document.addEventListener('pause', onAppToBackground, false);
 		document.addEventListener('resume', onAppToForeground, false);
@@ -88,7 +88,7 @@ var app = (function()
 
 	function onDeviceReady()
 	{
-		alert('device ready!!!')
+		//alert('device ready!!!')
 
  		startMonitoringAndRanging();
  
