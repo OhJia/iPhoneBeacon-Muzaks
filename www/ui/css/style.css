@@ -316,6 +316,10 @@ a.anchor-link.ui-btn{
 	box-shadow: -10px -12px 12px -12px rgba(0,0,0,.6);
 }
 
+#pause-off rect {
+	fill: black;
+}
+
 #pocket-to-main {
 	float:right; 
 	display:block;
