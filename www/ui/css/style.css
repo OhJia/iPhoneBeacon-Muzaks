@@ -48,11 +48,13 @@ a.pocket-bttn.ui-btn {
 
 p {
 	font-size: 14px;
+	text-shadow: none;
 }
 
 h1, h2 {
 	text-shadow: none;
 	font-family: 'GothamBold';
+	text-shadow: none;
 }
 
 h1 {
@@ -69,11 +71,34 @@ h2 {
 	box-shadow: 2px 4px 12px -12px #000;
 }
 
+#beacon-2000 {
+	background-color: #82e6b1;
+}
+
+#beacon-2001 {
+	background-color: #8dcecb;
+}
+
+#beacon-2002 {
+	background-color: #f3abab;
+}
+
+#beacon-2003 {
+	background-color: #f9cb9c;
+}
+
+#beacon-2004 {
+	background-color: #ef926a;
+}
+
+
 .pocket-headers {
 	position: relative;
 	height:70px;
 	left:20px;
-	top: 50px;
+	top: 40px;
+	color: #4d4d4d;
+	text-shadow: none;
 }
 
 #pocket-bttn-home {
@@ -226,7 +251,7 @@ a.anchor-link.ui-btn{
 }
 
 #pocket {
-	background-color:#e4e4e4;
+	background-color:black;
 }
 
 #pocket li {
@@ -287,7 +312,7 @@ a.anchor-link.ui-btn{
 	width:100px;
 	height:100px;
 	border-radius: 30px;
-	background-color: black;
+	background-color: transparent;
 	box-shadow: -10px -12px 12px -12px rgba(0,0,0,.6);
 }
 

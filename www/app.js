@@ -356,15 +356,17 @@ function updateNearestBeacon(beacons)
 					+	'<div class="profile-img"><img src=\'ui/images/covers/'+creatures[minor].coverSrc+'\'></div>'
 					+	'<div class="profile-middle">'
 						+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
-						+	'<div class="profile-info"><p>'+ creatures[minor].minor + creatures[minor].info+'</p></div>'
-						+	'<div class="profile-dist-time"><p>'+creatures[minor].rssi + 'for x min</p></div>'
+						+	'<div class="profile-info"><p>'+ creatures[minor].info+'</p></div>'
+						+	'<div class="profile-dist-time"><p>rssi: '+creatures[minor].rssi + '</p></div>'
 					+	'</div>'
 					+	'<div class="profile-play" ontouchstart=playDrumBasedOnMinor('+minor+')>'
-					+ 		'<svg version="1.1" id="playButton_' + minor + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 39.8 39.5" enable-background="new 0 0 39.8 39.5" xml:space="preserve"><circle fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" cx="19.6" cy="19.6" r="18.4"/><polygon fill="#CCCCCC" points="15,11.4 29.5,19.7 15,28.1 "/></svg>'
+					+ 		'<svg version="1.1" id="playButton_' + minor + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 612 792" enable-background="new 0 0 612 792" xml:space="preserve"><circle fill="#020202" cx="301.4" cy="393.7" r="282.9"/><polygon fill="#FFFFFF" points="216.7,267.6 439.6,395.2 216.7,524.4 "/></svg>'
 					+	'</div>'
 					+ '</li>'
 					);
 				element.data('minor', minor);
+
+				
 				
 				$('#beacon').append(element);
 
