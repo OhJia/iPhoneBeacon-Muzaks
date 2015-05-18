@@ -249,8 +249,8 @@ function updateNearestBeacon(beacons)
 			if (typeof(creatures[minor]) == 'undefined') {
 				creatures[minor] = {
 				    minor: minor,
-				    id: 'sleepy taiga',
-				    info: 'I\'m sleepy. Be Happy.',
+				    id: devices[minor].id,
+				    info: devices[minor].info,
 				    sound: null,
 				    time: null,
 				    rssi: beacon.rssi,
@@ -258,7 +258,8 @@ function updateNearestBeacon(beacons)
 				    color: [0,0,255],
 				    tapped: true, // do ripple
 				    pos_x: null,
-				    pos_y: null
+				    pos_y: null,
+				    coverSrc: devices[minor].coverSrc  
 				};
 
 				creatureEnterSound();
@@ -350,7 +351,7 @@ function updateNearestBeacon(beacons)
 
 				var element = $(
 					'<li id="beacon-' + minor + '">'
-					+	'<div class="profile-img"></div>'
+					+	'<div class="profile-img"><img src=\'ui/images/covers/'+creatures[minor].coverSrc+'\'></div>'
 					+	'<div class="profile-middle">'
 						+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
 						+	'<div class="profile-info"><p>'+ creatures[minor].minor + creatures[minor].info+'</p></div>'

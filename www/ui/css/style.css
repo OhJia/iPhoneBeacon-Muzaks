@@ -1,3 +1,24 @@
+@font-face {
+  font-family: 'GothamBold';
+  src: url('../fonts/GothamBold.eot?#iefix') format('embedded-opentype'),  url('../fonts/GothamBold.woff') format('woff'), url('../fonts/GothamBold.ttf')  format('truetype'), url('../fonts/GothamBold.svg#GothamBold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Gotham-Book';
+  src: url('../fonts/GothamBold.eot?#iefix') format('embedded-opentype'),  url('../fonts/GothamBold.woff') format('woff'), url('../fonts/GothamBold.ttf')  format('truetype'), url('../fonts/GothamBold.svg#GothamBold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GothamBold';
+  src: url('../fonts/GothamBold.eot?#iefix') format('embedded-opentype'),  url('../fonts/GothamBold.woff') format('woff'), url('../fonts/GothamBold.ttf')  format('truetype'), url('../fonts/GothamBold.svg#GothamBold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .ui-content {
 	padding: 0;
 	margin: 0;
@@ -31,6 +52,7 @@ p {
 
 h1, h2 {
 	text-shadow: none;
+	font-family: 'GothamBold';
 }
 
 h1 {
@@ -213,12 +235,17 @@ a.anchor-link.ui-btn{
 #pocket .profile-img{
 	width: 55px;
 	height: 55px;
-	background-color: blue;
+	/*background-color: blue;*/
 	border-radius: 50%;
 	display: inline-block;
 	margin: 0 8px 0 0;
 	vertical-align: top;
 	float: left;
+}
+
+#pocket .profile-img img {
+	width: 55px;
+	height: 55px;
 }
 
 #pocket .profile-id {

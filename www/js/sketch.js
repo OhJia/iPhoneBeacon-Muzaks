@@ -7,60 +7,70 @@ var center_x, center_y;
 //var creature2000, creature2002, creature2003;
 var speed = 1;
 var distance;
-var background_color = [255,128,255]
+var background_color = [75,175,175]
 var center_tapped = false;
 
 /** uncomment this when not testing **/
-//var creatures = {};
+var creatures = {};
 var cCount;
 
+var img;
+// function preload() {
+//   img = loadImage("assets/laDefense.jpg");
+// }
+// function setup() {
+//   image(img, 0, 0);
+// }
+
+
+
 /** TESTING ONLY --> **/
-var creatures = {
-  '2000' : {
-    'minor' : 2000,
-    'rssi' : -20,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [250, 0, 0],
-    'radians' : 45,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  },
-  '2001' : {
-    'minor' : 2000,
-    'rssi' : -50,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [0, 250, 0],
-    'radians' : 180,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  },
-  '2002' : {
-    'minor' : 2000,
-    'rssi' : -70,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [0, 0, 250],
-    'radians' : 90,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  },
-  '2003' : {
-    'minor' : 2000,
-    'rssi' : -50,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [0, 250, 250],
-    'radians' : 270,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  }
-}
+// var creatures = {
+//   '2000' : {
+//     'minor' : 2000,
+//     'rssi' : -20,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [250, 0, 0],
+//     'radians' : 45,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   },
+//   '2001' : {
+//     'minor' : 2000,
+//     'rssi' : -50,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [0, 250, 0],
+//     'radians' : 180,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   },
+//   '2002' : {
+//     'minor' : 2000,
+//     'rssi' : -70,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [0, 0, 250],
+//     'radians' : 90,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   },
+//   '2003' : {
+//     'minor' : 2000,
+//     'rssi' : -50,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [0, 250, 250],
+//     'radians' : 270,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   }
+// }
 otherMinors = Object.keys(creatures);
 /** <-- end testing **/
 
@@ -103,14 +113,19 @@ function draw() {
     noStroke();
     //stroke(255,255,255);
     //strokeWeight(3);
-    for (var i = 0; i < 6; i++) {
+    for (var i = 2; i < 6; i++) {
       //if (center_tapped && center_tapped >= 0) {
-        fill(250, 80-i*10);
+        fill(250, 70-i*10);
+        strokeWeight(5);
+        stroke(250);
         push();
         // TODO : SMARTER ROTATE HERE
         translate(center_x, center_y)
-        rotate(frameCount / (200.0 + (10*i)));
-        polygon(i,i, 40 * i);
+        // rotate(frameCount / (200.0 + (5*i)));
+        rotate(frameCount / (40.0 * i));
+        //polygon(i,i, 40 * i);
+        rectMode(CENTER);
+        rect(i, i, 50 * i, 50 * i, 40);
         pop();
       //} else {
         //polygon(center_x, center_y, 40 * i);
@@ -132,6 +147,7 @@ function draw() {
     // update count
     cCount = Object.keys(creatures).length;
     $('#left-count').html(cCount);
+
 		
     // draw each creature
     //var pos_x, pos_y;
@@ -148,6 +164,7 @@ function draw() {
         creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
         creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
         creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (40 - creatures[minor].rssi/10) + (25 - creatures[minor].tapped), 40 - creatures[minor].rssi/10 + (25 - creatures[minor].tapped) ); // increase size of ellipse as fade out
+        
         
         --creatures[minor].tapped; // decrement to 0
       }
@@ -230,28 +247,27 @@ function touchEnd(e) {
 
 function showTappedInfo(creature){
   if (tapped){
-    fill(0, 200);
-    rect(creature.pos_x-2, creature.pos_y+30, textWidth(creature.id)+10, 30);
-    fill(255);
-    text(creature.id, creature.pos_x, creature.pos_y+30, textWidth(creature.id)+10, 30);
-    fill(0, 200);
-    rect(creature.pos_x-2, creature.pos_y+70, textWidth(creature.info)+10, 30);
-    fill(255);
-    text(creature.info, creature.pos_x, creature.pos_y+70, textWidth(creature.info)+10, 30);
+    fill(0, 220);
+    triangle(creature.pos_x-10, creature.pos_y+32, creature.pos_x, creature.pos_y+16, creature.pos_x+10, creature.pos_y+32);
+    rect(creature.pos_x-40, creature.pos_y+30, textWidth(creature.info)+50, 80, 20);
+    fill(194, 206, 206);
+    text(creature.id, creature.pos_x-10, creature.pos_y+35, textWidth(creature.id)+10, 30);
+    fill(194, 206, 206);
+    text(creature.info, creature.pos_x-10, creature.pos_y+75, textWidth(creature.info)+10, 30);
   }
 }
 
 
-function polygon(x, y, radius) {
-  var angle = TWO_PI / 4;
-  beginShape();
-  for (var a = 0; a < TWO_PI; a += angle) {
-    var sx = x + cos(a) * radius;
-    var sy = y + sin(a) * radius;
-    vertex(sx, sy);
-  }
-  endShape(CLOSE);
-}
+// function polygon(x, y, radius) {
+//   var angle = TWO_PI / 4;
+//   beginShape();
+//   for (var a = 0; a < TWO_PI; a += angle) {
+//     var sx = x + cos(a) * radius;
+//     var sy = y + sin(a) * radius;
+//     vertex(sx, sy);
+//   }
+//   endShape(CLOSE);
+// }
 
 // ctx.beginPath();
 // ctx.moveTo(20, 10);

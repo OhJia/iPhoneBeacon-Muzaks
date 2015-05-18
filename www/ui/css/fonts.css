@@ -1,0 +1,14 @@
+
+@font-face {
+  font-family: 'GothamBold';
+  src: url('../fonts/GothamBold.eot?#iefix') format('embedded-opentype'),  url('../fonts/GothamBold.woff') format('woff'), url('../fonts/GothamBold.ttf')  format('truetype'), url('../fonts/GothamBold.svg#GothamBold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'CourierPrime-Bold';
+  src: url('../fonts/CourierPrime-Bold.eot') format('embedded-opentype'), url('../fonts/CourierPrime-Bold.woff') format('woff'), url('../fonts/CourierPrime-Bold.ttf')  format('truetype'), url('../fonts/CourierPrime-Bold.svg#CourierPrime-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

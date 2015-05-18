@@ -38,9 +38,9 @@ var handleOrientationEvent = function(e) {
   // ]
 
   background_color = [
-    map(alpha, -90, 90, 0, 250),
-    map(beta, -90, 90, 0, 200),
-    map(gamma, -90, 90, 0, 250)
+    map(alpha, -90, 90, 100, 175),
+    map(beta, -90, 90, 100, 200),
+    map(gamma, -90, 90, 100, 200)
   ]
 
   var p = Math.round( map(alpha, 0, 360, 0, 12) );
