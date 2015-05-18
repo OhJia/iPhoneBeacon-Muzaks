@@ -148,7 +148,11 @@ function draw() {
         creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
         creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
         creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (40 - creatures[minor].rssi/10) + (25 - creatures[minor].tapped), 40 - creatures[minor].rssi/10 + (25 - creatures[minor].tapped) ); // increase size of ellipse as fade out
-        
+
+        // also tap the creature's play button
+        var playButton = document.getElementById('playButton_'+minor);
+        playButton.style.stroke = "#ff2000";
+        playButton.style.strokeWidth = map(creatures[minor].tapped, 0, 25, 0, 5);
         --creatures[minor].tapped; // decrement to 0
       }
 
@@ -178,6 +182,7 @@ function updateCreatures() {
 
 // called when a sound is played to inflate the creature size
 function tapCreature(minorNumber) {
+  console.log('tapped creature');
   creatures[String(minorNumber)].tapped = 25; // set increment value
 }
 
