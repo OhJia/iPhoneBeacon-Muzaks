@@ -164,7 +164,7 @@ function draw() {
     imageMode(CENTER);
     image(thisCreature.img, center_x, center_y, 50, 50);
 
-    // update count
+    // update count in main page
     cCount = Object.keys(creatures).length;
     $('#left-count').html(cCount);
 
