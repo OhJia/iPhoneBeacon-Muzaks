@@ -258,8 +258,13 @@ function updateNearestBeacon(beacons)
 				    tapped: true, // do ripple
 				    pos_x: null,
 				    pos_y: null,
-				    coverSrc: devices[minor].coverSrc  
+				    coverSrc: devices[minor].coverSrc,
+				    img: null
 				};
+
+				loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
+					creatures[minor].img = img;
+				}) 
 
 				creatureEnterSound();
 
