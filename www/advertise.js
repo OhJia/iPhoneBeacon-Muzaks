@@ -38,6 +38,22 @@ var advertiser = (function() {
         alert('the advertisement begins');
         minor = generateMinor();
 
+        thisCreature.minor = minor;
+        thisCreature.id = devices[minor].id;
+        thisCreature.info = devices[minor].info;
+        thisCreature.coverSrc = devices[minor].coverSrc;
+
+        loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
+                    thisCreature.img = img;
+        });
+
+        // name on the main page
+        $('#right-name').html(thisCreature.id); 
+        // info on the info page
+        $('#info-pg-cover').html('<img src=\'ui/images/covers/'+thisCreature.coverSrc+'\'>');
+        $('#info-pg-id').html('<h1>'+thisCreature.id+'</h1>');
+        $('#info-pg-info').html(thisCreature.info);
+
         console.log('My minor: ' + minor);
 
         var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(identifier, uuid, major, minor);

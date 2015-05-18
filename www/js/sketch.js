@@ -22,6 +22,15 @@ var img;
 //   image(img, 0, 0);
 // }
 
+var thisCreature = {
+  'minor' : null,
+  'img' : null,
+  'coverSrc' : null,
+  //'tapped' : true,
+  'id' : null,
+  'info' : null
+}
+
 
 
 /** TESTING ONLY --> **/
@@ -127,7 +136,7 @@ function draw() {
         rotate(frameCount / (40.0 * i));
         //polygon(i,i, 40 * i);
         rectMode(CENTER);
-        rect(i, i, 50 * i, 50 * i, 40);
+        rect(0, 0, 50 * i, 50 * i, 35 + i*5);
         pop();
       //} else {
         //polygon(center_x, center_y, 40 * i);
@@ -150,8 +159,10 @@ function draw() {
       --center_tapped; // decrement to 0
     }
     // draw center
-    fill(color(255,255,255));
-    ellipse(center_x, center_y, 50, 50);
+    //fill(color(255,255,255));
+    //ellipse(center_x, center_y, 50, 50);
+    imageMode(CENTER);
+    image(thisCreature.img, center_x, center_y, 50, 50);
 
     // update count
     cCount = Object.keys(creatures).length;
@@ -163,16 +174,16 @@ function draw() {
     for(var minor in creatures) {
       // draw if creature was tapped
       if (creatures[minor].tapped === true) {
-        creatures[minor].tapped = 25; // set increment value
+        creatures[minor].tapped = 30; // set increment value
         tappedC = creatures[minor];
         
       } 
-      if (creatures[minor].tapped && creatures[minor].tapped >= 0) {
+      if (creatures[minor].tapped && creatures[minor].tapped >= 5) {
         //console.log(creatures[minor]);
-        // fill(color(creatures[minor].color[0], creatures[minor].color[1], creatures[minor].color[2],creatures[minor].tapped * 10.2)); // (25 steps, need to be based on 255 for opacity)
+        fill(255,creatures[minor].tapped * 8.5); // (25 steps, need to be based on 255 for opacity)
         creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
         creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
-        // creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (40 - creatures[minor].rssi/10) + (25 - creatures[minor].tapped), 40 - creatures[minor].rssi/10 + (25 - creatures[minor].tapped) ); // increase size of ellipse as fade out
+        creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (40 - creatures[minor].rssi/10) + (30 - creatures[minor].tapped), 40 - creatures[minor].rssi/10 + (30 - creatures[minor].tapped) ); // increase size of ellipse as fade out
         
 
         // also tap the creature's play button

@@ -320,13 +320,18 @@ a.anchor-link.ui-btn{
 #info .profile-img{
 	width: 145px;
 	height: 145px;
-	background-color: blue;
+	/*background-color: blue;*/
 	border-radius: 50%;
 	display: block;
 	margin: 0 auto;
 	margin-top:20px;
 	margin-bottom:40px;
 	vertical-align: top;
+}
+
+#info-pg-cover img {
+	width: 145px;
+	height: 145px;
 }
 
 #info-beacon h1 {
