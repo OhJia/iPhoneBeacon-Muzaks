@@ -71,7 +71,9 @@ var img;
 //     'info' : 'I\'m sleepy. Stay happy.'
 //   }
 // }
-otherMinors = Object.keys(creatures);
+
+// otherMinors = Object.keys(creatures);
+
 /** <-- end testing **/
 
 
@@ -138,6 +140,13 @@ function draw() {
     if (center_tapped && center_tapped >= 0) {
       fill(color(255,255,255, center_tapped * 10.2)); // (25 steps, need to be based on 255 for opacity)
       ellipse(center_x, center_y, 50 + (25 - center_tapped), 50 + (25 - center_tapped)); // increase size of ellipse as fade out
+
+      // also tap the info play button
+      var myPlayButton = document.getElementById('profilePlayButton');
+      myPlayButton.style.stroke = "#ff2000";
+      myPlayButton.style.strokeWidth = map(center_tapped, 0, 25, 0, 35);
+
+
       --center_tapped; // decrement to 0
     }
     // draw center
@@ -164,8 +173,14 @@ function draw() {
         creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
         creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
         creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (40 - creatures[minor].rssi/10) + (25 - creatures[minor].tapped), 40 - creatures[minor].rssi/10 + (25 - creatures[minor].tapped) ); // increase size of ellipse as fade out
-        
-        
+
+
+        // also tap the creature's play button
+        var playButton = document.getElementById('playButton_'+minor);
+        playButton.style.stroke = "#ff2000";
+        playButton.style.strokeWidth = map(creatures[minor].tapped, 0, 25, 0, 5);
+
+
         --creatures[minor].tapped; // decrement to 0
       }
 
@@ -195,6 +210,7 @@ function updateCreatures() {
 
 // called when a sound is played to inflate the creature size
 function tapCreature(minorNumber) {
+  console.log('tapped creature');
   creatures[String(minorNumber)].tapped = 25; // set increment value
 }
 
@@ -232,7 +248,6 @@ function touchStart(e){
 
   // detect if center is touched
   if (dist(center_x,center_y,tX,tY) < 50) {
-    center_tapped = true;
     attackMySound();
     return false;
   }
