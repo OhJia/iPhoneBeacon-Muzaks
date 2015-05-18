@@ -2,7 +2,7 @@
 var aimSampler, aimInDown, drumSampler;
 
 
-var aimSamplePaths = ['a0.mp3', 'a1.wav', 'a2.mp3', 'a3.mp3', 'a4.wav'];
+var aimSamplePaths = ['audio/a0.mp3', 'audio/a1.wav', 'audio/a2.mp3', 'audio/a3.mp3', 'audio/a4.wav'];
 
 // either choose from a scale
 
@@ -19,6 +19,19 @@ var pattern = [-12];
 
 ///////////// MASTER OUTPUT MIX
 
+/**
+ *  aimSampler --> myFilter --> masterMix
+ *  aimInDown --> masterMix
+ *  drumSampler --> masterMix
+ *  
+ *  master mix --> finalEQ --> highPass
+ *
+ *  finalEQ --> delay --> delayFilter --> highPass
+ *              delay --> masterConvolver --> highPass
+ *
+ *  drumSampler --> drumGain --> finalEQ
+ */
+
 var highPass = new Tone.Filter();
 highPass.type = 'highpass';
 highPass.frequency.value = 70;
@@ -28,24 +41,20 @@ highPass.toMaster();
 // everything connects to the MasterMix, then to WetDry to control convolution and filter
 var masterMix = Tone.context.createGain();
 
-// MasterMix connects to MasterWetDry. 1 is the only channel we are currently using...
-var masterWetDry = new Tone.CrossFade(1);
-
 // filter goes to both 0 (dry) and 1 (wet)
-var masterFilter = new Tone.Filter();
-masterMix.connect(masterFilter);
-// masterFilter.connect(masterConvolver, 0, 0);
-masterFilter.connect(masterWetDry, 0, 1);
-masterFilter.Q.value = 3;
-masterFilter.frequency.value = 20;
-masterFilter.type = 'lowpass';
+var myFilter = new Tone.Filter();
+myFilter.Q.value = 3;
+myFilter.frequency.value = 20;
+myFilter.type = 'lowpass';
+
 // wetDry goes to master
 var finalEQ = new Tone.EQ(-4, -12, -3);
 finalEQ.lowFrequency.value = 105;
 finalEQ.highFrequency.value = 4700;
-masterWetDry.connect(finalEQ);
-// finalEQ.toMaster();
 finalEQ.connect(highPass);
+masterMix.connect(finalEQ);
+
+myFilter.connect(masterMix);
 
 var delay = new Tone.FeedbackDelay('8n', 0.12);
 
@@ -55,9 +64,8 @@ delayFilter.output.gain.value = 0.02;
 delay.output.gain.value = 0.02;
 delayFilter.connect(delay);
 delay.connect(delayFilter);
-masterWetDry.connect(delay);
-// delayFilter.toMaster();
-// delay.toMaster();
+finalEQ.connect(delay);
+
 delayFilter.connect(highPass);
 delay.connect(highPass);
 
@@ -75,32 +83,37 @@ function initAIMSampler(index) {
 
   aimSampler = new Tone.Sampler(samplePath);
 
-  aimInDown = new Tone.Sampler('b1.mp3');
+  aimInDown = new Tone.Sampler('audio/b1.mp3');
 
   drumSampler = new Tone.Sampler( {
     '1' : 'audio/bongo_01.mp3',
-    // '2' : 'audio/aim/thwap.mp3',
-    // '3' : 'audio/fb/fbPercussion1.mp3',
     '2' : 'audio/tom_01.wav',
     '3' : 'audio/dink_04.mp3',
-    '4' : 'audio/aim/rmblock.wav',
+    '4' : 'audio/rmblock.wav',
     '5' : 'audio/bongo_02.mp3',
     '6' : 'audio/triangle_01.mp3',
     '7' : 'audio/triangle_03.mp3',
+    // '1' : 'audio/a0.mp3',
+    // '2' : 'audio/a1.mp3',
+    // '3' : 'audio/a2.mp3', 
+    // '4' : 'audio/a3.mp3',
+    // '5' : 'audio/a4.mp3',
+    // '6' : 'audio/dink_04.mp3',
+    // '7' : 'audio/triangle_01.mp3',
     'me' : samplePath
   });
 
   drumSampler.envelope.attack = 0.02;
   drumSampler.envelope.release = 0.50;
 
-  aimSampler.connect(masterMix);
-  aimInDown.connect(masterMix);
+  aimSampler.connect(myFilter);
+  aimInDown.connect(myFilter);
   drumSampler.connect(masterMix);
 
   var drumGain = Tone.context.createGain();
   drumGain.gain.value = 0.4;
   drumSampler.connect(drumGain);
-  drumGain.connect(masterConvolver);
+  drumGain.connect(finalEQ);
 
   aimInDown.pitchScale = [-13, -6, -8, -25];
 
@@ -259,20 +272,20 @@ function attackMySound() {
   drumSampler.triggerAttack('me', time);
   triggered = 1;
 
-  var oldFreq = masterFilter.frequency.value;
-  masterFilter.frequency.setValueAtTime(oldFreq, masterFilter.now() );
+  var oldFreq = myFilter.frequency.value;
+  myFilter.frequency.setValueAtTime(oldFreq, myFilter.now() );
 
 
-  masterFilter.frequency.cancelScheduledValues(masterFilter.now());
-  masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 0.5 );
+  myFilter.frequency.cancelScheduledValues(myFilter.now());
+  myFilter.frequency.exponentialRampToValueAtTime(20000, myFilter.now() + 0.5 );
 }
 
 // release my sound
 function releaseMySound() {
   var time = Tone.Transport.now();
-  drumSampler.triggerRelease(time);
+  // drumSampler.triggerRelease(time);
   var freq = constrain( map(triggered, 0, 1, 20, 18000), 20, 20000);
-  masterFilter.frequency.exponentialRampToValueAtTime(freq, masterFilter.now() + 3 );
+  myFilter.frequency.exponentialRampToValueAtTime(30, myFilter.now() + 3 );
 }
 
 
@@ -355,12 +368,12 @@ function playAllTheDrums4(time) {
 
 // play the drum samples
 function playDrumBasedOnMinor(_minor, time, velocity) {
+  console.log('play drum based on minor' + _minor + time + velocity);
   var t = time || Tone.Transport.now();
   var v = velocity || 1;
   var whichDrum = possibleMinors.indexOf(Number(_minor)) + 1;
   drumSampler.pitch = drumPitchOffset;
-  // drumSampler.triggerRelease(time);
-  drumSampler.triggerAttack(whichDrum, time + 0.02, v);
+  drumSampler.triggerAttack(whichDrum, t + 0.02, v);
 }
 
 // thank you http://stackoverflow.com/a/846249/2994108

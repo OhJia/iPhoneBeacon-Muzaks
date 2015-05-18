@@ -80,31 +80,50 @@ var handleDeviceMotionEvent = function(e) {
     triggered = 1;
   }
 
-  // trigger masterFilter --> On
+  // trigger myFilter --> On
   if (triggered >= 0.95 && prevTriggered < 0.95) {
 
-    var oldFreq = masterFilter.frequency.value;
-    var oldQ = masterFilter.Q.value;
+    var oldFreq = myFilter.frequency.value;
+    var oldQ = myFilter.Q.value;
+    var oldGain = myFilter.output.gain.value;
 
-    masterFilter.frequency.cancelScheduledValues(masterFilter.now());
-    masterFilter.frequency.setValueAtTime(oldFreq, masterFilter.now() );
+    myFilter.frequency.cancelScheduledValues(myFilter.now());
+    myFilter.frequency.setValueAtTime(oldFreq, myFilter.now() );
    
-    masterFilter.Q.cancelScheduledValues(masterFilter.now());
-    masterFilter.Q.setValueAtTime(oldQ, masterFilter.now() );
+    myFilter.Q.cancelScheduledValues(myFilter.now());
+    myFilter.Q.setValueAtTime(oldQ, myFilter.now() );
 
-    masterFilter.frequency.exponentialRampToValueAtTime(20000, masterFilter.now() + 0.02);
-    masterFilter.Q.exponentialRampToValueAtTime(20, masterFilter.now() + 0.02 );
-    masterFilter.output.gain.cancelScheduledValues(masterFilter.now());
-    masterFilter.output.gain.linearRampToValueAtTime(1, masterFilter.now() + 0.002 );
+    myFilter.output.gain.cancelScheduledValues(myFilter.now());
+    myFilter.output.gain.setValueAtTime(oldGain, myFilter.now() );
+
+
+    myFilter.frequency.exponentialRampToValueAtTime(20000, myFilter.now() + 0.02);
+    myFilter.Q.exponentialRampToValueAtTime(20, myFilter.now() + 0.2 );
+    myFilter.output.gain.cancelScheduledValues(myFilter.now());
+    myFilter.output.gain.linearRampToValueAtTime(1, myFilter.now() + 0.002 );
 
   }
 
-  // fade out
-  else if (triggered < 0.8) {
+  // trigger fade out
+  else if (triggered < 0.8 && prevTriggered > 0.8) {
     var rampTime = 1;
-    masterFilter.Q.setTargetAtTime(1, masterFilter.now() + rampTime, 0.9 );
-    masterFilter.frequency.setTargetAtTime(40, masterFilter.now() + rampTime, 0.9);
-    masterFilter.output.gain.setTargetAtTime(0, masterFilter.now() + rampTime*2, 0.999 );
+
+    var oldFreq = myFilter.frequency.value;
+    var oldQ = myFilter.Q.value;
+    var oldGain = myFilter.output.gain.value;
+
+    myFilter.frequency.cancelScheduledValues(myFilter.now());
+    myFilter.frequency.setValueAtTime(oldFreq, myFilter.now() );
+   
+    myFilter.Q.cancelScheduledValues(myFilter.now());
+    myFilter.Q.setValueAtTime(oldQ, myFilter.now() );
+
+    myFilter.output.gain.cancelScheduledValues(myFilter.now());
+    myFilter.output.gain.setValueAtTime(oldGain, myFilter.now() );
+
+    myFilter.Q.setTargetAtTime(12, myFilter.now() + rampTime, 0.9 );
+    myFilter.frequency.setTargetAtTime(40, myFilter.now() + rampTime, 0.95);
+    myFilter.output.gain.setTargetAtTime(0, myFilter.now() + rampTime, 0.9999 );
   }
 
   prevTriggered = triggered;

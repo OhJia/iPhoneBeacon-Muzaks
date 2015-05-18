@@ -131,7 +131,6 @@ function draw() {
 
     // update count
     cCount = Object.keys(creatures).length;
-    console.log(cCount);
     $('#left-count').html(cCount);
 		
     // draw each creature
