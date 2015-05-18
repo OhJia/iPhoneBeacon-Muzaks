@@ -11,57 +11,57 @@ var background_color = [255,128,255]
 var center_tapped = false;
 
 /** uncomment this when not testing **/
-//var creatures = {};
+var creatures = {};
 var cCount;
 
 /** TESTING ONLY --> **/
-var creatures = {
-  '2000' : {
-    'minor' : 2000,
-    'rssi' : -20,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [250, 0, 0],
-    'radians' : 45,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  },
-  '2001' : {
-    'minor' : 2000,
-    'rssi' : -50,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [0, 250, 0],
-    'radians' : 180,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  },
-  '2002' : {
-    'minor' : 2000,
-    'rssi' : -70,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [0, 0, 250],
-    'radians' : 90,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  },
-  '2003' : {
-    'minor' : 2000,
-    'rssi' : -50,
-    'pos_x' : 1,
-    'pos_y' : 3,
-    'color' : [0, 250, 250],
-    'radians' : 270,
-    'tapped' : true,
-    'id' : 'Sleepy Taiga',
-    'info' : 'I\'m sleepy. Stay happy.'
-  }
-}
-otherMinors = Object.keys(creatures);
+// var creatures = {
+//   '2000' : {
+//     'minor' : 2000,
+//     'rssi' : -20,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [250, 0, 0],
+//     'radians' : 45,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   },
+//   '2001' : {
+//     'minor' : 2000,
+//     'rssi' : -50,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [0, 250, 0],
+//     'radians' : 180,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   },
+//   '2002' : {
+//     'minor' : 2000,
+//     'rssi' : -70,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [0, 0, 250],
+//     'radians' : 90,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   },
+//   '2003' : {
+//     'minor' : 2000,
+//     'rssi' : -50,
+//     'pos_x' : 1,
+//     'pos_y' : 3,
+//     'color' : [0, 250, 250],
+//     'radians' : 270,
+//     'tapped' : true,
+//     'id' : 'Sleepy Taiga',
+//     'info' : 'I\'m sleepy. Stay happy.'
+//   }
+// }
+// otherMinors = Object.keys(creatures);
 /** <-- end testing **/
 
 
@@ -123,6 +123,13 @@ function draw() {
     if (center_tapped && center_tapped >= 0) {
       fill(color(255,255,255, center_tapped * 10.2)); // (25 steps, need to be based on 255 for opacity)
       ellipse(center_x, center_y, 50 + (25 - center_tapped), 50 + (25 - center_tapped)); // increase size of ellipse as fade out
+
+      // also tap the info play button
+      var myPlayButton = document.getElementById('profilePlayButton');
+      myPlayButton.style.stroke = "#ff2000";
+      myPlayButton.style.strokeWidth = map(center_tapped, 0, 25, 0, 35);
+
+
       --center_tapped; // decrement to 0
     }
     // draw center
@@ -153,6 +160,7 @@ function draw() {
         var playButton = document.getElementById('playButton_'+minor);
         playButton.style.stroke = "#ff2000";
         playButton.style.strokeWidth = map(creatures[minor].tapped, 0, 25, 0, 5);
+
         --creatures[minor].tapped; // decrement to 0
       }
 
@@ -220,7 +228,6 @@ function touchStart(e){
 
   // detect if center is touched
   if (dist(center_x,center_y,tX,tY) < 50) {
-    center_tapped = true;
     attackMySound();
     return false;
   }

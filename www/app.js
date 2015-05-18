@@ -139,7 +139,6 @@ var app = (function()
 
 	function startMonitoringAndRanging()
 	{
-		console.log('start mon');
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
@@ -246,7 +245,7 @@ function updateNearestBeacon(beacons)
 			var minor = String(beacon.minor);
 			
 			// Add new
-			if (typeof(creatures[minor]) == 'undefined') {
+			if (typeof(creatures[minor]) == 'undefined' && beacon.rssi != 0) {
 				creatures[minor] = {
 				    minor: minor,
 				    id: 'sleepy taiga',
@@ -266,15 +265,6 @@ function updateNearestBeacon(beacons)
 			// Otherwise update the rssi
 			} else {
 				creatures[minor].rssi = beacon.rssi;
-				creatures[minor].prevRSSI = beacon.rssi;
-			}
-
-			// if creature rssi is zero, play creatureLeavesSound()
-			if (creatures[minor].rssi === 0 && creatures[minor].prevRSSI !== 0) {
-				creatureLeaveSound();
-
-				// prevRSSI ensures we only play creatureLeaveSound once...hopefully!
-				creatures[minor].prevRSSI = 0;
 			}
 
 			// update otherMinors
@@ -298,8 +288,15 @@ function updateNearestBeacon(beacons)
 
 		// access each beacon by its minor (key)
 		for (var minor in creatures) {
-			//console.log(creatures[minor]);
-			// tweakBeaconSound(creatures[minor]);
+			var creatR = creatures[String(minor)];
+
+			// if creature rssi is zero, play creatureLeavesSound()
+			if (creatR.rssi === 0 && creatR.prevRSSI !== 0) {
+				creatureLeaveSound();
+					delete creatures[String(minor)];
+					otherMinors.splice(otherMinors.indexOf( String(minor) ), 1);
+			}
+			creatR.prevRSSI = creatR.rssi;
 		}
 
 
