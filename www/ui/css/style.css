@@ -143,6 +143,10 @@ h2 {
 	display:block;
 }
 
+#play-bttn-home svg polygon {
+	fill: black;
+}
+
 #info-bttn-home {
 	text-align: center;
 	display:block;
@@ -217,14 +221,23 @@ h2 {
 }
 
 .footer td a svg {
-	width: 45px;
-	height: 45px;
+	width: 60px;
+	height: 60px;
 }
 
 .footer a svg {
 	width: 100%;
 	margin-top: -20px;
 }
+
+/*#pocket a svg {
+	width: 80px;
+}
+
+#info a svg {
+	width: 70px;
+	height: 70px;
+}*/
 
 
 .footer td a svg path, .footer td a svg polygon {
@@ -371,6 +384,7 @@ a.anchor-link.ui-btn{
 
 #info .profile-info {
 	padding-top: 15px;
+	font-family: 'GothamBold';
 }
 
 .info-header {
@@ -408,6 +422,7 @@ a.anchor-link.ui-btn{
 #info-pg-info {
 	color: white;
 	text-shadow: none;
+	font-family: 'GothamBold';
 }
 
 .info-left {

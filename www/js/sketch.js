@@ -275,11 +275,14 @@ function touchEnd(e) {
 
 function showTappedInfo(creature){
   if (tapped){
-    fill(0, 220);
+    fill(0, 250);
     triangle(creature.pos_x-10, creature.pos_y+32, creature.pos_x, creature.pos_y+16, creature.pos_x+10, creature.pos_y+32);
-    rect(creature.pos_x-40, creature.pos_y+30, textWidth(creature.info)+50, 80, 20);
+    rect(creature.pos_x-40, creature.pos_y+30, textWidth(creature.info)+80, 80, 20);
+    textSize(18);
+    textFont("GothamBold");
     fill(194, 206, 206);
     text(creature.id, creature.pos_x-10, creature.pos_y+35, textWidth(creature.id)+10, 30);
+    textSize(12);
     fill(194, 206, 206);
     text(creature.info, creature.pos_x-10, creature.pos_y+75, textWidth(creature.info)+10, 30);
   }
