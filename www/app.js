@@ -139,7 +139,6 @@ var app = (function()
 
 	function startMonitoringAndRanging()
 	{
-		console.log('start mon');
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
@@ -246,7 +245,7 @@ function updateNearestBeacon(beacons)
 			var minor = String(beacon.minor);
 			
 			// Add new
-			if (typeof(creatures[minor]) == 'undefined') {
+			if (typeof(creatures[minor]) == 'undefined' && beacon.rssi != 0) {
 				creatures[minor] = {
 				    minor: minor,
 				    id: 'sleepy taiga',
@@ -266,15 +265,6 @@ function updateNearestBeacon(beacons)
 			// Otherwise update the rssi
 			} else {
 				creatures[minor].rssi = beacon.rssi;
-				creatures[minor].prevRSSI = beacon.rssi;
-			}
-
-			// if creature rssi is zero, play creatureLeavesSound()
-			if (creatures[minor].rssi === 0 && creatures[minor].prevRSSI !== 0) {
-				creatureLeaveSound();
-
-				// prevRSSI ensures we only play creatureLeaveSound once...hopefully!
-				creatures[minor].prevRSSI = 0;
 			}
 
 			// update otherMinors
@@ -298,8 +288,15 @@ function updateNearestBeacon(beacons)
 
 		// access each beacon by its minor (key)
 		for (var minor in creatures) {
-			//console.log(creatures[minor]);
-			// tweakBeaconSound(creatures[minor]);
+			var creatR = creatures[String(minor)];
+
+			// if creature rssi is zero, play creatureLeavesSound()
+			if (creatR.rssi === 0 && creatR.prevRSSI !== 0) {
+				creatureLeaveSound();
+					delete creatures[String(minor)];
+					otherMinors.splice(otherMinors.indexOf( String(minor) ), 1);
+			}
+			creatR.prevRSSI = creatR.rssi;
 		}
 
 
@@ -357,7 +354,7 @@ function updateNearestBeacon(beacons)
 						+	'<div class="profile-dist-time"><p>'+creatures[minor].rssi + 'for x min</p></div>'
 					+	'</div>'
 					+	'<div class="profile-play" ontouchstart=playDrumBasedOnMinor('+minor+')>'
-					+ 		'<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 39.8 39.5" enable-background="new 0 0 39.8 39.5" xml:space="preserve"><circle fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" cx="19.6" cy="19.6" r="18.4"/><polygon fill="#CCCCCC" points="15,11.4 29.5,19.7 15,28.1 "/></svg>'
+					+ 		'<svg version="1.1" id="playButton_' + minor + '" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 39.8 39.5" enable-background="new 0 0 39.8 39.5" xml:space="preserve"><circle fill="none" stroke="#CCCCCC" stroke-width="2" stroke-miterlimit="10" cx="19.6" cy="19.6" r="18.4"/><polygon fill="#CCCCCC" points="15,11.4 29.5,19.7 15,28.1 "/></svg>'
 					+	'</div>'
 					+ '</li>'
 					);
