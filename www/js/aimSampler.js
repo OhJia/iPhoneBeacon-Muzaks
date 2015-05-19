@@ -262,7 +262,7 @@ function creatureEnterSound(minor) {
 
   doorOpen.start();
 
-  addDrumForCreature(minor);
+  // addDrumForCreature(minor);
 
 }
 
