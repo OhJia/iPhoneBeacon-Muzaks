@@ -115,6 +115,7 @@ function initAIMSampler(index) {
     'me' : samplePath
   });
 
+  drumSampler.pitch = -8;
   drumSampler.envelope.attack = 0.02;
   drumSampler.envelope.release = 0.50;
 
@@ -188,7 +189,7 @@ function setupDrumPattern1() {
   drumIntervals.push(x);
 
   x = Tone.Transport.setInterval(function(time){
-    // drumSampler.pitch = -5;
+    drumSampler.pitch = -5;
     drumSampler.triggerAttack(5, "+3*4n");
   }, "2m");
 
