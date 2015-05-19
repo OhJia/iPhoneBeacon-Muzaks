@@ -36,7 +36,7 @@ var advertiser = (function() {
     var advertiser = {};
 
     advertiser.startAdvertising = function() {
-        alert('the advertisement begins');
+        // alert('the advertisement begins');
         minor = generateMinor();
 
         thisCreature.minor = minor;
@@ -129,7 +129,10 @@ function editCreatureInfo() {
 function thisCreatureIDChanged() {
     thisCreature.name = $('#creatureNameInput')[0].value;
     $('#creatureNameLabel')[0].innerHTML = thisCreature.name;
-    // TO DO
+
+    // name on the main page
+    $('#right-name').html(thisCreature.name); 
+
 }
 
 function thisCreatureInfoChanged() {
