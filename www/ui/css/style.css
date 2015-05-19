@@ -455,5 +455,16 @@ a.anchor-link.ui-btn{
 	/*margin-top:-85px;*/
 }
 
+/* via http://callmenick.com/post/various-css-input-text-styles */
+/*.coolinput input[type="text"] {
+  padding: 10px;
+  border: solid 5px #c9c9c9;
+  box-shadow: inset 0 0 0 1px #707070;
+  transition: box-shadow 0.3s, border 0.3s;
+}
+.coolinput input[type="text"]:focus,
+.coolinput input[type="text"].focus {
+  border: solid 5px #969696;
+}*/
 
 
