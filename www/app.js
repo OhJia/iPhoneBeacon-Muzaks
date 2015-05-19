@@ -70,7 +70,10 @@ var app = (function()
 
 	function onDeviceReady()
 	{
-		//alert('device ready!!!')
+		alert('device ready!!!')
+		window.localStorage.setItem("key", "value");
+        var value = window.localStorage.getItem("key");
+        //console.log(value);
 
  		startMonitoringAndRanging();
  
