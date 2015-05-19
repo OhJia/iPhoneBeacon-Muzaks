@@ -231,7 +231,7 @@ function updateNearestBeacon(beacons)
 			if (typeof(creatures[minor]) == 'undefined' && beacon.rssi != 0) {
 				creatures[minor] = {
 				    minor: minor,
-				    id: devices[minor].id,
+				    name: devices[minor].name,
 				    info: devices[minor].info,
 				    sound: null,
 				    time: null,
@@ -338,7 +338,7 @@ function updateNearestBeacon(beacons)
 					'<li id="beacon-' + minor + '">'
 					+	'<div class="profile-img"><img src=\'ui/images/covers/'+creatures[minor].coverSrc+'\'></div>'
 					+	'<div class="profile-middle">'
-						+	'<div class ="profile-id"><h1>'+creatures[minor].id+'</h1></div>'
+						+	'<div class ="profile-id"><h1>'+creatures[minor].name+'</h1></div>'
 						+	'<div class="profile-info"><p>'+ creatures[minor].info+'</p></div>'
 						+	'<div class="profile-dist-time"><p>rssi: '+creatures[minor].rssi + '</p></div>'
 					+	'</div>'
