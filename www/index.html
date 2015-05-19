@@ -116,15 +116,15 @@
 						</div>
 						<div class="info-content">
 							<div class="info-left">
-								<div class ="profile-info" id="info-pg-id"><h1></h1></div>
-								<div class="profile-info" id="info-pg-info"><h1></h1></div>
-								<div class="profile-info" id="waveform"></div>
+								<div class="profile-info" id="info-pg-id"><h1 id="creatureNameLabel"></h1><input class="coolinput" data-role="none" type="text" id="creatureNameInput" hidden></div>
+								<div class="profile-info" id="info-pg-info"><span id="creatureInfoLabel"></span><input class="coolinput" data-role="none" type="text" id="creatureInfoInput" hidden></div>
+								<div class="profile-info" ontouchstart="attackMySound()" id="waveform"></div>
 							</div>
 							<div class="info-right">
-								<div class="profile-play" id="add-name">
+								<div class="profile-play" id="add-name" onclick="editCreatureName()">
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 612 792" enable-background="new 0 0 612 792" xml:space="preserve"><circle fill="#020202" cx="301.4" cy="393.7" r="282.9"/><g><g><rect x="268.5" y="252.9" transform="matrix(0.7071 0.7071 -0.7071 0.7071 362.7074 -100.1086)" fill="#FFFFFF" width="67.4" height="269.7"/></g><rect x="183" y="459.3" fill="#FFFFFF" width="47.7" height="47.7"/></g></svg>
 								</div>
-								<div class="profile-play" id="add-info">
+								<div class="profile-play" id="add-info" onclick="editCreatureInfo()">
 								<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 612 792" enable-background="new 0 0 612 792" xml:space="preserve"><circle fill="#020202" cx="301.4" cy="393.7" r="282.9"/><g><g><rect x="268.5" y="252.9" transform="matrix(0.7071 0.7071 -0.7071 0.7071 362.7074 -100.1086)" fill="#FFFFFF" width="67.4" height="269.7"/></g><rect x="183" y="459.3" fill="#FFFFFF" width="47.7" height="47.7"/></g></svg>
 								</div>
 								<div class="profile-play" ontouchstart="attackMySound()" id="add-play">

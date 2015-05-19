@@ -51,8 +51,12 @@ var advertiser = (function() {
         $('#right-name').html(thisCreature.id); 
         // info on the info page
         $('#info-pg-cover').html('<img src=\'ui/images/covers/'+thisCreature.coverSrc+'\'>');
-        $('#info-pg-id').html('<h1>'+thisCreature.id+'</h1>');
-        $('#info-pg-info').html(thisCreature.info);
+        // $('#info-pg-id').html('<h1>'+thisCreature.id+'</h1>');
+        // $('#info-pg-info').html(thisCreature.info);
+        $('#creatureNameLabel').html(thisCreature.id);
+        $('#creatureInfoLabel').html(thisCreature.info);
+        $('#creatureNameInput')[0].value = thisCreature.id;
+        $('#creatureInfoInput')[0].value = thisCreature.info;
 
         console.log('My minor: ' + minor);
 
@@ -93,3 +97,35 @@ var advertiser = (function() {
     return advertiser;
 
 })();
+
+function editCreatureName() {
+    if ($('#creatureNameInput')[0].hidden) {
+        $('#creatureNameLabel')[0].style.display = 'none'
+        $('#creatureNameInput')[0].hidden = false;
+    } else {
+        $('#creatureNameLabel')[0].style.display = 'block'
+        $('#creatureNameInput')[0].hidden = true;
+        thisCreatureIDChanged();
+    }
+}
+
+function editCreatureInfo() {
+    if ($('#creatureInfoInput')[0].hidden) {
+        $('#creatureInfoLabel')[0].hidden = true;
+        $('#creatureInfoInput')[0].hidden = false;
+    } else {
+        $('#creatureInfoLabel')[0].hidden = false;
+        $('#creatureInfoInput')[0].hidden = true;
+        thisCreatureInfoChanged();
+    }
+
+}
+function thisCreatureIDChanged() {
+    thisCreature.id = $('#creatureNameInput')[0].value;
+    $('#creatureNameLabel')[0].innerHTML = thisCreature.id;
+}
+
+function thisCreatureInfoChanged() {
+    thisCreature.info = $('#creatureInfoInput')[0].value;
+    $('#creatureInfoLabel')[0].innerHTML = thisCreature.info;
+}
