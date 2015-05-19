@@ -448,21 +448,22 @@ function _initWaveformCanvas() {
 
     sketch.setup = function() {
       var waveformDiv = document.getElementById('waveform');
-      var w = 100;
+      var w = 200;
       var h = 70;
       var cnv = sketch.createCanvas(w, h);
       waveformDiv.appendChild(cnv.elt);
 
       sketch.plotPeaks(aimSampler._buffers['0']._buffer);
-
       sketch.noLoop();
     }
 
     sketch.plotPeaks = function(buffer) {
+      sketch.background(77,77,77);
+
       var stereoPeaks = _computeWaveformPeaks(buffer, sketch.width*2);
       var waveform = stereoPeaks[0];
       sketch.strokeWeight(2);
-      sketch.stroke(0,0,0);
+      sketch.stroke(0,255,255);
       sketch.beginShape();
       for (var i = 0; i< waveform.length; i++){
         sketch.vertex(sketch.map(i, 0, waveform.length, 0, sketch.width*2), sketch.map(waveform[i], -.8, .8, sketch.height, 0));
