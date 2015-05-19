@@ -45,6 +45,7 @@ var advertiser = (function() {
         thisCreature.coverSrc = devices[minor].coverSrc;
 
         loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
+                    console.log('load image');
                     thisCreature.img = img;
         });
 
