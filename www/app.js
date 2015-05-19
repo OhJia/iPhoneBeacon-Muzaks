@@ -44,8 +44,26 @@ var app = (function()
 			id: 'region',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 			major: 5
-			// minor: 2000
-		}
+			//minor: 2000
+		},
+		// {
+		// 	id: 'region',
+		// 	uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+		// 	major: 5,
+		// 	minor: 2001
+		// },
+		// {
+		// 	id: 'region',
+		// 	uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+		// 	major: 5,
+		// 	minor: 2002
+		// },
+		// {
+		// 	id: 'region',
+		// 	uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+		// 	major: 5,
+		// 	minor: 2003
+		// }
 	];
 
 	// Region data is defined here. Mapping used is from
