@@ -14,7 +14,7 @@ var devices = {
   '2002' : {
     'minor' : 2002,
     'name' : 'Andy',
-    'info' : 'I\'m sleepy. Stay happy.',
+    'info' : 'Destroyer of pianos',
     'coverSrc' : 'andy.png'
   },
   '2003' : {
@@ -26,7 +26,7 @@ var devices = {
   '2004' : {
     'minor' : 2004,
     'name' : 'TTpain',
-    'info' : 'I\'m sleepy. Stay happy.',
+    'info' : 'The singing Aussie',
     'coverSrc' : 'tommy.png'
   }  
 }

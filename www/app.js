@@ -41,28 +41,10 @@ var app = (function()
 	var mRegions =
 	[
 		{
-			id: 'LukeBeacon',
+			id: 'region',
 			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2000
-		},
-		{
-			id: 'jajaBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2001
-		},
-		{
-			id: 'jasonBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2002
-		},
-		{
-			id: 'jaBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2003
+			major: 5
+			// minor: 2000
 		}
 	];
 
@@ -143,6 +125,7 @@ var app = (function()
 		{
 			saveRegionEvent(result.state, result.region.identifier);
 			displayRecentRegionEvent();
+			console.log('displayRecentRegionEvent');
 		}
 
 		function onDidRangeBeaconsInRegion(result)
@@ -399,6 +382,27 @@ function updateNearestBeacon(beacons)
 			// changeBpm(creatures[minor].rssi);
 		}
 	//}
+
+	function displayRecentRegionEvent()
+	{	console.log('in background');
+		if (mAppInBackground)
+		{
+			// Set notification title.
+			var event = mRegionEvents[mRegionEvents.length - 1];
+			if (!event) { return; }
+			var title = getEventDisplayString(event);
+
+
+			// Create notification.
+			cordova.plugins.notification.local.schedule({
+    			id: ++mNotificationId,
+    			title: title });
+		}
+		else
+		{
+			displayRegionEvents();
+		}
+	}
 
 	function displayRegionEvents()
 	{
