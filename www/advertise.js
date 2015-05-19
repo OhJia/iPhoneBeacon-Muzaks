@@ -15,7 +15,8 @@ var possibleMinors = [2000, 2001, 2002, 2003, 2004];
  */
 function generateMinor() {
     minorToReturn = null;
-    console.log("other minors: "+ otherMinors);
+    // console.log("other minors: "+ otherMinors);
+    otherMinors = Object.keys(creatures);
 
     for (var i = 0; i < possibleMinors.length && !minorToReturn; i++) {
         if (otherMinors.indexOf( String(possibleMinors[i]) ) < 0) {
