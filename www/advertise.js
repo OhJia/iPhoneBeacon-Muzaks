@@ -39,7 +39,7 @@ var advertiser = (function() {
         minor = generateMinor();
 
         thisCreature.minor = minor;
-        thisCreature.id = devices[minor].id;
+        thisCreature.name = devices[minor].name;
         thisCreature.info = devices[minor].info;
         thisCreature.coverSrc = devices[minor].coverSrc;
 
@@ -48,12 +48,12 @@ var advertiser = (function() {
         });
 
         // name on the main page
-        $('#right-name').html(thisCreature.id); 
+        $('#right-name').html(thisCreature.name); 
         // info on the info page
         $('#info-pg-cover').html('<img src=\'ui/images/covers/'+thisCreature.coverSrc+'\'>');
-        $('#creatureNameLabel').html(thisCreature.id);
+        $('#creatureNameLabel').html(thisCreature.name);
         $('#creatureInfoLabel').html(thisCreature.info);
-        $('#creatureNameInput')[0].value = thisCreature.id;
+        $('#creatureNameInput')[0].value = thisCreature.name;
         $('#creatureInfoInput')[0].value = thisCreature.info;
 
 
@@ -126,8 +126,9 @@ function editCreatureInfo() {
 
 }
 function thisCreatureIDChanged() {
-    thisCreature.id = $('#creatureNameInput')[0].value;
-    $('#creatureNameLabel')[0].innerHTML = thisCreature.id;
+    thisCreature.name = $('#creatureNameInput')[0].value;
+    $('#creatureNameLabel')[0].innerHTML = thisCreature.name;
+    // TO DO
 }
 
 function thisCreatureInfoChanged() {

@@ -27,7 +27,7 @@ var thisCreature = {
   'img' : null,
   'coverSrc' : null,
   //'tapped' : true,
-  'id' : null,
+  'name' : null,
   'info' : null
 }
 
@@ -43,7 +43,7 @@ var thisCreature = {
 //     'color' : [250, 0, 0],
 //     'radians' : 45,
 //     'tapped' : true,
-//     'id' : 'Sleepy Taiga',
+//     'name' : 'Sleepy Taiga',
 //     'info' : 'I\'m sleepy. Stay happy.'
 //   },
 //   '2001' : {
@@ -54,7 +54,7 @@ var thisCreature = {
 //     'color' : [0, 250, 0],
 //     'radians' : 180,
 //     'tapped' : true,
-//     'id' : 'Sleepy Taiga',
+//     'name' : 'Sleepy Taiga',
 //     'info' : 'I\'m sleepy. Stay happy.'
 //   },
 //   '2002' : {
@@ -65,7 +65,7 @@ var thisCreature = {
 //     'color' : [0, 0, 250],
 //     'radians' : 90,
 //     'tapped' : true,
-//     'id' : 'Sleepy Taiga',
+//     'name' : 'Sleepy Taiga',
 //     'info' : 'I\'m sleepy. Stay happy.'
 //   },
 //   '2003' : {
@@ -76,7 +76,7 @@ var thisCreature = {
 //     'color' : [0, 250, 250],
 //     'radians' : 270,
 //     'tapped' : true,
-//     'id' : 'Sleepy Taiga',
+//     'name' : 'Sleepy Taiga',
 //     'info' : 'I\'m sleepy. Stay happy.'
 //   }
 // }
@@ -281,7 +281,7 @@ function showTappedInfo(creature){
     textSize(18);
     textFont("GothamBold");
     fill(194, 206, 206);
-    text(creature.id, creature.pos_x-10, creature.pos_y+35, textWidth(creature.id)+10, 30);
+    text(creature.name, creature.pos_x-10, creature.pos_y+35, textWidth(creature.name)+10, 30);
     textSize(12);
     fill(194, 206, 206);
     text(creature.info, creature.pos_x-10, creature.pos_y+75, textWidth(creature.info)+10, 30);
