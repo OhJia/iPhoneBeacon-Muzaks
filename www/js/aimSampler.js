@@ -188,7 +188,7 @@ function setupDrumPattern1() {
   drumIntervals.push(x);
 
   x = Tone.Transport.setInterval(function(time){
-    // drumSampler.pitch = -5;
+    drumSampler.pitch = -5;
     drumSampler.triggerAttack(5, "+3*4n");
   }, "2m");
 
