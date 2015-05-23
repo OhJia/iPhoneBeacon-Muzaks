@@ -148,7 +148,7 @@ function draw() {
     // draw if center tapped
     if (center_tapped && center_tapped >= 0) {
       fill(color(255,255,255, center_tapped * 10.2)); // (25 steps, need to be based on 255 for opacity)
-      ellipse(center_x, center_y, 50 + (25 - center_tapped), 50 + (25 - center_tapped)); // increase size of ellipse as fade out
+      ellipse(center_x, center_y, 55 + (25 - center_tapped), 55 + (25 - center_tapped)); // increase size of ellipse as fade out
 
       // also tap the info play button
       var myPlayButton = document.getElementById('profilePlayButton');
@@ -183,7 +183,7 @@ function draw() {
         fill(255,creatures[minor].tapped * 8.5); // (25 steps, need to be based on 255 for opacity)
         creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
         creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
-        creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (40 - creatures[minor].rssi/10) + (30 - creatures[minor].tapped), 40 - creatures[minor].rssi/10 + (30 - creatures[minor].tapped) ); // increase size of ellipse as fade out
+        creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, (55 - creatures[minor].rssi/10) + (30 - creatures[minor].tapped), 55 - creatures[minor].rssi/10 + (30 - creatures[minor].tapped) ); // increase size of ellipse as fade out
         
 
         // also tap the creature's play button
