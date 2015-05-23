@@ -49,7 +49,7 @@ var handleOrientationEvent = function(e) {
   p = Math.round( map(beta, -90, 90, 0, 12) );
   drumPitchOffset = pitchScale[p % pitchScale.length];
 
-  p = Math.round( map(gamma, -180, 180, 300, 2200) );
+  p = Math.round( map(gamma, -180, 180, 200, 3200) );
   // console.log(gamma);
   aimFilter.frequency.exponentialRampToValueAtTime(p, aimFilter.now() + 0.001);
   // drumPitchOffset = pitchScale[p % pitchScale.length];

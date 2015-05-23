@@ -48,7 +48,7 @@ myFilter.type = 'lowpass';
 myFilter.connect(masterMix);
 
 var aimFilter = new Tone.Filter();
-aimFilter.Q.value = 1;
+aimFilter.Q.value = 4;
 aimFilter.frequency.value = 7000;
 aimFilter.type = 'highpass';
 aimFilter.connect(masterMix);
