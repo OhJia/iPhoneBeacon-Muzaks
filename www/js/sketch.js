@@ -253,7 +253,7 @@ function touchStart(e){
       var velocity = map(creatures[minor].rssi, -120, -20, 0.7, 0.9);
 
       // play their sound
-      playDrumBasedOnMinor(minor, Tone.Transport.now(), velocity);
+      playIMBasedOnMinor(minor, Tone.Transport.now(), velocity);
 
       return false;     
     }

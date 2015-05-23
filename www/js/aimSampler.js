@@ -2,7 +2,7 @@
 var aimSampler, aimInDown, drumSampler;
 
 
-var aimSamplePaths = ['audio/a0.mp3', 'audio/a1.wav', 'audio/a2.mp3', 'audio/a3.mp3', 'audio/a4.wav', 'audio/b1.mp3'];
+var aimSamplePaths = ['audio/a0.mp3', 'audio/a1.wav', 'audio/a4.wav', 'audio/a3.mp3', 'audio/a2.mp3', 'audio/b1.mp3'];
 
 // either choose from a scale
 
@@ -50,7 +50,7 @@ myFilter.connect(masterMix);
 var aimFilter = new Tone.Filter();
 aimFilter.Q.value = 1;
 aimFilter.frequency.value = 7000;
-aimFilter.type = 'lowpass';
+aimFilter.type = 'highpass';
 aimFilter.connect(masterMix);
 
 // wetDry goes to master
@@ -131,7 +131,7 @@ function initAIMSampler(index) {
   drumSampler.envelope.release = 0.50;
 
   aimSampler.connect(myFilter);
-  aimInDown.connect(myFilter);
+  aimInDown.connect(aimFilter);
   drumSampler.connect(masterMix);
 
   var drumGain = Tone.context.createGain();
@@ -182,8 +182,8 @@ Tone.Buffer.onload = function() {
 function playOtherSound() {
   var pitchIndex = Math.floor( Math.random() * aimInDown.pitchScale.length);
   var pitch = aimInDown.pitchScale[pitchIndex] + pitchOffset;
-  aimInDown.pitch = pitch;
-
+  // aimInDown.pitch = pitch;
+  aimInDown.pitch = 12;
   aimInDown.triggerAttack('10');
 }
 
@@ -354,7 +354,7 @@ function playAllTheDrums16(time) {
 
     var tapped = creatures[String(_minor)].tapped;
 
-    if (randomness * rssiMap > 75 && tapped < 10) {
+    if (randomness * rssiMap > 75 && tapped < 20) {
       var velocity = map(_rssi, -120, -20, 0.1, 0.8);
       playIMBasedOnMinor(_minor, time, velocity);
 
@@ -375,7 +375,7 @@ function playAllTheDrums4(time) {
 
     var tapped = creatures[String(_minor)].tapped;
 
-    if (randomness * rssiMap > 50 && tapped < 10) {
+    if (randomness * rssiMap > 40 && tapped < 20) {
       var velocity = map(_rssi, -120, -20, 0.1, 0.9);
       playIMBasedOnMinor(_minor, time, velocity);
     }
