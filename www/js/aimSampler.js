@@ -261,8 +261,6 @@ function creatureEnterSound(minor) {
 
   doorOpen.start();
 
-  addDrumForCreature(minor);
-
 }
 
 function creatureLeaveSound() {
