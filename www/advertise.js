@@ -27,7 +27,8 @@ function generateMinor() {
         }
     }
 
-    return minorToReturn;
+    //return minorToReturn;
+    minor = minorToReturn;
 }
 
 var advertiser = (function() {
@@ -36,7 +37,8 @@ var advertiser = (function() {
 
     advertiser.startAdvertising = function() {
         alert('the advertisement begins');
-        minor = generateMinor();
+        //minor = generateMinor();
+        generateMinor();
 
         thisCreature.minor = minor;
         thisCreature.id = devices[minor].id;
