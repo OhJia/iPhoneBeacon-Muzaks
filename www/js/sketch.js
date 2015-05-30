@@ -161,8 +161,10 @@ function draw() {
     // draw center
     //fill(color(255,255,255));
     //ellipse(center_x, center_y, 50, 50);
-    imageMode(CENTER);
-    image(thisCreature.img, center_x, center_y, 50, 50);
+    if (thisCreature && thisCreature.img) {
+      imageMode(CENTER);
+      image(thisCreature.img, center_x, center_y, 50, 50);
+    }
 
     // update count in main page
     cCount = Object.keys(creatures).length;
@@ -172,6 +174,7 @@ function draw() {
     // draw each creature
     //var pos_x, pos_y;
     for(var minor in creatures) {
+      //console.log(creatures[minor]);
       // draw if creature was tapped
       if (creatures[minor].tapped === true) {
         creatures[minor].tapped = 30; // set increment value
@@ -188,8 +191,10 @@ function draw() {
 
         // also tap the creature's play button
         var playButton = document.getElementById('playButton_'+minor);
-        playButton.style.stroke = "#ff2000";
-        playButton.style.strokeWidth = map(creatures[minor].tapped, 0, 25, 0, 5);
+        if (playButton && playButton.style){
+          playButton.style.stroke = "#ff2000";
+          playButton.style.strokeWidth = map(creatures[minor].tapped, 0, 25, 0, 5);
+        }
 
 
         --creatures[minor].tapped; // decrement to 0

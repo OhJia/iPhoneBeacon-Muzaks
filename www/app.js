@@ -69,10 +69,9 @@ var app = (function()
 	// var mRegions =
 	// [
 	// 	{
-	// 		id: 'LukeBeacon',
+	// 		//id: 'someone',
 	// 		uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
 	// 		major: 5
-	// 		//minor: 2000
 	// 	}
 	// ];
 
@@ -80,6 +79,10 @@ var app = (function()
 	// region id to a string. You can adapt this to your
 	// own needs, and add other data to be displayed.
 	// TODO: Update with major/minor for your own beacons.
+	// var mRegionData =
+	// {
+	// 	'someone': 'someone\'s here!!!'
+	// };
 	var mRegionData =
 	{
 		'jaBeacon': 'Ja Phone!!!',
@@ -101,11 +104,14 @@ var app = (function()
 		//alert('device ready!!!')
 
  		startMonitoringAndRanging();
+ 		console.log('start monitoring and ranging');
  
 		//startMonitoringAndRanging().then(advertiser.startAdvertising);
 		startNearestBeaconDisplayTimer();
+		console.log('startNearestBeaconDisplayTimer');
 
 		displayRegionEvents();
+		console.log('displayRegionEvents');
  
 		// wait to start advertising so that we know who else is advertising
 		setTimeout(function() {
@@ -149,10 +155,12 @@ var app = (function()
 
 	function startMonitoringAndRanging()
 	{
+
 		function onDidDetermineStateForRegion(result)
 		{
 			saveRegionEvent(result.state, result.region.identifier);
 			displayRecentRegionEvent();
+			//console.log('displayRecentRegionEvent');
 		}
 
 		function onDidRangeBeaconsInRegion(result)
@@ -167,6 +175,7 @@ var app = (function()
 
 		// Request permission from user to access location info.
 		cordova.plugins.locationManager.requestAlwaysAuthorization();
+		//console.log('requestAlwaysAuthorization');
 
 		// Create delegate object that holds beacon callback functions.
 		var delegate = new cordova.plugins.locationManager.Delegate();
@@ -191,13 +200,16 @@ var app = (function()
 	}
 
 	function startMonitoringAndRangingRegion(region, errorCallback)
-	{
+	{	//alert('start monitoring region');
 		// Create a region object.
 		var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(
 			region.id,
 			region.uuid,
 			region.major,
 			region.minor);
+		//alert('Create a region object');
+		console.log(beaconRegion);
+		
 
 		// Start ranging.
 		cordova.plugins.locationManager.startRangingBeaconsInRegion(beaconRegion)
@@ -274,7 +286,7 @@ function updateNearestBeacon(beacons)
 
 				loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
 					creatures[minor].img = img;
-				}) 
+				}); 
 
 				creatureEnterSound();
 
@@ -411,7 +423,7 @@ function updateNearestBeacon(beacons)
 	//}
 
 	function displayRecentRegionEvent()
-	{	console.log('in background');
+	{	//console.log('in background');
 		if (mAppInBackground)
 		{
 			// Set notification title.

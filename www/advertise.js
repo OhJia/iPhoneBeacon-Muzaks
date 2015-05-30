@@ -29,6 +29,7 @@ function generateMinor() {
 
     //return minorToReturn;
     minor = minorToReturn;
+    console.log('My minor: ' + minor);
 }
 
 var advertiser = (function() {
@@ -48,6 +49,7 @@ var advertiser = (function() {
         loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
                     thisCreature.img = img;
         });
+        // console.log(thisCreature.img);
 
         // name on the main page
         $('#right-name').html(thisCreature.id); 
