@@ -38,57 +38,56 @@ var app = (function()
 	// Here monitored regions are defined.
 	// TODO: Update with uuid/major/minor for your beacons.
 	// You can add as many beacons as you want to use.
-	var mRegions =
-	[
-		{
-			id: 'LukeBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2000
-		},
-		{
-			id: 'jajaBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2001
-		},
-		{
-			id: 'jasonBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2002
-		},
-		{
-			id: 'jaBeacon',
-			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-			major: 5,
-			minor: 2003
-		}
-	];
-
 	// var mRegions =
 	// [
 	// 	{
-	// 		//id: 'someone',
+	// 		id: 'LukeBeacon',
 	// 		uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
-	// 		major: 5
+	// 		major: 5,
+	// 		minor: 2000
+	// 	},
+	// 	{
+	// 		id: 'jajaBeacon',
+	// 		uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+	// 		major: 5,
+	// 		minor: 2001
+	// 	},
+	// 	{
+	// 		id: 'jasonBeacon',
+	// 		uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+	// 		major: 5,
+	// 		minor: 2002
+	// 	},
+	// 	{
+	// 		id: 'jaBeacon',
+	// 		uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9',
+	// 		major: 5,
+	// 		minor: 2003
 	// 	}
 	// ];
+
+	var mRegions =
+	[
+		{
+			id: 'randommm',
+			uuid: 'DA5336AE-2042-453A-A57F-F80DD34DFCD9'
+		}
+	];
 
 	// Region data is defined here. Mapping used is from
 	// region id to a string. You can adapt this to your
 	// own needs, and add other data to be displayed.
 	// TODO: Update with major/minor for your own beacons.
-	// var mRegionData =
-	// {
-	// 	'someone': 'someone\'s here!!!'
-	// };
 	var mRegionData =
 	{
-		'jaBeacon': 'Ja Phone!!!',
-		'LukeBeacon': 'Luke Phone!!!',
-		'someCoolID': 'what is up!'
+		'randommm': 'someone\'s here!!!'
 	};
+	// var mRegionData =
+	// {
+	// 	'jaBeacon': 'Ja Phone!!!',
+	// 	'LukeBeacon': 'Luke Phone!!!',
+	// 	'someCoolID': 'what is up!'
+	// };
 
 	app.initialize = function()
 	{
@@ -180,6 +179,7 @@ var app = (function()
 		// Create delegate object that holds beacon callback functions.
 		var delegate = new cordova.plugins.locationManager.Delegate();
 		cordova.plugins.locationManager.setDelegate(delegate);
+		console.log(delegate);
 
 		// Set delegate functions.
 		delegate.didDetermineStateForRegion = onDidDetermineStateForRegion;
@@ -202,12 +202,15 @@ var app = (function()
 	function startMonitoringAndRangingRegion(region, errorCallback)
 	{	//alert('start monitoring region');
 		// Create a region object.
+		// var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(
+		// 	region.id,
+		// 	region.uuid,
+		// 	region.major,
+		// 	region.minor);
 		var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(
 			region.id,
-			region.uuid,
-			region.major,
-			region.minor);
-		//alert('Create a region object');
+			region.uuid);
+		alert('Create a region object');
 		console.log(beaconRegion);
 		
 
