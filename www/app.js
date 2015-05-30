@@ -410,6 +410,27 @@ function updateNearestBeacon(beacons)
 		}
 	//}
 
+	function displayRecentRegionEvent()
+	{	console.log('in background');
+		if (mAppInBackground)
+		{
+			// Set notification title.
+			var event = mRegionEvents[mRegionEvents.length - 1];
+			if (!event) { return; }
+			var title = getEventDisplayString(event);
+
+
+			// Create notification.
+			cordova.plugins.notification.local.schedule({
+    			id: ++mNotificationId,
+    			title: title });
+		}
+		else
+		{
+			displayRegionEvents();
+		}
+	}
+
 	function displayRegionEvents()
 	{
 		// Clear list.
