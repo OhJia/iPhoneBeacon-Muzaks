@@ -2,7 +2,7 @@
 var aimSampler, aimInDown, drumSampler;
 
 
-var aimSamplePaths = ['audio/a0.mp3', 'audio/a1.wav', 'audio/a2.mp3', 'audio/a3.mp3', 'audio/a4.wav'];
+var aimSamplePaths = ['audio/a0.mp3', 'audio/a1.wav', 'audio/a4.wav', 'audio/a3.mp3', 'audio/a2.mp3', 'audio/b1.mp3'];
 
 // either choose from a scale
 
@@ -21,7 +21,7 @@ var pattern = [-12];
 
 /**
  *  aimSampler --> myFilter --> masterMix
- *  aimInDown --> masterMix
+ *  aimInDown --> aimFilter --> masterMix
  *  drumSampler --> masterMix
  *  
  *  master mix --> finalEQ --> highPass
@@ -41,11 +41,17 @@ highPass.toMaster();
 // everything connects to the MasterMix, then to WetDry to control convolution and filter
 var masterMix = Tone.context.createGain();
 
-// filter goes to both 0 (dry) and 1 (wet)
 var myFilter = new Tone.Filter();
 myFilter.Q.value = 3;
 myFilter.frequency.value = 20;
 myFilter.type = 'lowpass';
+myFilter.connect(masterMix);
+
+var aimFilter = new Tone.Filter();
+aimFilter.Q.value = 4;
+aimFilter.frequency.value = 7000;
+aimFilter.type = 'highpass';
+aimFilter.connect(masterMix);
 
 // wetDry goes to master
 var finalEQ = new Tone.EQ(-4, -12, -3);
@@ -53,8 +59,6 @@ finalEQ.lowFrequency.value = 105;
 finalEQ.highFrequency.value = 4700;
 finalEQ.connect(highPass);
 masterMix.connect(finalEQ);
-
-myFilter.connect(masterMix);
 
 var delay = new Tone.FeedbackDelay('8n', 0.12);
 
@@ -95,7 +99,14 @@ function initAIMSampler(index) {
     _initWaveformCanvas();
   }, 2000);
 
-  aimInDown = new Tone.Sampler('audio/b1.mp3');
+  aimInDown = new Tone.Sampler( {
+    '1' : aimSamplePaths[0],
+    '2' : aimSamplePaths[1],
+    '3' : aimSamplePaths[2],
+    '4' : aimSamplePaths[3],
+    '5' : aimSamplePaths[4],
+    '10' : 'audio/b1.mp3'
+  });
 
   drumSampler = new Tone.Sampler( {
     '1' : 'audio/bongo_01.mp3',
@@ -120,7 +131,7 @@ function initAIMSampler(index) {
   drumSampler.envelope.release = 0.50;
 
   aimSampler.connect(myFilter);
-  aimInDown.connect(myFilter);
+  aimInDown.connect(aimFilter);
   drumSampler.connect(masterMix);
 
   var drumGain = Tone.context.createGain();
@@ -159,11 +170,11 @@ Tone.Buffer.onload = function() {
   Tone.Transport.setInterval(playAIM, "4n");
 
   Tone.Transport.setInterval(function(time){
-    if (typeof(aimInDown) !== 'undefined' && aimInDown._buffers[0].loaded) {
+    if (typeof(aimInDown) !== 'undefined' && aimInDown._buffers['10'].loaded) {
 
       aimInDown.pitch = 12;
 
-      aimInDown.triggerAttack(0, time);
+      aimInDown.triggerAttack('10', time);
     }
   }, "14 * 1n");
 }
@@ -171,9 +182,9 @@ Tone.Buffer.onload = function() {
 function playOtherSound() {
   var pitchIndex = Math.floor( Math.random() * aimInDown.pitchScale.length);
   var pitch = aimInDown.pitchScale[pitchIndex] + pitchOffset;
-  aimInDown.pitch = pitch;
-
-  aimInDown.triggerAttack(0);
+  // aimInDown.pitch = pitch;
+  aimInDown.pitch = 12;
+  aimInDown.triggerAttack('10');
 }
 
 
@@ -261,8 +272,6 @@ function creatureEnterSound(minor) {
 
   doorOpen.start();
 
-  addDrumForCreature(minor);
-
 }
 
 function creatureLeaveSound() {
@@ -328,7 +337,7 @@ function playAllTheDrums32(time) {
 
     if (randomness * rssiMap > 80 && tapped < 15) {
       var velocity = map(_rssi, -120, -20, 0.1, 0.7);
-      playDrumBasedOnMinor(_minor, time, velocity);
+      playIMBasedOnMinor(_minor, time, velocity);
 
     }
   }
@@ -345,9 +354,9 @@ function playAllTheDrums16(time) {
 
     var tapped = creatures[String(_minor)].tapped;
 
-    if (randomness * rssiMap > 75 && tapped < 10) {
+    if (randomness * rssiMap > 75 && tapped < 20) {
       var velocity = map(_rssi, -120, -20, 0.1, 0.8);
-      playDrumBasedOnMinor(_minor, time, velocity);
+      playIMBasedOnMinor(_minor, time, velocity);
 
     }
 
@@ -366,9 +375,9 @@ function playAllTheDrums4(time) {
 
     var tapped = creatures[String(_minor)].tapped;
 
-    if (randomness * rssiMap > 50 && tapped < 10) {
+    if (randomness * rssiMap > 40 && tapped < 20) {
       var velocity = map(_rssi, -120, -20, 0.1, 0.9);
-      playDrumBasedOnMinor(_minor, time, velocity);
+      playIMBasedOnMinor(_minor, time, velocity);
     }
   }
 }
@@ -385,6 +394,17 @@ function playDrumBasedOnMinor(_minor, time, velocity) {
   tapCreature(_minor);
 
 }
+
+function playIMBasedOnMinor(_minor, time, velocity) {
+  var t = time || Tone.Transport.now();
+  var v = velocity || 1;
+  var whichDrum = possibleMinors.indexOf(Number(_minor)) + 1;
+  aimInDown.pitch = pitchOffset + 12;
+  aimInDown.triggerAttack(whichDrum, t + 0.02, v);
+  tapCreature(_minor);
+
+}
+
 
 // thank you http://stackoverflow.com/a/846249/2994108
 function logScale(num) {
