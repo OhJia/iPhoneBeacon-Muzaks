@@ -119,7 +119,7 @@ var app = (function()
 			startMonitoringAndRanging();
 			startNearestBeaconDisplayTimer();
 			displayRegionEvents();
-		}, 2000);
+		}, 3000);
 
 		// testObject.save({foo: "bar"}).then(function(object) {
 		//   alert("yay! it worked");
@@ -181,12 +181,14 @@ var app = (function()
 		cordova.plugins.locationManager.setDelegate(delegate);
 		console.log(delegate);
 
+		// Start monitoring and ranging beacons.
+		startMonitoringAndRangingRegions(mRegions, onError);
+
 		// Set delegate functions.
 		delegate.didDetermineStateForRegion = onDidDetermineStateForRegion;
 		delegate.didRangeBeaconsInRegion = onDidRangeBeaconsInRegion;
 
-		// Start monitoring and ranging beacons.
-		startMonitoringAndRangingRegions(mRegions, onError);
+		
 
 	}
 
@@ -210,7 +212,7 @@ var app = (function()
 		var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(
 			region.id,
 			region.uuid);
-		alert('Create a region object');
+		//alert('Create a region object');
 		console.log(beaconRegion);
 		
 
@@ -262,7 +264,7 @@ var app = (function()
 
 function updateNearestBeacon(beacons)
 	{
-		
+	console.log('updateNeartestBeacon -aaa');	
 		for (var i = 0; i < beacons.length; ++i)
 		{
 			var beacon = beacons[i];
@@ -271,6 +273,7 @@ function updateNearestBeacon(beacons)
 			
 			// Add new
 			if (typeof(creatures[minor]) == 'undefined' && beacon.rssi != 0) {
+				console.log('make creature minor:' + minor);
 				creatures[minor] = {
 				    minor: minor,
 				    id: devices[minor].id,
@@ -287,16 +290,25 @@ function updateNearestBeacon(beacons)
 				    img: null
 				};
 
-				loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
-					creatures[minor].img = img;
-				}); 
+				// loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
+				// 	creatures[minor].img = img;
+				// });
 
 				creatureEnterSound();
+				console.log(creatures[minor]);
 
 			// Otherwise update the rssi
 			} else {
 				creatures[minor].rssi = beacon.rssi;
 			}
+
+			if (creatures[minor] && !creatures[minor].img) {
+				loadImage("ui/images/covers/"+devices[minor].coverSrc, function(img){
+					console.log('adding image for minor ' + this)
+					creatures[this].img = img;
+				}.bind(minor));
+			}
+
 
 			// update otherMinors
 			otherMinors = Object.keys(creatures);

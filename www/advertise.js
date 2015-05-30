@@ -6,6 +6,10 @@ var major = 5; // this will be the same for all beacons
 var otherMinors = []; // array of strings, updates when other beacons are found
 var possibleMinors = [2000, 2001, 2002, 2003, 2004];
 
+// check otherMinors in database
+// instead of possibleMinors, it would take the largest otherMinor and +1
+// 
+
 /**
  *  generate a minor from the array of possible minors that does not exist in the existingMinors.
  *

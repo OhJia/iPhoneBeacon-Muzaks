@@ -200,14 +200,16 @@ function draw() {
         --creatures[minor].tapped; // decrement to 0
       }
 
-
-      
-      creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
-      creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
       //creatures[minor].shape = ellipse(creatures[minor].pos_x, creatures[minor].pos_y, 40 - creatures[minor].rssi/10, 40 - creatures[minor].rssi/10);
       //creatures[minor].radians = creatures[minor].radians+0.2;
-      imageMode(CENTER);
-      image(creatures[minor].img, creatures[minor].pos_x, creatures[minor].pos_y, 55, 55);
+      if (creatures[minor] && creatures[minor].img){
+        creatures[minor].pos_x = center_x + 2.5*creatures[minor].rssi * cos(radians(creatures[minor].radians));
+        creatures[minor].pos_y = center_y + 3*creatures[minor].rssi * sin(radians(creatures[minor].radians));
+        imageMode(CENTER);
+        image(creatures[minor].img, creatures[minor].pos_x, creatures[minor].pos_y, 55, 55);
+      } else {
+        console.log('no image for '+minor, creatures[minor]);
+      }
     }
 
     if (tapped === true){
